@@ -11,11 +11,7 @@ function App() {
             <Route path={"/register"} element={<Register/>}/>
             <Route path={"/create"} element={<NestedModal/>}></Route>
         </Routes>
-
-
     );
-
-
 }
 
 export default App;
