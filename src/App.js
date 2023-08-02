@@ -1,9 +1,10 @@
-import logo from './logo.svg';
+
 import './App.css';
+import NestedModal from './components/NestedModal';
 
 function App() {
   return (
-
+      <NestedModal/>
   );
 }
 
