@@ -1,0 +1,33 @@
+export default function Ngu (){
+    return(
+        <>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        <h1>muts</h1>
+        </>
+    )
+}
