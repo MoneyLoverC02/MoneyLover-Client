@@ -55,6 +55,7 @@
   /* Firefox */
 }
 
+
 .wrap-text-icon {
   display: flex;
   -webkit-box-orient: horizontal;
@@ -62,8 +63,7 @@
   -ms-flex-direction: row;
   flex-direction: row;
   margin-top: 4px;
-  height: 24px;
-  position: relative;
+  height: 27px;
 }
 
 .text-input {

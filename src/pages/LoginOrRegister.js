@@ -29,6 +29,7 @@ export default function LoginOrRegister({props}) {
         initialValues: { email: '', password: '' },
         validationSchema: validateInput,
         onSubmit: values => {
+
         if (isLogin) {
             //Login
             console.log(values)
@@ -60,6 +61,7 @@ export default function LoginOrRegister({props}) {
     const handleChangeStatus = () => {
         setIsLogin(!isLogin)
     }
+
     useEffect(() => {
         // Xử lý sự kiện click bất kỳ đâu ở background
         const handleClickOutside = (event) => {
@@ -117,6 +119,7 @@ export default function LoginOrRegister({props}) {
                                 <div className="mb-[18px]">
                                     <span className="pl-[14px] text-slate-500">Using Money Lover accounts</span>
                                 </div>
+
                                 <form  method="post" className="border-l-2 border-slate-500 mb-4 pl-[14px]" onSubmit={formik.handleSubmit}>
                                     <div className="mb-[18px]">
                                         <input onChange={handleChange} type="email" name="email" value={formik.values.email} placeholder="Email" className="p-4 w-[275px] py-[10px] bg-neutral-100 rounded-lg focus:outline-green-400" required />
