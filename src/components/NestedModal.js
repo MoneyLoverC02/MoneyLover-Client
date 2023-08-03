@@ -78,7 +78,7 @@ export default function NestedModal() {
               <div onClick={handleFocus} className='mb-4 py-[5px] px-[15px] border w-full border-gray-300 rounded-lg hover:border-gray-500 hover: cursor-pointer'>
                 <p className='text-[12px] pb-[3px] text-slate-400'>Wallet name</p>
                 <div className='pb-1'>
-                  <input className='w-full h-[27px] text-[17px]' tabindex="-1" type="text" name="walletName" placeholder="Your wallet name?" id="note" />
+                  <input className='inputAdd w-full h-[27px] text-[17px]' tabindex="-1" type="text" name="walletName" placeholder="Your wallet name?" id="note" />
                 </div>
               </div>
             </div>
@@ -100,7 +100,7 @@ export default function NestedModal() {
               <div className='w-44 py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
                 <p className='text-[12px] pb-[3px] text-slate-400'>Initial Balance</p>
                 <div className='pb-1'>
-                  <input className='w-full h-[27px] text-[17px]' tabindex="-1" type="number" defaultValue='0' name="quantity" />
+                  <input className='inputAdd w-full h-[27px] text-[17px]' tabindex="-1" type="number" defaultValue='0' name="quantity" />
                 </div>
               </div>
             </div>
@@ -112,7 +112,7 @@ export default function NestedModal() {
             </div>
           </div>
           <div className='py-[14px] px-6 flex justify-end'>
-              <button className='myBg text-white text-sm font-medium py-2 px-8 uppercase rounded'>Save</button>
+              <button className='bg-lightgreen text-white text-sm font-medium py-2 px-8 uppercase rounded'>Save</button>
           </div>
         </Box>
       </Modal>
