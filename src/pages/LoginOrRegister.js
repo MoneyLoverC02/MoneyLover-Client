@@ -19,7 +19,12 @@ export default function LoginOrRegister({props}) {
         initialValues: { email: '', password: '' },
         validationSchema: validateInput,
         onSubmit: values => {
-            console(values)
+            if (isLogin) {
+                //call API login
+            } else {
+                console.log(values);
+                // call API register
+            }
         },
     });
 
@@ -32,13 +37,7 @@ export default function LoginOrRegister({props}) {
     const handleChangeStatus = () => {
         setIsLogin(!isLogin)
     }
-    const handeSubmit = () => {
-        if (isLogin) {
-            //call API login
-        } else {
-            // call API register
-        }
-    }
+
     return (
         <>
             <div className="relative">
@@ -82,7 +81,7 @@ export default function LoginOrRegister({props}) {
                                 <div className="mb-[18px]">
                                     <span className="pl-[14px] text-slate-500">Using Money Lover accounts</span>
                                 </div>
-                                <form className="border-l-2 border-slate-500 mb-4 pl-[14px]" onSubmit={formik.handeSubmit}>
+                                <form onSubmit={formik.handleSubmit} method="post" className="border-l-2 border-slate-500 mb-4 pl-[14px]">
                                     <div className="mb-[18px]">
                                         <input onChange={handleChange} type="email" name="email" value={formik.values.email} placeholder="Email" className="p-4 w-[275px] py-[10px] bg-neutral-100 rounded-lg focus:outline-green-400" required />
                                         {formik.touched.email && formik.errors.email ? (<p className="text-red-500 text-xs mt-3">{formik.errors.email}</p>) : null}
