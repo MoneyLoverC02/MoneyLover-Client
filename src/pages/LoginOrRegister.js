@@ -1,3 +1,4 @@
+
 import {useEffect, useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -23,6 +24,7 @@ export default function LoginOrRegister({props}) {
             setListUser(res.data)
         })
     }, [list])
+
     const formik = useFormik({
         initialValues: { email: '', password: '' },
         validationSchema: validateInput,
@@ -58,7 +60,6 @@ export default function LoginOrRegister({props}) {
     const handleChangeStatus = () => {
         setIsLogin(!isLogin)
     }
-
     useEffect(() => {
         // Xử lý sự kiện click bất kỳ đâu ở background
         const handleClickOutside = (event) => {
@@ -72,7 +73,7 @@ export default function LoginOrRegister({props}) {
             document.removeEventListener("click", handleClickOutside);
         };
     }, []);
-  
+
     return (
         <>
             <div className="relative">
