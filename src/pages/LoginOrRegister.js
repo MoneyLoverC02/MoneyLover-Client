@@ -36,7 +36,7 @@ export default function LoginOrRegister({props}) {
             let arrayListUser = list.listUser;
             let checkUser = arrayListUser.find(item=> item.email === values.email && item.password === values.password)
             if (checkUser){
-                navigate("/create")
+                navigate("/my-wallets")
             } else {
                 setCheckValidUser(false);
             }
