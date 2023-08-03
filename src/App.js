@@ -1,15 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
 import NavBar from "./component/layout/NavBar";
-import Ngu from "./component/body/ngu";
+import Sidebar from "./component/layout/Sidebar";
 
 function App() {
-  return (
-    <div>
-    <NavBar/>
-      <Ngu/>
-    </div>
-  );
+    return (
+        <div>
+            <NavBar/>
+            <Sidebar/>
+        </div>
+    );
 }
 
 export default App;
