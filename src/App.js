@@ -1,8 +1,7 @@
 import {Route, Routes} from 'react-router-dom';
 import './App.css';
 import LoginOrRegister from './pages/LoginOrRegister';
-import NestedModal from './components/NestedModal';
-
+import NestedModal from './components/modals/NestedModal';
 function App() {
     return (
         <Routes>
