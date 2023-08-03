@@ -1,14 +1,23 @@
 import './App.css';
-import NavBar from "./component/layout/NavBar";
-import Sidebar from "./component/layout/Sidebar";
+import {Route, Routes} from 'react-router-dom';
+import NavBar from "./components/layout/NavBar";
+import Sidebar from "./components/layout/Sidebar";
+import LoginOrRegister from './pages/LoginOrRegister';
+import NestedModal from './components/NestedModal';
+import HomePage from "./pages/homePage";
 
 function App() {
     return (
-        <div>
-            <NavBar/>
-            <Sidebar/>
-        </div>
+        <Routes>
+            <Route path={"/"} element={<HomePage/>}/>
+            <Route path={"/login"} element={<LoginOrRegister props={true}/>}/>
+            <Route path={"/register"} element={<LoginOrRegister props={false}/>}/>
+            <Route path={"/create"} element={<NestedModal/>}></Route>
+        </Routes>
     );
+
+
+
 }
 
 export default App;

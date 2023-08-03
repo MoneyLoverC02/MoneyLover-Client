@@ -12,8 +12,8 @@ export default function NavBar() {
             <div style={{float: "right", height: "66px", margin: "15px"}}>
 
 
-                <IconButton aria-label="delete" sx={{color: "black", paddingRight: "35px"}}>
-                    <Search sx={{marginLeft: "5px"}}/>
+                <IconButton aria-label="delete" sx={{color: "black", marginRight: "35px"}}>
+                    <Search />
                 </IconButton>
                 <Button variant="contained" sx={{backgroundColor: "#1aa333"}} disableElevation>
                     <b>ADD TRANSACTION</b>
