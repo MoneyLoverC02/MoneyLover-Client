@@ -42,8 +42,8 @@
 } */
 
 
-textarea:focus,
-input:focus {
+/* Add Wallet & Login/Register*/
+.inputAdd input:focus {
   outline: none;
 }
 
@@ -74,6 +74,18 @@ input:focus {
   -webkit-box-flex: 1;
 }
 
-.myBg {
-  background-color: #2db84c;
+.form-title-text {
+  padding: 0;
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.social {
+  position: relative;
+  overflow: hidden;
+  max-width: 280px;
+  width: 100%;
+  margin-right: 14px;
 }
