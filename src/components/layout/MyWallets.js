@@ -75,7 +75,6 @@ export default function MyWallets() {
                                 backgroundColor: "#f4f4f4",
                                 color: "black",
                                 height: "40px",
-                                marginTop: "-15px"
                             }}>
                                 <p style={{padding: "5px 10px"}}>Tổng số ví</p>
                             </Box>

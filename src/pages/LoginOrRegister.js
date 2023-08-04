@@ -1,7 +1,11 @@
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
+import { UserService } from "../services/user.service";
+import { useDispatch } from "react-redux";
+import { loginFailed, loginStart, loginSuccess, registerFailed, registerStart, registerSuccess } from "../redux/authSlice";
 
 const validateInput = Yup.object({
     email: Yup.string()
@@ -11,15 +15,52 @@ const validateInput = Yup.object({
         .max(8, 'Password is too long! Please use at most 8 characters.')
 })
 
-export default function LoginOrRegister({props}) {
+export default function LoginOrRegister({ props }) {
     const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState(props);
+    const [checkValidUser, setCheckValidUser] = useState(true);
+    const [checkValidRegister, setCheckValidRegister] = useState(true);
+
+    const dispatch = useDispatch()
 
     const formik = useFormik({
         initialValues: { email: '', password: '' },
         validationSchema: validateInput,
         onSubmit: values => {
-            console(values)
+            if (isLogin) {
+                //Login
+                dispatch(loginStart())
+                UserService.checkUserLogin(values).then(res => {
+                    let userLogin = res.data.user;
+                    if (userLogin) {
+                        dispatch(loginSuccess(userLogin));
+                        navigate("/my-wallets")
+                    } else {
+                        setCheckValidUser(false);
+                    }
+                }).catch(err => {
+                    dispatch(loginFailed());
+                    console.log(err.message);
+                })
+
+            } else {
+                //Register
+                dispatch(registerStart());
+                UserService.createUser(values).then((res) => {
+                    let newUser = res.data.newUser;
+                    if (newUser) {
+                        dispatch(registerSuccess())
+                        setIsLogin(true);
+                        navigate("/login");
+                    } else {
+                        setCheckValidRegister(false);
+                    }
+                }).catch(err => {
+                    dispatch(registerFailed());
+                    console.log(err.message)
+                })
+            }
+            formik.resetForm()
         },
     });
 
@@ -32,21 +73,33 @@ export default function LoginOrRegister({props}) {
     const handleChangeStatus = () => {
         setIsLogin(!isLogin)
     }
-    const handeSubmit = () => {
-        if (isLogin) {
-            //call API login
-        } else {
-            // call API register
-        }
-    }
+
+    useEffect(() => {
+        // Xử lý sự kiện click bất kỳ đâu ở background
+        const handleClickOutside = (event) => {
+            const errorMessageLogin = document.getElementById("errorMessageLogin");
+            const errorMessageRegister = document.getElementById("errorMessageRegister");
+            if (errorMessageLogin && !errorMessageLogin.contains(event.target)) {
+                setCheckValidUser(true);
+            }
+            if (errorMessageRegister && !errorMessageRegister.contains(event.target)) {
+                setCheckValidRegister(true);
+            }
+        };
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
+
     return (
         <>
             <div className="relative">
                 <div className="bg-darkgreen h-[312px]">
                     <img src="../logo.png" className=" object-cover w-[230px] h-[230px] mx-auto" alt="logo" />
                 </div>
-                <div className="absolute top-[70%] left-1/2 transform -translate-x-1/2 max-w-[670px]">
-                    <div className="shadow-md bg-white rounded-[20px] px-10 pt-[34px] pb-10">
+                <div className="absolute top-[70%] left-1/2 transform -translate-x-1/2">
+                    <div id="wrapper" className="shadow-md bg-white rounded-[20px] px-10 pt-[34px] pb-10">
                         <div className="form-title-text">
                             <span>{isLogin ? 'Log In' : 'Register'}</span>
                         </div>
@@ -55,7 +108,7 @@ export default function LoginOrRegister({props}) {
                                 <div className="mb-[18px]">
                                     <span className="text-slate-500">Using social networking accounts</span>
                                 </div>
-                                <div className="flex flex-col gap-[18px] w-[275px]">
+                                <div className="flex flex-col gap-[18px] min-w-[275px]">
                                     <button type="button" className="pl-4 border-2 group border-rose-400 rounded-lg py-2 text-rose-400 font-bold hover:bg-rose-400 hover:text-white text-left">
                                         <div className="flex items-center">
                                             <svg className="mr-4 group-hover:fill-white" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 48 48">
@@ -82,19 +135,20 @@ export default function LoginOrRegister({props}) {
                                 <div className="mb-[18px]">
                                     <span className="pl-[14px] text-slate-500">Using Money Lover accounts</span>
                                 </div>
-                                <form className="border-l-2 border-slate-500 mb-4 pl-[14px]" onSubmit={formik.handeSubmit}>
+
+                                <form method="post" className="border-l-2 border-slate-500 mb-4 pl-[14px]" onSubmit={formik.handleSubmit}>
                                     <div className="mb-[18px]">
-                                        <input onChange={handleChange} type="email" name="email" value={formik.values.email} placeholder="Email" className="p-4 w-[275px] py-[10px] bg-neutral-100 rounded-lg focus:outline-green-400" required />
+                                        <input onChange={handleChange} type="email" name="email" value={formik.values.email} placeholder="Email" className="min-w-[275px] p-4 w-full py-[10px] bg-neutral-100 rounded-lg focus:outline-green-400" required />
                                         {formik.touched.email && formik.errors.email ? (<p className="text-red-500 text-xs mt-3">{formik.errors.email}</p>) : null}
                                     </div>
                                     <div className="mb-[18px]">
-                                        <input onChange={handleChange} type="password" placeholder="Password" name="password" value={formik.values.password} className="p-4 w-[275px] py-[10px] bg-neutral-100 rounded-lg focus:outline-green-400" required />
+                                        <input onChange={handleChange} type="password" placeholder="Password" name="password" value={formik.values.password} className="p-4 w-full py-[10px] bg-neutral-100 rounded-lg focus:outline-green-400" required />
                                         {formik.touched.password && formik.errors.password ? (<p className="text-red-500 text-xs mt-3">{formik.errors.password}</p>) : null}
                                     </div>
                                     <div className="text-right mb-4 mt-2 h-4">
                                         {isLogin ? <span className="text-lightgreen font-semibold">Forgot Password?</span> : <span></span>}
                                     </div>
-                                    <button type="submit" className="bg-normalgreen uppercase w-full font-semibold text-white rounded-lg py-[6px]">Login</button>
+                                    <button type="submit" className="bg-normalgreen uppercase w-full font-semibold text-white rounded-lg py-[6px]">{isLogin ? "Log In" : "Register"}</button>
                                 </form>
                                 <div className="text-center">
                                     <span className="mr-2">{isLogin ? "Don't have" : "Have "} an account?</span>
@@ -103,6 +157,8 @@ export default function LoginOrRegister({props}) {
                             </div>
                         </div>
                     </div>
+                    {(!checkValidUser && isLogin) ? <div id="errorMessageLogin" className="mx-auto text-center bg-black text-amber-50 mt-12 rounded shadow-md px-8 py-3 w-max">Invalid email/password combination. Please try again.</div> : null}
+                    {(!checkValidRegister && !isLogin) ? <div id="errorMessageRegister" className="mx-auto text-center bg-black text-amber-50 mt-12 rounded shadow-md px-8 py-3 w-max">Email already exist. Please try again.</div> : null}
                 </div>
             </div>
         </>
