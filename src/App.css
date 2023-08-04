@@ -2,7 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* .App {
+.navbar {
+  margin-left: 92px;
+  height: 66px;
+  background-color: white;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+
+}
+
+.App {
   text-align: center;
 }
 
@@ -17,16 +28,6 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
 
 .App-link {
   color: #61dafb;
@@ -36,13 +37,23 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
-} */
+}
 
 
 /* Add Wallet & Login/Register*/
+.sidebar {
+  background-color: white;
+  padding: 10px;
+  width: 70px;
+  height: 100vh;
+  box-shadow: 2px 0 rgb(201, 201, 201, 1);
+  text-align: center;
+}
+
 .inputAdd input:focus {
   outline: none;
 }
@@ -86,6 +97,15 @@
   position: relative;
   overflow: hidden;
   max-width: 280px;
-  width: 100%;
+  width: 100pc;
   margin-right: 14px;
+}
+
+.iconSideBar {
+  margin-top: 30px;
+}
+
+.colorIcon {
+  font-size: 14px;
+  color: #bdbdbd;
 }
