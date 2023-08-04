@@ -12,7 +12,7 @@ export default function NavBar() {
             <div style={{ float: "left", height: "66px",}}>
                 <SelectWallets/>
             </div>
-            <div style={{float: "right", height: "66px", margin: "15px", paddingTop:"-200px"}}>
+            <div style={{float: "right", height: "66px", margin: "15px"}}>
                 <IconButton aria-label="delete" sx={{color: "black", marginRight: "35px"}}>
                     <Search />
                 </IconButton>

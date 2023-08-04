@@ -26,6 +26,16 @@
   }
 }
 
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
 
 .App-link {
   color: #61dafb;
@@ -45,7 +55,7 @@
 .sidebar{
   background-color: white;
   padding: 10px;
-  width:90px;
+  width: 90px;
   height: 100vh;
   box-shadow: 2px 0 rgb(201,201,201,1);
   text-align: center;
@@ -61,7 +71,6 @@
   opacity: 0.4;
   /* Firefox */
 }
-
 
 .wrap-text-icon {
   display: flex;
@@ -96,7 +105,6 @@
   width: 100pc;
   margin-right: 14px;
 }
-
 .iconSideBar{
   margin-top: 30px;
 }
