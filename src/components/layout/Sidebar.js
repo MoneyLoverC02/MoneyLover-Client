@@ -22,8 +22,8 @@ export default function Sidebar() {
     };
     const list = (anchor) => (
 
-        <div style={{width: "364px"}}>
-            <div style={{textAlign: "center"}}>
+        <div style={{width: "364px" }}>
+            <div style={{textAlign: "center", marginBottom:"20px"}}>
                 <Avatar sx={{margin: "auto", marginTop: "50px"}}>T</Avatar>
                 <h4>tên người dùng</h4>
             </div>
