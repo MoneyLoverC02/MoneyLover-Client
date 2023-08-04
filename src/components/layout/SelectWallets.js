@@ -13,6 +13,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/material/Typography';
 import {blue} from '@mui/material/colors';
+import {useEffect} from "react";
 
 const emails = [{
     id: 1, name: "Ví 1", money: 33411412
@@ -63,6 +64,9 @@ export default function SelectWallets() {
     const [selectedName, setSelectedName] = React.useState(emails[1].name);
     const [selectedMoney, setSelectedMoney] = React.useState(emails[1].money);
 
+    useEffect(()=>{
+        console.log(123)
+    },[])
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -75,12 +79,11 @@ export default function SelectWallets() {
         }
     };
     return (<div>
-
-        <Button sx={{color:"black"}} onClick={handleClickOpen}>
+        <Button sx={{color:"black", justifyContent: "left"}} onClick={handleClickOpen}>
             {selectedName}
         </Button>
         <Typography variant="subtitle1" component="div">
-            {selectedMoney}
+            + {selectedMoney} đ
         </Typography>
         <SimpleDialog
             selectedValue={setSelectedName}

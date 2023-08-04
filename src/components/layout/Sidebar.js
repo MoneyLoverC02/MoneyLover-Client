@@ -8,12 +8,15 @@ import MyWallets from "./MyWallets";
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import TollIcon from '@mui/icons-material/Toll';
+import {useState} from "react";
 
 
 export default function Sidebar() {
     const [state, setState] = React.useState({
         left: false,
     });
+    const [emailUser, setEmailUser] = useState()
+
     const toggleDrawer = (anchor, open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
