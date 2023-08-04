@@ -1,9 +1,7 @@
 import './App.css';
 import {Route, Routes} from 'react-router-dom';
-import NavBar from "./components/layout/NavBar";
-import Sidebar from "./components/layout/Sidebar";
 import LoginOrRegister from './pages/LoginOrRegister';
-import NestedModal from './components/NestedModal';
+import MyWallet from './pages/wallets/MyWallet';
 import HomePage from "./pages/homePage";
 
 function App() {
@@ -12,12 +10,9 @@ function App() {
             <Route path={"/"} element={<HomePage/>}/>
             <Route path={"/login"} element={<LoginOrRegister props={true}/>}/>
             <Route path={"/register"} element={<LoginOrRegister props={false}/>}/>
-            <Route path={"/create"} element={<NestedModal/>}></Route>
+            <Route path={"/my-wallets"} element={<MyWallet/>}></Route>
         </Routes>
     );
-
-
-
 }
 
 export default App;

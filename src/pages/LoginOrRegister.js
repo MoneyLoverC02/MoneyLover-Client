@@ -1,7 +1,9 @@
-import { useState } from "react";
+
+import {useEffect, useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
+import axios from "axios";
 
 const validateInput = Yup.object({
     email: Yup.string()
@@ -14,12 +16,39 @@ const validateInput = Yup.object({
 export default function LoginOrRegister({props}) {
     const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState(props);
+    const [list, setListUser] = useState([]);
+    const [checkValidUser,setCheckValidUser] = useState(true)
+    // goi API ra listUser
+    useEffect(() => {
+        axios.get('http://localhost:4000/api/users').then(res => {
+            setListUser(res.data)
+        })
+    }, [list])
 
     const formik = useFormik({
         initialValues: { email: '', password: '' },
         validationSchema: validateInput,
         onSubmit: values => {
-            console(values)
+
+        if (isLogin) {
+            //Login
+            console.log(values)
+            let arrayListUser = list.listUser;
+            let checkUser = arrayListUser.find(item=> item.email === values.email && item.password === values.password)
+            if (checkUser){
+                navigate("/create")
+            } else {
+                setCheckValidUser(false);
+            }
+        } else {
+            //Register
+            axios.post('http://localhost:4000/api/users',values).then(()=>{
+                setIsLogin(true);
+                formik.resetForm()
+                navigate("/login")
+                })
+        }
+            formik.resetForm()
         },
     });
 
@@ -32,13 +61,21 @@ export default function LoginOrRegister({props}) {
     const handleChangeStatus = () => {
         setIsLogin(!isLogin)
     }
-    const handeSubmit = () => {
-        if (isLogin) {
-            //call API login
-        } else {
-            // call API register
-        }
-    }
+
+    useEffect(() => {
+        // Xử lý sự kiện click bất kỳ đâu ở background
+        const handleClickOutside = (event) => {
+            const errorMessageDiv = document.getElementById("errorMessage");
+            if (errorMessageDiv && !errorMessageDiv.contains(event.target)) {
+                setCheckValidUser(true);
+            }
+        };
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
+
     return (
         <>
             <div className="relative">
@@ -46,7 +83,7 @@ export default function LoginOrRegister({props}) {
                     <img src="../logo.png" className=" object-cover w-[230px] h-[230px] mx-auto" alt="logo" />
                 </div>
                 <div className="absolute top-[70%] left-1/2 transform -translate-x-1/2 max-w-[670px]">
-                    <div className="shadow-md bg-white rounded-[20px] px-10 pt-[34px] pb-10">
+                    <div id="wrapper" className="shadow-md bg-white rounded-[20px] px-10 pt-[34px] pb-10">
                         <div className="form-title-text">
                             <span>{isLogin ? 'Log In' : 'Register'}</span>
                         </div>
@@ -82,7 +119,8 @@ export default function LoginOrRegister({props}) {
                                 <div className="mb-[18px]">
                                     <span className="pl-[14px] text-slate-500">Using Money Lover accounts</span>
                                 </div>
-                                <form className="border-l-2 border-slate-500 mb-4 pl-[14px]" onSubmit={formik.handeSubmit}>
+
+                                <form  method="post" className="border-l-2 border-slate-500 mb-4 pl-[14px]" onSubmit={formik.handleSubmit}>
                                     <div className="mb-[18px]">
                                         <input onChange={handleChange} type="email" name="email" value={formik.values.email} placeholder="Email" className="p-4 w-[275px] py-[10px] bg-neutral-100 rounded-lg focus:outline-green-400" required />
                                         {formik.touched.email && formik.errors.email ? (<p className="text-red-500 text-xs mt-3">{formik.errors.email}</p>) : null}
@@ -94,7 +132,7 @@ export default function LoginOrRegister({props}) {
                                     <div className="text-right mb-4 mt-2 h-4">
                                         {isLogin ? <span className="text-lightgreen font-semibold">Forgot Password?</span> : <span></span>}
                                     </div>
-                                    <button type="submit" className="bg-normalgreen uppercase w-full font-semibold text-white rounded-lg py-[6px]">Login</button>
+                                    <button type="submit" className="bg-normalgreen uppercase w-full font-semibold text-white rounded-lg py-[6px]">{isLogin ? "Log In" : "Register"}</button>
                                 </form>
                                 <div className="text-center">
                                     <span className="mr-2">{isLogin ? "Don't have" : "Have "} an account?</span>
@@ -103,6 +141,7 @@ export default function LoginOrRegister({props}) {
                             </div>
                         </div>
                     </div>
+                    {!checkValidUser ? <div id="errorMessage" className=" mx-auto text-center bg-black text-amber-50 mt-12 rounded shadow-md px-8 py-3 w-max">Invalid email/password combination. Please try again.</div> : null}
                 </div>
             </div>
         </>
