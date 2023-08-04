@@ -40,10 +40,7 @@ export default function MyAccount() {
                         <ArrowForwardIosIcon sx={{fontSize: "14px", float: "right", marginRight: "10px"}}/>
                     </div>
                     <hr/>
-
                 </div>
-
-
             </Button>
             <Modal
                 open={open}

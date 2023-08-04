@@ -1,6 +1,6 @@
 import {Box, Button, IconButton} from "@mui/material";
 import {Search} from '@mui/icons-material';
-import ListWallets from "../myWallets/ListWallets";
+import SelectWallets from "./SelectWallets";
 
 export default function NavBar() {
 
@@ -10,7 +10,7 @@ export default function NavBar() {
                 <img src="logo.jpg" style={{height:"66px", marginTop:"-15px" }} alt=""/>
             </div>
             <div style={{ float: "left", height: "66px",}}>
-                <ListWallets/>
+                <SelectWallets/>
             </div>
             <div style={{float: "right", height: "66px", margin: "15px", paddingTop:"-200px"}}>
                 <IconButton aria-label="delete" sx={{color: "black", marginRight: "35px"}}>

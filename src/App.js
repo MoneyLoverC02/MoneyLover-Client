@@ -3,6 +3,7 @@ import {Route, Routes} from 'react-router-dom';
 import LoginOrRegister from './pages/LoginOrRegister';
 import MyWallet from './pages/wallets/MyWallet';
 import HomePage from "./pages/homePage";
+import MyWallets from './components/layout/MyWallets';
 
 function App() {
     return (

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -6,6 +5,7 @@ import * as Yup from 'yup';
 import { UserService } from "../services/user.service";
 import { useDispatch } from "react-redux";
 import { loginFailed, loginStart, loginSuccess, registerFailed, registerStart, registerSuccess } from "../redux/authSlice";
+import { WalletService } from "../services/wallet.service";
 
 
 const validateInput = Yup.object({
@@ -33,7 +33,10 @@ export default function LoginOrRegister({ props }) {
                     let userLogin = res.data.user;
                     if (userLogin) {
                         dispatch(loginSuccess(userLogin));
-                        navigate("/my-wallets")
+                        WalletService.getAllWallet(userLogin.id).then(res => {
+                            let walletList = res.data.walletList;
+                            walletList.length > 0 ? navigate('/') : navigate('/my-wallets');
+                        })
                     } else {
                         setCheckValidUser(false);
                     }

@@ -3,9 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     icons: [],
     currencies: [],
-    iconSelect: null,
+    iconSelect: {id: 1, icon: 'https://static.moneylover.me/img/icon/icon.png'},
     currencySelect: null,
-    allWallet: [],
 }
 
 export const walletSlice = createSlice ({
@@ -24,9 +23,6 @@ export const walletSlice = createSlice ({
         selectCurrency: (state, action) => {
             state.currencySelect = action.payload
         },
-        getAllWalletOfUser: (state, action) => {
-            state.allWallet = action.payload;
-        }
     }
 })
 
