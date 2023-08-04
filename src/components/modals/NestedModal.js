@@ -1,8 +1,9 @@
-import axios from 'axios';
 import * as React from 'react';
 import { Box, Modal, Button } from '@mui/material';
 import CurrencyModal from './CurrencyModal';
 import IconModal from './IconModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { WalletService } from '../../services/wallet.service';
 
 const style = {
   position: 'absolute',
@@ -17,10 +18,11 @@ const style = {
 
 export default function NestedModal() {
   const [open, setOpen] = React.useState(false);
-  const [iconData, setIconData] = React.useState({ id: 1, icon: 'https://static.moneylover.me/img/icon/icon.png' });
-  const [currencyData, setCurrencyData] = React.useState();
   const [dataInput, setDataInput] = React.useState({ name: '', amountOfMoney: 0 });
   const [isValid, setIsValid] = React.useState(false);
+  const iconSelect = useSelector(state => state.wallet.iconSelect);
+  const currencySelect = useSelector(state => state.wallet.currencySelect);
+  const dispatch = useDispatch();
 
   const handleOpen = () => {
     setOpen(true);
@@ -31,12 +33,7 @@ export default function NestedModal() {
   const handleFocus = () => {
     document.getElementById("note").focus();
   };
-  const handleIconFromChild = (dataIcon) => {
-    setIconData(dataIcon);
-  };
-  const handleCurrencyFromChild = (dataCurrency) => {
-    setCurrencyData(dataCurrency)
-  };
+
   const handleChange = (e) => {
     let data = { ...dataInput, [e.target.name]: e.target.value };
     setDataInput(data);
@@ -44,20 +41,20 @@ export default function NestedModal() {
   }
   const handleCheckValid = (e) => {
     let data = { ...dataInput, [e.target.name]: e.target.value };
-    if (iconData && currencyData && data.name && data.amountOfMoney > 0) setIsValid(true)
+    if (iconSelect && currencySelect && data.name && data.amountOfMoney > 0) setIsValid(true)
     else setIsValid(false);
   }
 
   const handleSubmit = () => {
     let name = dataInput.name;
-    let iconID = iconData.id;
-    let currencyID = currencyData.id;
+    let iconID = iconSelect.id;
+    let currencyID = currencySelect.id;
     let amountOfMoney = dataInput.amountOfMoney;
-    axios.post('http://localhost:4000/api/wallets', { name, iconID, currencyID, amountOfMoney }).then((res) => {
-    let walletID = res.data.newWallet.id;
-    axios.post('http://localhost:4000/api/walletRoles', {userID:1, walletID}).then((res)=> {
-      console.log(res.data);
-    }).catch(err => console.log(err.message));
+    WalletService.createWallet({ name, iconID, currencyID, amountOfMoney }).then((res) => {
+      let walletID = res.data.newWallet.id;
+      WalletService.createDetailWallet({ userID: 1, walletID }).then((res) => {
+        console.log(res.data);
+      }).catch(err => console.log(err.message));
     }).catch(err => console.log(err.message));
   }
 
@@ -76,7 +73,7 @@ export default function NestedModal() {
           <div className='p-6'>
             <div className='flex item-center justify-center'>
               <div className='w-1/3'>
-                <IconModal iconDataReceived={handleIconFromChild} />
+                <IconModal />
               </div>
               <div onClick={handleFocus} className='mb-4 py-[5px] px-[15px] border w-full border-gray-300 rounded-lg hover:border-gray-500 hover: cursor-pointer'>
                 <p className='text-[12px] pb-[3px] text-slate-400'>Wallet name</p>
@@ -87,7 +84,7 @@ export default function NestedModal() {
             </div>
             <div className='flex items-center justify-center mb-6'>
               <div className='w-64 mr-4 py-1 pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500 hover:cursor-pointer'>
-                <CurrencyModal currencyDataReceived={handleCurrencyFromChild} />
+                <CurrencyModal />
               </div>
               <div className='w-44 py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
                 <p className='text-[12px] pb-[3px] text-slate-400'>Initial Balance</p>
