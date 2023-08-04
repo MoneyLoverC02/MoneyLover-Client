@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Box, Modal, Button } from '@mui/material';
+import { Box, Modal } from '@mui/material';
 import CurrencyModal from './CurrencyModal';
 import IconModal from './IconModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletService } from '../../services/wallet.service';
+import { getAllWalletOfUser } from '../../redux/walletSlice';
 
 const style = {
   position: 'absolute',
@@ -16,24 +17,18 @@ const style = {
   boxShadow: 24,
 };
 
-export default function NestedModal() {
-  const [open, setOpen] = React.useState(false);
+export default function NestedModal({ displayCard }) {
+  const [open, setOpen] = React.useState(true);
   const [dataInput, setDataInput] = React.useState({ name: '', amountOfMoney: 0 });
   const [isValid, setIsValid] = React.useState(false);
   const iconSelect = useSelector(state => state.wallet.iconSelect);
   const currencySelect = useSelector(state => state.wallet.currencySelect);
+  const user = useSelector(state => state.auth.login.currentUser);
   const dispatch = useDispatch();
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
   const handleFocus = () => {
     document.getElementById("note").focus();
   };
-
   const handleChange = (e) => {
     let data = { ...dataInput, [e.target.name]: e.target.value };
     setDataInput(data);
@@ -41,7 +36,7 @@ export default function NestedModal() {
   }
   const handleCheckValid = (e) => {
     let data = { ...dataInput, [e.target.name]: e.target.value };
-    if (iconSelect && currencySelect && data.name && data.amountOfMoney > 0) setIsValid(true)
+    if (currencySelect && data.name && data.amountOfMoney > 0) setIsValid(true)
     else setIsValid(false);
   }
 
@@ -52,18 +47,17 @@ export default function NestedModal() {
     let amountOfMoney = dataInput.amountOfMoney;
     WalletService.createWallet({ name, iconID, currencyID, amountOfMoney }).then((res) => {
       let walletID = res.data.newWallet.id;
-      WalletService.createDetailWallet({ userID: 1, walletID }).then((res) => {
-        console.log(res.data);
+      WalletService.createDetailWallet({ userID: user.id, walletID }).then(() => {
+        setOpen(false);
       }).catch(err => console.log(err.message));
     }).catch(err => console.log(err.message));
   }
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={!open}
         aria-describedby="parent-modal-description"
       >
         <Box sx={{ ...style, width: 496 }}>

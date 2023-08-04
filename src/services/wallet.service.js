@@ -8,9 +8,12 @@ export class WalletService {
         return axios.get('http://localhost:4000/api/currencies');
     }
     static createWallet(data) {
-        return axios.post('http://localhost:4000/api/wallets', data);
+        return axios.post('http://localhost:4000/api/users/wallets', data);
     }
     static createDetailWallet(data) {
-        return axios.post('http://localhost:4000/api/walletRoles', data);
+        return axios.post('http://localhost:4000/api/users/walletRoles', data);
+    }
+    static getAllWallet(idUser) {
+        return axios.get(`http://localhost:4000/api/users/${idUser}/wallets`);
     }
 }
