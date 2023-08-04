@@ -1,6 +1,8 @@
-import axios from 'axios';
 import * as React from 'react';
 import { Box, Modal } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { WalletService } from '../../services/wallet.service';
+import { selectIcon, getAllIcon } from '../../redux/walletSlice';
 
 const style = {
   position: 'absolute',
@@ -13,10 +15,12 @@ const style = {
   boxShadow: 24,
 };
 
-export default function IconModal({iconDataReceived}) {
+export default function IconModal() {
   const [open, setOpen] = React.useState(false);
-  const [iconWallets, setIconWallets] = React.useState([]);
-  const [iconSelect, setIconSelect] = React.useState();
+  const iconWallets = useSelector(state => state.wallet.icons);
+  const iconSelect = useSelector(state => state.wallet.iconSelect);
+  const dispatch = useDispatch();
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -24,16 +28,14 @@ export default function IconModal({iconDataReceived}) {
     setOpen(false);
   };
   React.useEffect(() => {
-    axios.get('http://localhost:4000/api/iconWallets').then(res => {
-      let iconWallets = res.data.iconWalletList;
-      setIconWallets(iconWallets);
+    WalletService.getIcon().then(res => {
+      dispatch(getAllIcon(res.data.iconWalletList));
     }).catch(err => console.log(err.message));
   }, []);
 
   const handleChoosenIcon = (idIcon) => {
     let iconWallet = iconWallets.find(icon => icon.id === idIcon)
-    setIconSelect(iconWallet);
-    iconDataReceived(iconWallet);
+    dispatch(selectIcon(iconWallet));
     setOpen(false);
   }
 

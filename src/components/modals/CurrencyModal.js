@@ -1,6 +1,8 @@
 import * as React from 'react';
-import axios from 'axios';
 import { Box, Modal } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { WalletService } from '../../services/wallet.service';
+import { selectCurrency, getAllCurrency } from '../../redux/walletSlice';
 
 const style = {
     position: 'absolute',
@@ -13,10 +15,12 @@ const style = {
     boxShadow: 24,
 };
 
-export default function CurrencyModal({currencyDataReceived}) {
+export default function CurrencyModal() {
     const [open, setOpen] = React.useState(false);
-    const [currencies, setCurrencies] = React.useState([]);
-    const [currencySelect, setCurrencySelect] = React.useState();
+    const currencies = useSelector(state => state.wallet.currencies);
+    const currencySelect = useSelector(state => state.wallet.currencySelect);
+    const dispatch = useDispatch();
+
     const handleOpen = () => {
         setOpen(true);
     };
@@ -24,15 +28,13 @@ export default function CurrencyModal({currencyDataReceived}) {
         setOpen(false);
     };
     React.useEffect(() => {
-        axios.get('http://localhost:4000/api/currencies').then(res => {
-            let currencyList = res.data.currencyList;
-            setCurrencies(currencyList);
+        WalletService.getCurrency().then(res => {
+            dispatch(getAllCurrency(res.data.currencyList));
         }).catch(err => console.log(err.message));
     }, []);
     const handleSelectCurrency = (id) => {
         let currency = currencies.find(item => item.id === id);
-        setCurrencySelect(currency);
-        currencyDataReceived(currency);
+        dispatch(selectCurrency(currency))
         setOpen(false);
     }
     return (
