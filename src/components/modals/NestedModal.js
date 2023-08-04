@@ -22,6 +22,7 @@ export default function NestedModal() {
   const [isValid, setIsValid] = React.useState(false);
   const iconSelect = useSelector(state => state.wallet.iconSelect);
   const currencySelect = useSelector(state => state.wallet.currencySelect);
+  const user = useSelector(state => state.auth.login.currentUser);
   const dispatch = useDispatch();
 
   const handleOpen = () => {
@@ -52,7 +53,7 @@ export default function NestedModal() {
     let amountOfMoney = dataInput.amountOfMoney;
     WalletService.createWallet({ name, iconID, currencyID, amountOfMoney }).then((res) => {
       let walletID = res.data.newWallet.id;
-      WalletService.createDetailWallet({ userID: 1, walletID }).then((res) => {
+      WalletService.createDetailWallet({ userID: user.id, walletID }).then((res) => {
         console.log(res.data);
       }).catch(err => console.log(err.message));
     }).catch(err => console.log(err.message));
