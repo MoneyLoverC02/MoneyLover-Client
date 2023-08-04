@@ -7,6 +7,7 @@ import { UserService } from "../services/user.service";
 import { useDispatch } from "react-redux";
 import { loginFailed, loginStart, loginSuccess, registerFailed, registerStart, registerSuccess } from "../redux/authSlice";
 
+
 const validateInput = Yup.object({
     email: Yup.string()
         .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Email address invalid'),
@@ -20,9 +21,7 @@ export default function LoginOrRegister({ props }) {
     const [isLogin, setIsLogin] = useState(props);
     const [checkValidUser, setCheckValidUser] = useState(true);
     const [checkValidRegister, setCheckValidRegister] = useState(true);
-
     const dispatch = useDispatch()
-
     const formik = useFormik({
         initialValues: { email: '', password: '' },
         validationSchema: validateInput,
@@ -135,7 +134,6 @@ export default function LoginOrRegister({ props }) {
                                 <div className="mb-[18px]">
                                     <span className="pl-[14px] text-slate-500">Using Money Lover accounts</span>
                                 </div>
-
                                 <form method="post" className="border-l-2 border-slate-500 mb-4 pl-[14px]" onSubmit={formik.handleSubmit}>
                                     <div className="mb-[18px]">
                                         <input onChange={handleChange} type="email" name="email" value={formik.values.email} placeholder="Email" className="min-w-[275px] p-4 w-full py-[10px] bg-neutral-100 rounded-lg focus:outline-green-400" required />

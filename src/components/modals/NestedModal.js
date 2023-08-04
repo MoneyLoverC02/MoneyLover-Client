@@ -34,7 +34,6 @@ export default function NestedModal() {
   const handleFocus = () => {
     document.getElementById("note").focus();
   };
-
   const handleChange = (e) => {
     let data = { ...dataInput, [e.target.name]: e.target.value };
     setDataInput(data);
