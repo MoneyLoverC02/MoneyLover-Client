@@ -50,6 +50,7 @@ export default function NestedModal({isOpen, onClose, onSubmit}) {
       WalletService.createDetailWallet({ userID: user.id, walletID: wallet.id }).then(() => {
         dispatch(getAllWallet([...allWallet, wallet]));
         dispatch(setWalletSelect(wallet));
+        setDataInput({ name: '', amountOfMoney: null })
         onSubmit();
       }).catch(err => console.log(err.message));
     }).catch(err => console.log(err.message));

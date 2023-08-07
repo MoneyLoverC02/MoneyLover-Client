@@ -24,12 +24,9 @@ export default function ModalDeleteWallets({idWallet,onClose}) {
         setOpen(false);
     };
     const handleDelete = () => {
-        // WalletService.deleteWallet(user.id,idWallet).then((r)=>{
-        //
-        //     handleClose()
-        // })
+        const token = localStorage.getItem('token')
         WalletService.deleteWallet(user.id,idWallet).then((res) => {
-            WalletService.getAllWallet(user.id).then(res=> {
+            WalletService.getAllWallet(user.id, token).then(res=> {
                 dispatch(getAllWallet(res.data.walletList));
                 dispatch(selectIcon({id: 1, icon: 'https://static.moneylover.me/img/icon/icon.png'}));
                 dispatch(selectCurrency(null));
