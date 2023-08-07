@@ -9,9 +9,6 @@
   top: 0px;
   left: 0px;
   right: 0px;
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
 }
  .App {
   text-align: center;
