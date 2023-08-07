@@ -6,6 +6,7 @@ import { UserService } from "../services/user.service";
 import { useDispatch } from "react-redux";
 import { loginFailed, loginStart, loginSuccess, registerFailed, registerStart, registerSuccess } from "../redux/authSlice";
 import { WalletService } from "../services/wallet.service";
+import { getAllWallet, setWalletSelect } from "../redux/walletSlice";
 
 
 const validateInput = Yup.object({
@@ -35,13 +36,17 @@ export default function LoginOrRegister({ props }) {
                         dispatch(loginSuccess(userLogin));
                         WalletService.getAllWallet(userLogin.id).then(res => {
                             let walletList = res.data.walletList;
-                            walletList.length > 0 ? navigate('/') : navigate('/my-wallets');
+                            if (walletList.length > 0 ) {
+                                dispatch(getAllWallet(walletList));
+                                dispatch(setWalletSelect(walletList[0]))
+                                navigate('/');
+                            } else navigate('/my-wallets')
                         })
                     } else {
                         setCheckValidUser(false);
+                        dispatch(loginFailed());
                     }
                 }).catch(err => {
-                    dispatch(loginFailed());
                     console.log(err.message);
                 })
 
@@ -56,9 +61,9 @@ export default function LoginOrRegister({ props }) {
                         navigate("/login");
                     } else {
                         setCheckValidRegister(false);
+                        dispatch(registerFailed());
                     }
                 }).catch(err => {
-                    dispatch(registerFailed());
                     console.log(err.message)
                 })
             }

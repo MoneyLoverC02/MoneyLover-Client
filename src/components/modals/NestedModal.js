@@ -4,7 +4,7 @@ import CurrencyModal from './CurrencyModal';
 import IconModal from './IconModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletService } from '../../services/wallet.service';
-import { getAllWalletOfUser } from '../../redux/walletSlice';
+import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
 
 const style = {
   position: 'absolute',
@@ -17,13 +17,13 @@ const style = {
   boxShadow: 24,
 };
 
-export default function NestedModal({ displayCard }) {
-  const [open, setOpen] = React.useState(true);
+export default function NestedModal({isOpen, onClose, onSubmit}) {
   const [dataInput, setDataInput] = React.useState({ name: '', amountOfMoney: 0 });
   const [isValid, setIsValid] = React.useState(false);
   const iconSelect = useSelector(state => state.wallet.iconSelect);
   const currencySelect = useSelector(state => state.wallet.currencySelect);
   const user = useSelector(state => state.auth.login.currentUser);
+  const allWallet = useSelector(state => state.wallet.allWallet);
   const dispatch = useDispatch();
 
   const handleFocus = () => {
@@ -42,13 +42,15 @@ export default function NestedModal({ displayCard }) {
 
   const handleSubmit = () => {
     let name = dataInput.name;
-    let iconID = iconSelect.id;
-    let currencyID = currencySelect.id;
+    let iconID = iconSelect?.id;
+    let currencyID = currencySelect?.id;
     let amountOfMoney = dataInput.amountOfMoney;
     WalletService.createWallet({ name, iconID, currencyID, amountOfMoney }).then((res) => {
-      let walletID = res.data.newWallet.id;
-      WalletService.createDetailWallet({ userID: user.id, walletID }).then(() => {
-        setOpen(false);
+      let wallet = res.data.newWallet;
+      WalletService.createDetailWallet({ userID: user.id, walletID: wallet.id }).then(() => {
+        dispatch(getAllWallet([...allWallet, wallet]));
+        dispatch(setWalletSelect(wallet));
+        onSubmit();
       }).catch(err => console.log(err.message));
     }).catch(err => console.log(err.message));
   }
@@ -56,8 +58,8 @@ export default function NestedModal({ displayCard }) {
   return (
     <div>
       <Modal
-        open={open}
-        onClose={!open}
+        open={isOpen}
+        onClose={onClose}
         aria-describedby="parent-modal-description"
       >
         <Box sx={{ ...style, width: 496 }}>
