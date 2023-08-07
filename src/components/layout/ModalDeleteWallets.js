@@ -16,6 +16,9 @@ export default function ModalDeleteWallets() {
     const handleClose = () => {
         setOpen(false);
     };
+    const handleDelete = ()=>{
+
+    }
 
     return (
         <div>
@@ -38,7 +41,10 @@ export default function ModalDeleteWallets() {
                 </DialogContent>
                 <DialogActions>
                     <Button color="success" variant="outlined" onClick={handleClose} autoFocus>CANCEL</Button>
-                    <Button color="error" variant="contained" onClick={handleClose} >
+                    <Button color="error" variant="contained" onClick={()=>{
+                        handleClose()
+                        handleDelete()
+                    }} >
                         DELETE
                     </Button>
                 </DialogActions>

@@ -16,4 +16,7 @@ export class WalletService {
     static getAllWallet(idUser) {
         return axios.get(`http://localhost:4000/api/users/${idUser}/wallets`);
     }
+    static deleteWallet(idUser,idWallet) {
+        return axios.delete(`http://localhost:4000/api/users/${idUser}/wallets/${idWallet}`);
+    }
 }
