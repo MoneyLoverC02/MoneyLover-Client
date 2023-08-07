@@ -5,6 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import {WalletService} from "../../services/wallet.service";
 
 export default function ModalDeleteWallets() {
     const [open, setOpen] = React.useState(false);
@@ -16,11 +17,15 @@ export default function ModalDeleteWallets() {
     const handleClose = () => {
         setOpen(false);
     };
+    const handleDelete = () =>{
+        setOpen(false)
+        // WalletService.deleteWallet()
+    }
 
     return (
         <div>
-            <Button   color="error" onClick={handleClickOpen}>
-                delete
+            <Button color="error" onClick={handleClickOpen}>
+                Delete
             </Button>
             <Dialog
                 open={open}
@@ -38,7 +43,7 @@ export default function ModalDeleteWallets() {
                 </DialogContent>
                 <DialogActions>
                     <Button color="success" variant="outlined" onClick={handleClose} autoFocus>CANCEL</Button>
-                    <Button color="error" variant="contained" onClick={handleClose} >
+                    <Button color="error" variant="contained" onClick={handleDelete} >
                         DELETE
                     </Button>
                 </DialogActions>
