@@ -1,19 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { WalletService } from "../services/wallet.service";
-
-const currencyList = await WalletService.getCurrency().then(res => {
-    return res.data.currencyList
-})
-const iconList = await WalletService.getIcon().then(res => {
-    return res.data.iconWalletList
-});
 
 const initialState = {
-    icons: iconList,
-    currencies: currencyList,
+    icons: [],
+    currencies: [],
     walletSelect: null,
     allWallet: [],
-    iconSelect: iconList[0],
+    iconSelect: {id: 1, icon: 'https://static.moneylover.me/img/icon/icon.png'},
     currencySelect: null,
 }
 
@@ -21,6 +13,12 @@ export const walletSlice = createSlice ({
     name:'wallet',
     initialState,
     reducers: {
+        getIcon: (state, action) => {
+            state.icons = action.payload
+        },
+        getCurrencies: (state, action) => {
+            state.currencies = action.payload
+        },
         selectIcon: (state, action) => {
             state.iconSelect = action.payload
         },
@@ -36,6 +34,6 @@ export const walletSlice = createSlice ({
     }
 })
 
-export const { selectIcon, selectCurrency, setWalletSelect, getAllWallet } = walletSlice.actions;
+export const { getIcon, getCurrencies, selectIcon, selectCurrency, setWalletSelect, getAllWallet } = walletSlice.actions;
 export default walletSlice.reducer;
 

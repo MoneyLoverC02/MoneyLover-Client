@@ -32,11 +32,13 @@ export default function LoginOrRegister({ props }) {
                 dispatch(loginStart())
                 UserService.checkUserLogin(values).then(res => {
                     let userLogin = res.data.user;
-                    if (userLogin) {
+                    if (userLogin && res.data.message === 'Login success!') {
+                        const token = res.data.token;
+                        localStorage.setItem('token', token);
                         dispatch(loginSuccess(userLogin));
-                        WalletService.getAllWallet(userLogin.id).then(res => {
+                        WalletService.getAllWallet(userLogin.id, token).then(res => {
                             let walletList = res.data.walletList;
-                            if (walletList.length > 0 ) {
+                            if (walletList.length > 0) {
                                 dispatch(getAllWallet(walletList));
                                 dispatch(setWalletSelect(walletList[0]))
                                 navigate('/');
@@ -55,7 +57,7 @@ export default function LoginOrRegister({ props }) {
                 dispatch(registerStart());
                 UserService.createUser(values).then((res) => {
                     let newUser = res.data.newUser;
-                    if (newUser) {
+                    if (newUser && res.data.message === "Creat user success!") {
                         dispatch(registerSuccess())
                         setIsLogin(true);
                         navigate("/login");
