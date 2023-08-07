@@ -1,63 +1,87 @@
 import * as React from 'react';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { AppBar, Box, Card, Checkbox, Container, FormControlLabel, Grid, IconButton, Slide, Stack, Toolbar, Typography } from "@mui/material";
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
-import Slide from '@mui/material/Slide';
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ClearIcon from "@mui/icons-material/Clear";
+import ModalDeleteWallets from './ModalDeleteWallets';
+import { WalletService } from '../../services/wallet.service';
+import { setWalletSelect, selectIcon, selectCurrency } from '../../redux/walletSlice';
+import UpdateModal from '../modals/UpdateModal';
+import NestedModal from '../modals/NestedModal';
 import { useNavigate } from 'react-router-dom';
 
-
-
-// const Transition = React.forwardRef(function Transition(props, ref) {
-//     return <Slide direction="down" ref={ref} {...props} />;
-// });
-
-export default function MyWallets() {
+export default function CardWallet() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const handleClickOpen = () => {
-        navigate('/my-wallets')
+    const [checked, setChecked] = React.useState(false);
+    const [openFormCreate, setOpenFormCreate] = React.useState(false);
+    const [openFormUpdate, setOpenFormUpdate] = React.useState(false);
+    const user = useSelector(state => state.auth.login.currentUser);
+    const allWallet = useSelector(state => state.wallet.allWallet);
+    const walletSelect = useSelector(state => state.wallet.walletSelect);
+    const [selectedWalletID, setSelectedWalletID] = React.useState(walletSelect?.id);
+    const handleOpenSlide = (idWallet) => {
+        WalletService.getInfoWallet(user.id, idWallet).then(res => {
+            dispatch(setWalletSelect(res.data.wallet))
+            setSelectedWalletID(idWallet);
+            setChecked(true);
+        })
     };
 
-    return (<div>
+    const handleCloseSlide = () => {
+        setChecked(false);
+    };
+    const handleClose = () => {
+        navigate('/')
+    }
+
+    const handleOpenFormCreate = () => {
+        dispatch(selectIcon({ id: 1, icon: 'https://static.moneylover.me/img/icon/icon.png' }));
+        dispatch(selectCurrency(null))
+        setOpenFormCreate(true)
+    }
+    const handleCloseFormCreate = () => {
+        setOpenFormCreate(false)
+    }
+    const handleSubmitFormCreate = () => {
+        handleCloseFormCreate()
+    }
+    const handleOpenFormUpdate = () => {
+        setOpenFormUpdate(true)
+    }
+    const handleCloseFormUpdate = () => {
+        setOpenFormUpdate(false)
+    }
+    const handleSubmitFormUpdate = () => {
+        handleCloseFormUpdate()
+    }
+
+    return (
         <div>
-            <Button>
-                <div onClick={handleClickOpen} style={{ width: "364px", color: "#747474" }}>
-                    <div style={{ float: "left", marginRight: "40px" }}>
-                        <AccountBalanceWalletIcon sx={{ fontSize: "40px", marginLeft: "20px" }} />
-                    </div>
-                    <div style={{ paddingTop: "9px", textAlign: "left" }}>
-                        My Wallets
-                        <ArrowForwardIosIcon sx={{ fontSize: "14px", float: "right", marginRight: "10px" }} />
-                    </div>
-                    <hr />
+            <Slide direction="down" in={true} mountOnEnter unmountOnExit>
+                <div>
+                    <AppBar sx={{ position: 'relative', backgroundColor: "white", color: "black" }}>
+                        <Toolbar>
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                onClick={handleClose}
+                                aria-label="close"
+                            >
+                                <ArrowBackIcon />
+                            </IconButton>
+                            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                My Wallets
+                            </Typography>
+                            <Button onClick={handleOpenFormCreate} variant="contained" sx={{ backgroundColor: "#1aa333" }} disableElevation>
+                                <b>ADD WALLET</b>
+                            </Button>
+                        </Toolbar>
+                    </AppBar>
                 </div>
-            </Button>
-        </div>
-        {/* <Dialog
-            fullScreen
-            open={open}
-            onClose={handleClose}
-            TransitionComponent={Transition}
-            sx={{ backgroundColor: "#e4e4e4" }}
-        >
-            <AppBar sx={{ position: 'relative', backgroundColor: "white", color: "black" }}>
-                <Toolbar>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={handleClose}
-                        aria-label="close"
-                    >
-                        <ArrowBackIcon />
-                    </IconButton>
-                    <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                        My Wallets
-                    </Typography>
-                    <Button onClick={handleOpenFormCreate} variant="contained" sx={{ backgroundColor: "#1aa333" }} disableElevation>
-                        <b>ADD WALLET</b>
-                    </Button>
-                </Toolbar>
-            </AppBar>
-            <div>
+            </Slide>
+            <Slide direction="down" in={true} mountOnEnter unmountOnExit>
                 <Container>
                     <Box sx={{ margin: " 50px auto" }}>
 
@@ -70,7 +94,7 @@ export default function MyWallets() {
                                         color: "black",
                                         height: "40px",
                                     }}>
-                                        <p style={{ padding: "5px 10px" }}>Tổng số ví</p>
+                                        <p style={{ padding: "5px 10px" }}>Ví vừa tạo</p>
                                     </Box>
                                     <>
                                         {allWallet.length > 0 && allWallet.map(wallet => (
@@ -81,7 +105,7 @@ export default function MyWallets() {
                                                         style={{
                                                             width: "40px", height: "40px", margin: "15px", float: "left"
                                                         }} alt="" />
-                                                    <div style={{ float: "left", margin: "15px"}}>
+                                                    <div style={{ float: "left", margin: "15px" }}>
                                                         <span className='lowercase'>{wallet.name}</span><br />
                                                         <span className='lowercase'>{wallet.currency.sign} </span>
                                                         <span>{wallet.amountOfMoney} </span>
@@ -92,8 +116,8 @@ export default function MyWallets() {
                                     </>
                                 </Card>
                             </Grid>
-                            {walletSelect && <Slide direction="left" in={checked} mountOnEnter unmountOnExit>
-                                <Grid item xs={8}>
+                            {walletSelect && checked && <Slide direction="left" in={checked} mountOnEnter unmountOnExit>
+                                < Grid item xs={8}>
                                     <Card variant="outlined">
                                         <Box sx={{
                                             position: 'relative',
@@ -106,7 +130,7 @@ export default function MyWallets() {
                                                     sx={{ float: "left" }} /></Button>
                                                 <b style={{ marginLeft: "30px" }}>Wallet details</b>
                                                 <Stack direction="row" sx={{ float: "right" }} spacing={2}>
-                                                    <ModalDeleteWallets sx={{ height: "402px" }} />
+                                                    <ModalDeleteWallets sx={{ height: "402px" }} idWallet={selectedWalletID} onClose={handleCloseSlide} />
                                                 </Stack>
                                             </div>
 
@@ -142,12 +166,11 @@ export default function MyWallets() {
                                 </Grid>
                             </Slide>}
                         </Grid>
-                        
-                        <UpdateModal idWalletUpdate={selectedWalletID}  isOpen={openFormUpdate} onClose={handleCloseFormUpdate} onSubmit={handleSubmitFormUpdate}/>
-                        <NestedModal  isOpen={openFormCreate} onClose={handleCloseFormCreate} onSubmit={handleSubmitFormCreate}/>
+                        <UpdateModal idWalletUpdate={selectedWalletID} isOpen={openFormUpdate} onClose={handleCloseFormUpdate} onSubmit={handleSubmitFormUpdate} />
+                        <NestedModal isOpen={openFormCreate} onClose={handleCloseFormCreate} onSubmit={handleSubmitFormCreate} />
                     </Box>
                 </Container>
-            </div>
-        </Dialog> */}
-    </div>);
+            </Slide>
+        </div>
+    );
 }
