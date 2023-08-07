@@ -4,6 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button } from '@mui/material';
 
 export default function NavbarHome ({closeParent}) {
     return (

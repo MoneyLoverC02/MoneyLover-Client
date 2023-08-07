@@ -12,7 +12,7 @@ function App() {
             <Route path={"/"} element= {user !== null ? <HomePage/>:<Navigate to="/login" />}/>
             <Route path={"/login"} element={<LoginOrRegister props={true}/>}/>
             <Route path={"/register"} element={<LoginOrRegister props={false}/>}/>
-            <Route path={"/my-wallets"} element={<MyWallet/>}></Route>
+            <Route path={"/my-wallets"} element={ user !== null ? <MyWallet/>:<Navigate to="/login"/> }></Route>
         </Routes>
     );
 }
