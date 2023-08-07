@@ -45,7 +45,7 @@ export default function NestedModal({isOpen, onClose, onSubmit}) {
     let iconID = iconSelect?.id;
     let currencyID = currencySelect?.id;
     let amountOfMoney = dataInput.amountOfMoney;
-    WalletService.createWallet({ name, iconID, currencyID, amountOfMoney }).then((res) => {
+    WalletService.createWallet({ name, iconID, currencyID, amountOfMoney }, user.id).then((res) => {
       let wallet = res.data.newWallet;
       WalletService.createDetailWallet({ userID: user.id, walletID: wallet.id }).then(() => {
         dispatch(getAllWallet([...allWallet, wallet]));

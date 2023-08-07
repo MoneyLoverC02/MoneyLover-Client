@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Box, Modal } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrency } from '../../redux/walletSlice';
+import { getCurrencies, selectCurrency } from '../../redux/walletSlice';
+import { WalletService } from '../../services/wallet.service';
 
 const style = {
     position: 'absolute',
@@ -19,7 +20,13 @@ export default function CurrencyModal() {
     const currencies = useSelector(state => state.wallet.currencies);
     const currencySelect = useSelector(state => state.wallet.currencySelect);
     const dispatch = useDispatch();
+    let token = localStorage.getItem('token');
 
+    React.useEffect(() => {
+        WalletService.getCurrency(token).then(res => {
+            dispatch(getCurrencies(res.data.currencyList))
+        })
+    }, [])
     const handleOpen = () => {
         setOpen(true);
     };

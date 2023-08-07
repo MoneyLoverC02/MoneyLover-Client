@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Box, Modal } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIcon } from '../../redux/walletSlice';
+import { getIcon, selectIcon } from '../../redux/walletSlice';
+import { WalletService } from '../../services/wallet.service';
 
 const style = {
   position: 'absolute',
@@ -19,7 +20,13 @@ export default function IconModal() {
   const iconWallets = useSelector(state => state.wallet.icons);
   const iconSelect = useSelector(state => state.wallet.iconSelect);
   const dispatch = useDispatch();
-
+  let token = localStorage.getItem('token');
+  
+  React.useEffect(() => {
+    WalletService.getIcon(token).then(res => {
+        dispatch(getIcon(res.data.iconWalletList))
+    })
+}, [])
   const handleOpen = () => {
     setOpen(true);
   };
