@@ -1,25 +1,38 @@
-
-
 import NavbarMyWallet from "../../components/layout/NavbarMyWallet";
 import NestedModal from "../../components/modals/NestedModal";
 import CardWallet from "../../components/layout/CardWallet";
 import { useEffect, useState } from "react";
-import { WalletService } from "../../services/wallet.service";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function MyWallet() {
-    let [listWallet, setListWallet] = useState([]);
-    let user = useSelector(state => state.auth.login.currentUser)
+    const [showModal, setShowModal] = useState(false);
+    let user = useSelector(state => state.auth.login.currentUser);
+    let allWallet = useSelector(state => state.wallet.allWallet)
+    const navigate = useNavigate();
     useEffect(() => {
-        WalletService.getAllWallet(user.id).then((res) => {
-            setListWallet(res.data.walletList)
-        })
-    })
+        if (!user) {
+            navigate('/login')
+        } else {
+            setShowModal(allWallet.length === 0);
+        }
+    }, [user]);
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    }
+    const handleSubmitModal = () => {
+        setShowModal(false);
+    }
     return (
         <div className="bg-zinc-200 h-screen">
-            <NavbarMyWallet/>
-            <NestedModal/>
-            {listWallet.length > 0 ? <CardWallet/>: null}
+            {showModal &&
+                <>
+                    <NavbarMyWallet />
+                    <NestedModal is isOpen={showModal} onClose={handleCloseModal} onSubmit={handleSubmitModal} />
+                </>
+            }
+            {!showModal && <CardWallet />}
         </div>
     );
 }

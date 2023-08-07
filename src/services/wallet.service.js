@@ -13,7 +13,13 @@ export class WalletService {
     static createDetailWallet(data) {
         return axios.post('http://localhost:4000/api/users/walletRoles', data);
     }
-    static getAllWallet(idUser) {
-        return axios.get(`http://localhost:4000/api/users/${idUser}/wallets`);
+    static getAllWallet(userID) {
+        return axios.get(`http://localhost:4000/api/users/${userID}/wallets`);
+    }
+    static getInfoWallet(userID, walletID) {
+        return axios.get(`http://localhost:4000/api/users/${userID}/wallets/${walletID}`)
+    }
+    static updateWallet(userID, walletID, data) {
+        return axios.put(`http://localhost:4000/api/users/${userID}/wallets/${walletID}`, data)
     }
 }

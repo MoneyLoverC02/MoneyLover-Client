@@ -10,22 +10,16 @@ import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import PersonIcon from '@mui/icons-material/Person';
-import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/material/Typography';
 import { blue } from '@mui/material/colors';
 import { useSelector } from 'react-redux';
-import { WalletService } from '../../services/wallet.service';
+import { useNavigate } from 'react-router-dom';
 
 
 function SimpleDialog(props) {
     const { onClose, selectedValue, open } = props;
-    const [walletList, setWalletList] = React.useState([]);
+    const walletList = useSelector(state => state.wallet.allWallet)
     const user = useSelector(state => state.auth.login.currentUser);
-    React.useEffect(() => {
-        WalletService.getAllWallet(user.id).then(res => {
-            setWalletList(res.data.walletList)
-        })
-    }, [])
 
     const handleClose = () => {
         onClose(selectedValue);
@@ -38,7 +32,7 @@ function SimpleDialog(props) {
     return (<Dialog onClose={handleClose} open={open}>
         <DialogTitle>Set backup account</DialogTitle>
         <List sx={{ pt: 0 }}>
-            {walletList.map((wallet) => (
+            {walletList.length> 0 && walletList.map((wallet) => (
                 <ListItem disableGutters>
                     <ListItemButton onClick={() => handleListItemClick(wallet)} key={wallet.id}>
                         <ListItemAvatar>
@@ -58,19 +52,27 @@ SimpleDialog.propTypes = {
 };
 
 export default function SelectWallets() {
+    const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
-    const [walletList, setWalletList] = React.useState([]);
-    const [selectedName, setSelectedName] = React.useState('');
-    const [selectedMoney, setSelectedMoney] = React.useState("");
+    // const [walletList, setWalletList] = React.useState([]);
+    const allWallet = useSelector(state => state.wallet.allWallet);
+    const walletSelect = useSelector(state => state.wallet.walletSelect)
+    const [selectedName, setSelectedName] = React.useState(walletSelect?.name)
+    const [selectedMoney, setSelectedMoney] = React.useState(walletSelect?.amountOfMoney);
     const user = useSelector(state => state.auth.login.currentUser);
-    React.useEffect(() => {
-        WalletService.getAllWallet(user.id).then(res => {
-            const wallets = res.data.walletList
-            setWalletList(wallets);
-            setSelectedName(wallets[0].name);
-            setSelectedMoney(wallets[0].amountOfMoney);
-        })
-    }, [])
+    // React.useEffect(() => {
+    //      if (user) {
+    //         WalletService.getAllWallet(user.id).then(res => {
+    //             const wallets = res.data.walletList
+    //             setWalletList(wallets);
+    //             setSelectedName(wallets[0].name);
+    //             setSelectedMoney(wallets[0].amountOfMoney);
+    //         })
+    //      } else {
+    //         navigate('/login')
+    //      }
+
+    // }, [])
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -87,7 +89,7 @@ export default function SelectWallets() {
 
     return (<div>
 
-        <Button sx={{ color: "black", justifyContent: "left" }} onClick={handleClickOpen}>
+        <Button sx={{ color: "black", justifyContent: "left", textTransform: 'lowercase' }} onClick={handleClickOpen}>
             {selectedName}
         </Button>
         <Typography variant="subtitle1" component="div">
