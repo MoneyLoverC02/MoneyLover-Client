@@ -50,10 +50,11 @@ export default function UpdateModal({ idWalletUpdate, isOpen, onClose, onSubmit}
         let iconID = iconSelect.id;
         let currencyID = currencySelect.id;
         let amountOfMoney = dataInput.amountOfMoney;
+        let token = localStorage.getItem('token')
         WalletService.updateWallet(user.id, idWalletUpdate, { name, iconID, currencyID, amountOfMoney }).then((res) => {
             let updateWallet = res.data.updateWallet;
             dispatch(setWalletSelect(updateWallet));
-            WalletService.getAllWallet(user.id).then(res=> {
+            WalletService.getAllWallet(user.id, token).then(res=> {
                 dispatch(getAllWallet(res.data.walletList));
                 dispatch(selectIcon({id: 1, icon: 'https://static.moneylover.me/img/icon/icon.png'}));
                 dispatch(selectCurrency(null));
