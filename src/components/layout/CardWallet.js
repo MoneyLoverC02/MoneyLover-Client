@@ -28,6 +28,7 @@ export default function CardWallet() {
             setChecked(true);
         })
     };
+
     const handleCloseSlide = () => {
         setChecked(false);
     };
@@ -129,7 +130,7 @@ export default function CardWallet() {
                                                     sx={{ float: "left" }} /></Button>
                                                 <b style={{ marginLeft: "30px" }}>Wallet details</b>
                                                 <Stack direction="row" sx={{ float: "right" }} spacing={2}>
-                                                    <ModalDeleteWallets sx={{ height: "402px" }} />
+                                                    <ModalDeleteWallets sx={{ height: "402px" }} idWallet={selectedWalletID} onClose={handleCloseSlide} />
                                                 </Stack>
                                             </div>
 
