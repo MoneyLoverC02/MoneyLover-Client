@@ -1,10 +1,12 @@
 import {Box, Button, IconButton} from "@mui/material";
 import {Search} from '@mui/icons-material';
 import SelectWallets from "./SelectWallets";
+import Slide from "@mui/material/Slide";
 
 export default function NavBar() {
 
     return (
+        <Slide direction="down" in={true} mountOnEnter unmountOnExit>
         <div className="navbar">
             <div style={{float: "left", height: "66px", margin: "15px",}}>
                 <img src="logo.jpg" style={{height:"66px", marginTop:"-15px" }} alt=""/>
@@ -21,5 +23,6 @@ export default function NavBar() {
                 </Button>
             </div>
         </div>
+        </Slide>
     )
 }

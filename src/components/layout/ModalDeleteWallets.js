@@ -8,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import {WalletService} from "../../services/wallet.service";
 import {useDispatch, useSelector} from "react-redux";
 import {getAllWallet, selectCurrency, selectIcon, setWalletSelect} from "../../redux/walletSlice";
+import {CircularProgress} from "@mui/material";
 
 
 export default function ModalDeleteWallets({idWallet,onClose}) {

@@ -94,7 +94,7 @@ export default function CardWallet() {
                                         color: "black",
                                         height: "40px",
                                     }}>
-                                        <p style={{ padding: "5px 10px" }}>Ví vừa tạo</p>
+                                        <p style={{ padding: "5px 10px" }}>Ví của tôi</p>
                                     </Box>
                                     <>
                                         {allWallet.length > 0 && allWallet.map(wallet => (
@@ -136,14 +136,14 @@ export default function CardWallet() {
 
                                         </Box>
 
-                                        <div maxWidth="575px" color="success"
+                                        <div fullWidth color="success"
                                             sx={{ color: "black", justifyContent: "left", textAlign: "left" }}>
                                             <div>
                                                 <img src={walletSelect.icon.icon}
                                                     style={{
                                                         width: "40px", height: "40px", margin: "15px", float: "left"
                                                     }} alt="" />
-                                                <div style={{ float: "left", margin: "15px" }}>
+                                                <div style={{ textAlign: "left", margin: "15px" }}>
                                                     <span className='lowercase'>{walletSelect.name}</span><br />
                                                     <span className='lowercase'>{walletSelect.currency.sign} </span>
                                                     <span>{walletSelect.amountOfMoney} </span>
