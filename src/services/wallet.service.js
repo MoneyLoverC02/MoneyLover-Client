@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export class WalletService {
-    static getIcon() {
-        return axios.get('http://localhost:4000/api/iconWallets');
+    static async getIcon() {
+        return await axios.get('http://localhost:4000/api/iconWallets');
     }
     static getCurrency() {
         return axios.get('http://localhost:4000/api/currencies');
