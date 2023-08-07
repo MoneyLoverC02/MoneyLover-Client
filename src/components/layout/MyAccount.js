@@ -93,6 +93,9 @@ import {Avatar, Stack} from "@mui/material";
 import {Delete, Edit} from "@mui/icons-material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import PersonIcon from '@mui/icons-material/Person';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../redux/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 const style = {
     position: 'absolute',
@@ -108,10 +111,17 @@ const style = {
 };
 
 export default function MyAccount() {
+    const dispatch = useDispatch();
+    const navigate =useNavigate()
+    const user = useSelector(state => state.auth.login.currentUser)
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
+    const handleSignOut = () => {
+        dispatch(logout);
+        localStorage.removeItem('token');
+        navigate('/login');
+    }
     return (
         <div>
             <Button onClick={handleOpen}>
@@ -136,7 +146,7 @@ export default function MyAccount() {
                     <div>
                         <Button sx={{color: "black"}} onClick={handleClose}><ClearIcon sx={{float: "left"}}/></Button>
                         <Stack direction="row" sx={{float: "right"}} spacing={2}>
-                            <Button color="success"><b>SIGN OUT</b></Button>
+                            <Button onClick={handleSignOut} color="success"><b>SIGN OUT</b></Button>
                         </Stack>
                         <b style={{marginLeft: "30px"}}>My Account</b>
                     </div>
@@ -144,7 +154,7 @@ export default function MyAccount() {
                     <hr/>
                     <br/>
                     <Avatar sx={{margin: "auto", width: 70, height: 70}} size="large">T</Avatar>
-                    <p style={{color: "black", textAlign: "center"}}>Tên người dùng </p>
+                    <p style={{color: "black", textAlign: "center"}}>{user.email} </p>
                     <div style={{marginTop:"100px"}}>
                         <Stack direction="row" sx={{float: "left"}} spacing={2}>
                             <Button variant="outlined" startIcon={<Edit/>}>
