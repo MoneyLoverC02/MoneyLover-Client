@@ -18,7 +18,7 @@ const style = {
 };
 
 export default function NestedModal({isOpen, onClose, onSubmit}) {
-  const [dataInput, setDataInput] = React.useState({ name: '', amountOfMoney: 0 });
+  const [dataInput, setDataInput] = React.useState({ name: '', amountOfMoney: null });
   const [isValid, setIsValid] = React.useState(false);
   const iconSelect = useSelector(state => state.wallet.iconSelect);
   const currencySelect = useSelector(state => state.wallet.currencySelect);
