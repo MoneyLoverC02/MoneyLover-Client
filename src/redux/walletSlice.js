@@ -5,8 +5,6 @@ const initialState = {
     currencies: [],
     walletSelect: null,
     allWallet: [],
-    iconSelect: {id: 1, icon: 'https://static.moneylover.me/img/icon/icon.png'},
-    currencySelect: null,
 }
 
 export const walletSlice = createSlice ({
@@ -19,12 +17,6 @@ export const walletSlice = createSlice ({
         getCurrencies: (state, action) => {
             state.currencies = action.payload
         },
-        selectIcon: (state, action) => {
-            state.iconSelect = action.payload
-        },
-        selectCurrency: (state, action) => {
-            state.currencySelect = action.payload
-        },
         setWalletSelect: (state, action) => {
             state.walletSelect = action.payload
         },
@@ -34,6 +26,6 @@ export const walletSlice = createSlice ({
     }
 })
 
-export const { getIcon, getCurrencies, selectIcon, selectCurrency, setWalletSelect, getAllWallet } = walletSlice.actions;
+export const { getIcon, getCurrencies, setWalletSelect, getAllWallet } = walletSlice.actions;
 export default walletSlice.reducer;
 

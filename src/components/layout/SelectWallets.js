@@ -55,9 +55,10 @@ export default function SelectWallets() {
     const [open, setOpen] = React.useState(false);
     const allWallet = useSelector(state => state.wallet.allWallet);
     const walletSelect = useSelector(state => state.wallet.walletSelect)
-    const [selectedName, setSelectedName] = React.useState(walletSelect?.name)
-    const [selectedMoney, setSelectedMoney] = React.useState(walletSelect?.amountOfMoney);
+    const [selectedName, setSelectedName] = React.useState(allWallet[0].name)
+    const [selectedMoney, setSelectedMoney] = React.useState(allWallet[0].amountOfMoney);
     const user = useSelector(state => state.auth.login.currentUser);
+
 
     const handleClickOpen = () => {
         setOpen(true);

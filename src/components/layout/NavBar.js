@@ -1,7 +1,6 @@
-import {Box, Button, IconButton} from "@mui/material";
-import {Search} from '@mui/icons-material';
+import { Box, Button, IconButton, Slide } from "@mui/material";
+import { Search } from '@mui/icons-material';
 import SelectWallets from "./SelectWallets";
-import Slide from "@mui/material/Slide";
 
 export default function NavBar() {
 

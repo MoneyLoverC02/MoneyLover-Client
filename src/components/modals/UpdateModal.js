@@ -4,7 +4,7 @@ import CurrencyModal from './CurrencyModal';
 import IconModal from './IconModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletService } from '../../services/wallet.service';
-import { getAllWallet, selectCurrency, selectIcon, setWalletSelect } from '../../redux/walletSlice';
+import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
 
 const style = {
     position: 'absolute',
@@ -17,20 +17,26 @@ const style = {
     boxShadow: 24,
 };
 
-export default function UpdateModal({ idWalletUpdate, isOpen, onClose, onSubmit}) {
+export default function UpdateModal({ isOpen, onClose, onSubmit }) {
     const [isValid, setIsValid] = React.useState(true);
-    const iconSelect = useSelector(state => state.wallet.iconSelect);
-    const currencySelect = useSelector(state => state.wallet.currencySelect);
-    const user = useSelector(state => state.auth.login.currentUser);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
-    const [dataInput, setDataInput] = React.useState({ name: '', amountOfMoney: null});
+    const [currencySelect, setCurrencySelect] = React.useState(walletSelect?.currency);
+    const [iconSelect, setIconSelect] = React.useState(walletSelect?.icon);
+    const user = useSelector(state => state.auth.login.currentUser);
+    const [dataInput, setDataInput] = React.useState({ name: walletSelect?.name, amountOfMoney: walletSelect?.amountOfMoney });
     const dispatch = useDispatch();
 
     React.useEffect(() => {
-        dispatch(selectIcon(walletSelect?.icon));
-        dispatch(selectCurrency(walletSelect?.currency));
-        setDataInput({name: walletSelect?.name, amountOfMoney: walletSelect?.amountOfMoney})
+        setIconSelect(walletSelect?.icon);
+        setCurrencySelect(walletSelect?.currency);
+        setDataInput({ name: walletSelect?.name, amountOfMoney: walletSelect?.amountOfMoney })
     }, [walletSelect])
+    const handleSelectIcon = (icon) => {
+        setIconSelect(icon);
+    }
+    const handleSelectCurrency = (currency) => {
+        setCurrencySelect(currency);
+    }
     const handleFocus = () => {
         document.getElementById("note").focus();
     };
@@ -47,17 +53,15 @@ export default function UpdateModal({ idWalletUpdate, isOpen, onClose, onSubmit}
 
     const handleSubmit = () => {
         let name = dataInput.name;
-        let iconID = iconSelect.id;
-        let currencyID = currencySelect.id;
+        let iconID = iconSelect?.id;
+        let currencyID = currencySelect?.id;
         let amountOfMoney = dataInput.amountOfMoney;
         let token = localStorage.getItem('token')
-        WalletService.updateWallet(user.id, idWalletUpdate, { name, iconID, currencyID, amountOfMoney }).then((res) => {
+        WalletService.updateWallet(user.id, walletSelect.id, { name, iconID, currencyID, amountOfMoney }).then((res) => {
             let updateWallet = res.data.updateWallet;
-            dispatch(setWalletSelect(updateWallet));
-            WalletService.getAllWallet(user.id, token).then(res=> {
+            WalletService.getAllWallet(user.id, token).then(res => {
+                dispatch(setWalletSelect(updateWallet));
                 dispatch(getAllWallet(res.data.walletList));
-                dispatch(selectIcon({id: 1, icon: 'https://static.moneylover.me/img/icon/icon.png'}));
-                dispatch(selectCurrency(null));
                 onSubmit();
             })
         }).catch(err => console.log(err.message));
@@ -77,7 +81,7 @@ export default function UpdateModal({ idWalletUpdate, isOpen, onClose, onSubmit}
                     <div className='p-6'>
                         <div className='flex item-center justify-center'>
                             <div className='w-1/3'>
-                                <IconModal />
+                                <IconModal selectIcon={handleSelectIcon} iconBeforeUpdate={walletSelect?.icon}/>
                             </div>
                             <div onClick={handleFocus} className='mb-4 py-[5px] px-[15px] border w-full border-gray-300 rounded-lg hover:border-gray-500 hover: cursor-pointer'>
                                 <p className='text-[12px] pb-[3px] text-slate-400'>Wallet name</p>
@@ -88,7 +92,7 @@ export default function UpdateModal({ idWalletUpdate, isOpen, onClose, onSubmit}
                         </div>
                         <div className='flex items-center justify-center mb-6'>
                             <div className='w-64 mr-4 py-1 pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500 hover:cursor-pointer'>
-                                <CurrencyModal />
+                                <CurrencyModal selectCurrency={handleSelectCurrency} currencyBeforeUpdate={walletSelect?.currency}/>
                             </div>
                             <div className='w-44 py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
                                 <p className='text-[12px] pb-[3px] text-slate-400'>Initial Balance</p>
