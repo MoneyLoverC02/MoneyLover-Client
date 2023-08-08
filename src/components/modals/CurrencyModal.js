@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box, Modal } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrencies, selectCurrency } from '../../redux/walletSlice';
+import { getCurrencies } from '../../redux/walletSlice';
 import { WalletService } from '../../services/wallet.service';
 
 const style = {
@@ -15,10 +15,10 @@ const style = {
     boxShadow: 24,
 };
 
-export default function CurrencyModal() {
+export default function CurrencyModal({selectCurrency, currencyBeforeUpdate}) {
     const [open, setOpen] = React.useState(false);
     const currencies = useSelector(state => state.wallet.currencies);
-    const currencySelect = useSelector(state => state.wallet.currencySelect);
+    const [currencySelect, setCurrencySelect] = React.useState(currencyBeforeUpdate ? currencyBeforeUpdate : null);
     const dispatch = useDispatch();
     let token = localStorage.getItem('token');
 
@@ -26,7 +26,7 @@ export default function CurrencyModal() {
         WalletService.getCurrency(token).then(res => {
             dispatch(getCurrencies(res.data.currencyList))
         })
-    }, [])
+    })
     const handleOpen = () => {
         setOpen(true);
     };
@@ -35,8 +35,11 @@ export default function CurrencyModal() {
     };
     const handleSelectCurrency = (id) => {
         let currency = currencies.find(item => item.id === id);
-        dispatch(selectCurrency(currency))
-        setOpen(false);
+        if (currency) {
+            setCurrencySelect(currency);
+            selectCurrency(currency);
+            setOpen(false);
+        }
     }
     return (
         <React.Fragment>

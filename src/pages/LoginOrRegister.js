@@ -35,14 +35,11 @@ export default function LoginOrRegister({ props }) {
                     if (userLogin && res.data.message === 'Login success!') {
                         const token = res.data.token;
                         localStorage.setItem('token', token);
-                        console.log('====================================');
-                        console.log(token);
-                        console.log('====================================');
                         dispatch(loginSuccess(userLogin));
                         WalletService.getAllWallet(userLogin.id, token).then(res => {
                             let walletList = res.data.walletList;
+                            dispatch(getAllWallet(walletList));
                             if (walletList.length > 0) {
-                                dispatch(getAllWallet(walletList));
                                 dispatch(setWalletSelect(walletList[0]))
                                 navigate('/');
                             } else navigate('/my-wallets')
