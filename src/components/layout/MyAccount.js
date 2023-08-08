@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { setWalletSelect } from '../../redux/walletSlice';
+import ModalDeleteUser from "../modals/ModalDeleteUser";
 
 const style = {
     position: 'absolute',
@@ -39,6 +40,10 @@ export default function MyAccount() {
         dispatch(logout);
         navigate('/login');
     }
+    const handleClickEdit = () =>{
+
+    }
+
     return (
         <div>
             <Button onClick={handleOpen}>
@@ -74,15 +79,13 @@ export default function MyAccount() {
                     <p style={{color: "black", textAlign: "center"}}>{user.email} </p>
                     <div style={{marginTop:"100px"}}>
                         <Stack direction="row" sx={{float: "left"}} spacing={2}>
-                            <Button variant="outlined" startIcon={<Edit/>}>
-                                edit
+                            <Button variant="outlined" startIcon={<Edit/>} onClick={handleClickEdit}>
+                                Edit
                             </Button>
 
                         </Stack>
                         <Stack direction="row-reverse" spacing={2}>
-                            <Button variant="outlined" color="error" startIcon={<DeleteIcon/>}>
-                                Delete
-                            </Button>
+                            <ModalDeleteUser sx={{ height: "402px" }}/>
                         </Stack>
                     </div>
                 </Box>
