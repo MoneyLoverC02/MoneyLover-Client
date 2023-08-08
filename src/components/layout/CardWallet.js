@@ -60,9 +60,12 @@ export default function CardWallet() {
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked)
-        console.log(123)
 
     };
+
+    const handleOpenFormTranfer = () => {
+
+    }
 
     return (<div>
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
@@ -137,6 +140,7 @@ export default function CardWallet() {
                                                 <ModalDeleteWallets sx={{height: "402px"}}
                                                                     idWallet={walletSelect.id}
                                                                     onClose={handleCloseSlide}/>
+                                                <Button onClick={handleOpenFormUpdate} color='success'>EDIT</Button>
                                             </Stack>
                                         </div>
                                     </Box>
@@ -167,19 +171,19 @@ export default function CardWallet() {
                                     </div>
                                     {isChecked === false ? (
                                         <>
-                                            <Button onClick={handleOpenFormUpdate} fullWidth sx={{ borderTop: "1px solid #ececec" , color:"green" }}>
+                                            <Button onClick={handleOpenFormTranfer} fullWidth sx={{ borderTop: "1px solid #ececec" , color:"green" }}>
                                                 <Grid item xs={12}>
-                                                    <b>ĐIỀU CHỈNH SỐ DƯ</b>
+                                                    <b>TRANFERMONEY</b>
                                                 </Grid>
                                             </Button>
-                                            <Button onClick={handleOpenFormUpdate} fullWidth sx={{ borderTop: "1px solid #ececec" , color:"green" }}>
+                                            <Button fullWidth sx={{ borderTop: "1px solid #ececec" , color:"green" }}>
                                                 <Grid item xs={12}>
                                                     <b>SHARE VÍ</b>
                                                 </Grid>
                                             </Button>
                                         </>
                                     ) : (
-                                        <Button onClick={handleOpenFormUpdate} fullWidth sx={{ borderTop: "1px solid #ececec" , color:"green" }}>
+                                        <Button fullWidth sx={{ borderTop: "1px solid #ececec" , color:"green" }}>
                                             <Grid item xs={12}>
                                                 <b>SHARE VÍ</b>
                                             </Grid>
