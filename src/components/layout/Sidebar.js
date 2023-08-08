@@ -9,14 +9,15 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import TollIcon from '@mui/icons-material/Toll';
 import {useState} from "react";
+import { useSelector } from 'react-redux';
 import Slide from "@mui/material/Slide";
 
 
 export default function Sidebar() {
+    const user = useSelector(state => state.auth.login.currentUser)
     const [state, setState] = React.useState({
         left: false,
     });
-    const [emailUser, setEmailUser] = useState()
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -29,7 +30,7 @@ export default function Sidebar() {
         <div style={{width: "364px" }}>
             <div style={{textAlign: "center", marginBottom:"20px"}}>
                 <Avatar sx={{margin: "auto", marginTop: "50px"}}>T</Avatar>
-                <h4>tên người dùng</h4>
+                <h4>{user.email}</h4>
             </div>
             <hr/>
             <MyAccount/>

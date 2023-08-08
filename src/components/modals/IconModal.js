@@ -30,6 +30,7 @@ export default function IconModal() {
   const handleOpen = () => {
     setOpen(true);
   };
+  console.log(iconWallet)
   const handleClose = () => {
     setOpen(false);
   };
