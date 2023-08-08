@@ -38,8 +38,8 @@ export default function LoginOrRegister({ props }) {
                         dispatch(loginSuccess(userLogin));
                         WalletService.getAllWallet(userLogin.id, token).then(res => {
                             let walletList = res.data.walletList;
+                            dispatch(getAllWallet(walletList));
                             if (walletList.length > 0) {
-                                dispatch(getAllWallet(walletList));
                                 dispatch(setWalletSelect(walletList[0]))
                                 navigate('/');
                             } else navigate('/my-wallets')

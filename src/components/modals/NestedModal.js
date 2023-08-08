@@ -24,6 +24,7 @@ export default function NestedModal({isOpen, onClose, onSubmit}) {
   const [iconSelect, setIconSelect] = React.useState({id: 1, icon: 'https://static.moneylover.me/img/icon/icon.png'});
   const user = useSelector(state => state.auth.login.currentUser);
   const allWallet = useSelector(state => state.wallet.allWallet);
+  const [checkName, setCheckName] = React.useState(true);
   const dispatch = useDispatch();
 
   const handleSelectIcon = (icon) => {
@@ -36,7 +37,13 @@ export default function NestedModal({isOpen, onClose, onSubmit}) {
     document.getElementById("note").focus();
   };
   const handleChange = (e) => {
+    let name = ''
     let data = { ...dataInput, [e.target.name]: e.target.value };
+    if (e.target.name === 'name') {
+      name = e.target.value;
+      let wallet = allWallet.find(item => item.name === name);
+      wallet ? setCheckName(false) : setCheckName(true);
+  }
     setDataInput(data);
     handleCheckValid(e);
   }
@@ -96,6 +103,7 @@ export default function NestedModal({isOpen, onClose, onSubmit}) {
                 </div>
               </div>
             </div>
+            <div className=' text-center'>{!checkName ? (<p className="text-red-500 text-sm mt-3">Tên ví đã trùng!</p>) : null}</div>
             <div className='pt-[13px] pb-5 flex text-center'>
               <input className='w-4 h-4 hover: cursor-pointer mt-1' type="checkbox" name="vehicle1" value="Bike" required />
               <div className='ml-3'>
