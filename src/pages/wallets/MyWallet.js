@@ -3,11 +3,10 @@ import NestedModal from "../../components/modals/NestedModal";
 import CardWallet from "../../components/layout/CardWallet";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 export default function MyWallet() {
     const [showModal, setShowModal] = useState(false);
-    let allWallet = useSelector(state => state.wallet.allWallet)
+    let allWallet = useSelector(state => state.wallet.allWallet);
     useEffect(() => {
             setShowModal(allWallet.length === 0);
     }, [allWallet]);

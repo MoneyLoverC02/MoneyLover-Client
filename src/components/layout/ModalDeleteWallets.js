@@ -5,12 +5,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import {WalletService} from "../../services/wallet.service";
-import {useDispatch, useSelector} from "react-redux";
-import {getAllWallet, selectCurrency, selectIcon, setWalletSelect} from "../../redux/walletSlice";
+import { WalletService } from "../../services/wallet.service";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllWallet, setWalletSelect } from "../../redux/walletSlice";
 
 
-export default function ModalDeleteWallets({idWallet,onClose}) {
+export default function ModalDeleteWallets({ idWallet, onClose }) {
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
     const user = useSelector(state => state.auth.login.currentUser);
@@ -25,15 +25,12 @@ export default function ModalDeleteWallets({idWallet,onClose}) {
     };
     const handleDelete = () => {
         const token = localStorage.getItem('token')
-        WalletService.deleteWallet(user.id,idWallet).then((res) => {
-            WalletService.getAllWallet(user.id, token).then(res=> {
+        WalletService.deleteWallet(user.id, idWallet).then((res) => {
+            WalletService.getAllWallet(user.id, token).then(res => {
                 dispatch(getAllWallet(res.data.walletList));
-                dispatch(selectIcon({id: 1, icon: 'https://static.moneylover.me/img/icon/icon.png'}));
-                dispatch(selectCurrency(null));
                 handleClose();
-                onClose()
-
-            })
+                onClose();
+            }).catch(err => console.log(err.message));
         }).catch(err => console.log(err.message));
 
     }
@@ -59,7 +56,6 @@ export default function ModalDeleteWallets({idWallet,onClose}) {
             <DialogActions>
                 <Button color="success" variant="outlined" onClick={handleClose} autoFocus>CANCEL</Button>
                 <Button color="error" variant="contained" onClick={() => {
-
                     handleDelete()
                 }}>
                     DELETE
