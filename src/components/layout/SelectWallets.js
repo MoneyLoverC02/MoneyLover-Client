@@ -11,8 +11,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import PersonIcon from '@mui/icons-material/Person';
 import Typography from '@mui/material/Typography';
-import { blue } from '@mui/material/colors';
-import { useSelector } from 'react-redux';
+import {blue} from '@mui/material/colors';
+import {useSelector} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
 
 
 function SimpleDialog(props) {
@@ -27,20 +28,19 @@ function SimpleDialog(props) {
         onClose(value);
     };
 
-    return (<Dialog onClose={handleClose} open={open}>
-        <DialogTitle>Set backup account</DialogTitle>
-        <List sx={{ pt: 0 }}>
-            {walletList.length> 0 && walletList.map((wallet) => (
-                <ListItem disableGutters>
-                    <ListItemButton onClick={() => handleListItemClick(wallet)} key={wallet.id}>
-                        <ListItemAvatar>
-                            <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
-                                <PersonIcon />
-                            </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText primary={wallet.name} />
-                    </ListItemButton>
-                </ListItem>))}
+    return (<Dialog onClose={handleClose}  open={open}>
+        <DialogTitle>Excluded from Total</DialogTitle>
+        <List sx={{pt: 0}}>
+            {walletList.length > 0 && walletList.map((wallet) => (<ListItem disableGutters>
+                <ListItemButton onClick={() => handleListItemClick(wallet)} key={wallet.id}>
+                    <ListItemAvatar>
+                        <Avatar sx={{bgcolor: blue[100], color: blue[600]}}>
+                            <PersonIcon/>
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={wallet.name}/>
+                </ListItemButton>
+            </ListItem>))}
         </List>
     </Dialog>);
 }
@@ -51,9 +51,12 @@ SimpleDialog.propTypes = {
 
 export default function SelectWallets() {
     const [open, setOpen] = React.useState(false);
-    const walletSelect = useSelector(state => state.wallet.walletSelect)
-    const [selectedName, setSelectedName] = React.useState(walletSelect[0].name)
-    const [selectedMoney, setSelectedMoney] = React.useState(walletSelect[0].amountOfMoney);
+    const walletSelect = useSelector(state => state.wallet.walletSelect);
+    const allWallet = useSelector(state => state.wallet.allWallet)
+    const [selectedName, setSelectedName] = React.useState(allWallet[0].name)
+    const [selectedMoney, setSelectedMoney] = React.useState(allWallet[0].amountOfMoney);
+    const user = useSelector(state => state.auth.login.currentUser);
+
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -70,7 +73,7 @@ export default function SelectWallets() {
 
     return (<div>
 
-        <Button sx={{ color: "black", justifyContent: "left", textTransform: 'lowercase' }} onClick={handleClickOpen}>
+        <Button sx={{color: "black", justifyContent: "left", textTransform: 'lowercase'}} onClick={handleClickOpen}>
             {selectedName}
         </Button>
         <Typography variant="subtitle1" component="div">
