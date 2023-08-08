@@ -10,6 +10,7 @@ import AnalyticsIcon from '@mui/icons-material/Analytics';
 import TollIcon from '@mui/icons-material/Toll';
 
 import { useSelector } from 'react-redux';
+import Slide from "@mui/material/Slide";
 
 
 export default function Sidebar() {
@@ -37,6 +38,7 @@ export default function Sidebar() {
 
         </div>);
     return (
+        <Slide direction="right" in={true} mountOnEnter unmountOnExit>
         <div className="sidebar">
             <div>
 
@@ -72,5 +74,6 @@ export default function Sidebar() {
             </div>
 
         </div>
+        </Slide>
     )
 }

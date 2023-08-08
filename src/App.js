@@ -13,6 +13,8 @@ function App() {
             <Route path={"/login"} element={<LoginOrRegister props={true}/>}/>
             <Route path={"/register"} element={<LoginOrRegister props={false}/>}/>
             <Route path={"/my-wallets"} element={user ? <MyWallet/>: <Navigate to='/login'/>}></Route>
+            <Route path={"*"} element={user ? <Navigate to='/login'/>: <Navigate to='/'/>}/>
+
         </Routes>
     );
 }
