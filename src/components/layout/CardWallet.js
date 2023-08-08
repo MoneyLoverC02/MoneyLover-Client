@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import ClearIcon from "@mui/icons-material/Clear";
 import ModalDeleteWallets from './ModalDeleteWallets';
 import { WalletService } from '../../services/wallet.service';
-import { setWalletSelect, selectIcon, selectCurrency } from '../../redux/walletSlice';
+import { setWalletSelect} from '../../redux/walletSlice';
 import UpdateModal from '../modals/UpdateModal';
 import NestedModal from '../modals/NestedModal';
 import { useNavigate } from 'react-router-dom';
@@ -20,11 +20,10 @@ export default function CardWallet() {
     const user = useSelector(state => state.auth.login.currentUser);
     const allWallet = useSelector(state => state.wallet.allWallet);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
-    const [selectedWalletID, setSelectedWalletID] = React.useState(walletSelect?.id);
+
     const handleOpenSlide = (idWallet) => {
         WalletService.getInfoWallet(user.id, idWallet).then(res => {
             dispatch(setWalletSelect(res.data.wallet))
-            setSelectedWalletID(idWallet);
             setChecked(true);
         })
     };
@@ -37,8 +36,6 @@ export default function CardWallet() {
     }
 
     const handleOpenFormCreate = () => {
-        dispatch(selectIcon({ id: 1, icon: 'https://static.moneylover.me/img/icon/icon.png' }));
-        dispatch(selectCurrency(null))
         setOpenFormCreate(true)
     }
     const handleCloseFormCreate = () => {
@@ -94,7 +91,7 @@ export default function CardWallet() {
                                         color: "black",
                                         height: "40px",
                                     }}>
-                                        <p style={{ padding: "5px 10px" }}>Ví vừa tạo</p>
+                                        <p style={{ padding: "5px 10px" }}>Ví của tôi</p>
                                     </Box>
                                     <>
                                         {allWallet.length > 0 && allWallet.map(wallet => (
@@ -130,7 +127,7 @@ export default function CardWallet() {
                                                     sx={{ float: "left" }} /></Button>
                                                 <b style={{ marginLeft: "30px" }}>Wallet details</b>
                                                 <Stack direction="row" sx={{ float: "right" }} spacing={2}>
-                                                    <ModalDeleteWallets sx={{ height: "402px" }} idWallet={selectedWalletID} onClose={handleCloseSlide} />
+                                                    <ModalDeleteWallets sx={{ height: "402px" }} idWallet={walletSelect.id} onClose={handleCloseSlide} />
                                                 </Stack>
                                             </div>
 
@@ -143,7 +140,7 @@ export default function CardWallet() {
                                                     style={{
                                                         width: "40px", height: "40px", margin: "15px", float: "left"
                                                     }} alt="" />
-                                                <div style={{ float: "left", margin: "15px" }}>
+                                                <div style={{ textAlign: "left", margin: "15px" }}>
                                                     <span className='lowercase'>{walletSelect.name}</span><br />
                                                     <span className='lowercase'>{walletSelect.currency.sign} </span>
                                                     <span>{walletSelect.amountOfMoney} </span>
@@ -166,7 +163,7 @@ export default function CardWallet() {
                                 </Grid>
                             </Slide>}
                         </Grid>
-                        <UpdateModal idWalletUpdate={selectedWalletID} isOpen={openFormUpdate} onClose={handleCloseFormUpdate} onSubmit={handleSubmitFormUpdate} />
+                        <UpdateModal isOpen={openFormUpdate} onClose={handleCloseFormUpdate} onSubmit={handleSubmitFormUpdate} />
                         <NestedModal isOpen={openFormCreate} onClose={handleCloseFormCreate} onSubmit={handleSubmitFormCreate} />
                     </Box>
                 </Container>

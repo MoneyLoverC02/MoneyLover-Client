@@ -20,12 +20,18 @@ const style = {
 export default function NestedModal({isOpen, onClose, onSubmit}) {
   const [dataInput, setDataInput] = React.useState({ name: '', amountOfMoney: null });
   const [isValid, setIsValid] = React.useState(false);
-  const iconSelect = useSelector(state => state.wallet.iconSelect);
-  const currencySelect = useSelector(state => state.wallet.currencySelect);
+  const [currencySelect, setCurrencySelect] = React.useState(null);
+  const [iconSelect, setIconSelect] = React.useState({id: 1, icon: 'https://static.moneylover.me/img/icon/icon.png'});
   const user = useSelector(state => state.auth.login.currentUser);
   const allWallet = useSelector(state => state.wallet.allWallet);
   const dispatch = useDispatch();
 
+  const handleSelectIcon = (icon) => {
+    setIconSelect(icon);
+}
+  const handleSelectCurrency = (currency) => {
+      setCurrencySelect(currency);
+  }
   const handleFocus = () => {
     document.getElementById("note").focus();
   };
@@ -42,7 +48,7 @@ export default function NestedModal({isOpen, onClose, onSubmit}) {
 
   const handleSubmit = () => {
     let name = dataInput.name;
-    let iconID = iconSelect?.id;
+    let iconID = iconSelect.id;
     let currencyID = currencySelect?.id;
     let amountOfMoney = dataInput.amountOfMoney;
     WalletService.createWallet({ name, iconID, currencyID, amountOfMoney }, user.id).then((res) => {
@@ -70,7 +76,7 @@ export default function NestedModal({isOpen, onClose, onSubmit}) {
           <div className='p-6'>
             <div className='flex item-center justify-center'>
               <div className='w-1/3'>
-                <IconModal />
+                <IconModal selectIcon={handleSelectIcon} />
               </div>
               <div onClick={handleFocus} className='mb-4 py-[5px] px-[15px] border w-full border-gray-300 rounded-lg hover:border-gray-500 hover: cursor-pointer'>
                 <p className='text-[12px] pb-[3px] text-slate-400'>Wallet name</p>
@@ -81,7 +87,7 @@ export default function NestedModal({isOpen, onClose, onSubmit}) {
             </div>
             <div className='flex items-center justify-center mb-6'>
               <div className='w-64 mr-4 py-1 pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500 hover:cursor-pointer'>
-                <CurrencyModal />
+                <CurrencyModal selectCurrency={handleSelectCurrency} />
               </div>
               <div className='w-44 py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
                 <p className='text-[12px] pb-[3px] text-slate-400'>Initial Balance</p>
