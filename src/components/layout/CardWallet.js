@@ -60,8 +60,6 @@ export default function CardWallet() {
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked)
-        console.log(123)
-
     };
 
     return (<div>
@@ -137,6 +135,7 @@ export default function CardWallet() {
                                                 <ModalDeleteWallets sx={{height: "402px"}}
                                                                     idWallet={walletSelect.id}
                                                                     onClose={handleCloseSlide}/>
+                                                <Button color="success" onClick={handleOpenFormUpdate}><b>EDIT</b></Button>
                                             </Stack>
                                         </div>
 

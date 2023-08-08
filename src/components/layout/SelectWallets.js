@@ -17,8 +17,8 @@ import {useNavigate} from 'react-router-dom';
 
 
 function SimpleDialog(props) {
-    const {onClose, selectedValue, open,title} = props;
-    const walletList = useSelector(state => state.wallet.allWallet)
+    const { onClose, selectedValue, open } = props;
+    const walletList = useSelector(state => state.wallet.allWallet);
     const user = useSelector(state => state.auth.login.currentUser);
 
     const handleClose = () => {
@@ -57,7 +57,7 @@ export default function SelectWallets() {
     const walletSelect = useSelector(state => state.wallet.walletSelect)
     const [selectedName, setSelectedName] = React.useState(allWallet[0].name)
     const [selectedMoney, setSelectedMoney] = React.useState(allWallet[0].amountOfMoney);
-    const user = useSelector(state => state.auth.login.currentUser);
+    // const user = useSelector(state => state.auth.login.currentUser);
 
 
     const handleClickOpen = () => {
