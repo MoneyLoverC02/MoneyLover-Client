@@ -71,4 +71,13 @@ export class WalletService {
             }
         )
     }
+    static tranferMoney(userID, walletSelectID, data) {
+        return axios.post(`http://localhost:4000/api/users/${userID}/wallets/${walletSelectID}/transfer`, data,
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+        )
+    }
 }
