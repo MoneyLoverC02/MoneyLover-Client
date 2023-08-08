@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import ClearIcon from "@mui/icons-material/Clear";
 import ModalDeleteWallets from './ModalDeleteWallets';
 import { WalletService } from '../../services/wallet.service';
-import { setWalletSelect} from '../../redux/walletSlice';
+import { setWalletSelect } from '../../redux/walletSlice';
 import UpdateModal from '../modals/UpdateModal';
 import NestedModal from '../modals/NestedModal';
 import { useNavigate } from 'react-router-dom';
@@ -122,12 +122,15 @@ export default function CardWallet() {
                                             height: "50px",
                                             borderBottom: "1px solid #ececec"
                                         }}>
-                                            <div style={{ padding: "5px 10px", }}><Button sx={{ color: "black" }}
-                                                onClick={handleCloseSlide}><ClearIcon
-                                                    sx={{ float: "left" }} /></Button>
+                                            <div style={{ padding: "5px 10px", }}>
+                                                <Button sx={{ color: "black" }}
+                                                    onClick={handleCloseSlide}><ClearIcon
+                                                        sx={{ float: "left" }} />
+                                                </Button>
                                                 <b style={{ marginLeft: "30px" }}>Wallet details</b>
                                                 <Stack direction="row" sx={{ float: "right" }} spacing={2}>
                                                     <ModalDeleteWallets sx={{ height: "402px" }} idWallet={walletSelect.id} onClose={handleCloseSlide} />
+                                                    <Button onClick={handleOpenFormUpdate} color="success">EDIT</Button>
                                                 </Stack>
                                             </div>
 
@@ -156,8 +159,8 @@ export default function CardWallet() {
                                                 </Grid>
                                             </Container>
                                         </div>
-                                        <Button onClick={handleOpenFormUpdate} fullWidth sx={{ borderTop: "1px solid #ececec" }}>
-                                            <Grid item xs={12}>ĐIỀU CHỈNH SỐ DƯ</Grid>
+                                        <Button fullWidth sx={{ borderTop: "1px solid #ececec" }}>
+                                            <Grid item xs={12}>TRANFER MONEY</Grid>
                                         </Button>
                                     </Card>
                                 </Grid>

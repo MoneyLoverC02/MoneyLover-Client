@@ -13,13 +13,11 @@ import PersonIcon from '@mui/icons-material/Person';
 import Typography from '@mui/material/Typography';
 import { blue } from '@mui/material/colors';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 
 function SimpleDialog(props) {
     const { onClose, selectedValue, open } = props;
     const walletList = useSelector(state => state.wallet.allWallet);
-    const user = useSelector(state => state.auth.login.currentUser);
 
     const handleClose = () => {
         onClose(selectedValue);
@@ -52,13 +50,10 @@ SimpleDialog.propTypes = {
 };
 
 export default function SelectWallets() {
-    const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
-    const allWallet = useSelector(state => state.wallet.allWallet);
     const walletSelect = useSelector(state => state.wallet.walletSelect)
-    const [selectedName, setSelectedName] = React.useState(walletSelect?.name)
-    const [selectedMoney, setSelectedMoney] = React.useState(walletSelect?.amountOfMoney);
-    const user = useSelector(state => state.auth.login.currentUser);
+    const [selectedName, setSelectedName] = React.useState(walletSelect[0].name)
+    const [selectedMoney, setSelectedMoney] = React.useState(walletSelect[0].amountOfMoney);
 
     const handleClickOpen = () => {
         setOpen(true);
