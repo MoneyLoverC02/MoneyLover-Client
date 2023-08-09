@@ -9,7 +9,6 @@
   top: 0px;
   left: 0px;
   right: 0px;
-
 }
  .App {
   text-align: center;
@@ -52,12 +51,12 @@
 
 
 /* Add Wallet & Login/Register*/
-.sidebar{
+.sidebar {
   background-color: white;
   padding: 10px;
   width: 90px;
   height: 100vh;
-  box-shadow: 2px 0 rgb(201,201,201,1);
+  box-shadow: 2px 0 rgb(201, 201, 201, 1);
   text-align: center;
 }
 .inputAdd input:focus {
@@ -71,6 +70,7 @@
   opacity: 0.4;
   /* Firefox */
 }
+
 
 .wrap-text-icon {
   display: flex;
