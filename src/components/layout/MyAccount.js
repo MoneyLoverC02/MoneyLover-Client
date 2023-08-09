@@ -5,12 +5,12 @@ import Modal from '@mui/material/Modal';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ClearIcon from '@mui/icons-material/Clear';
 import {Avatar, Stack} from "@mui/material";
-import {Edit} from "@mui/icons-material";
 import PersonIcon from '@mui/icons-material/Person';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 import ModalDeleteUser from "../modals/ModalDeleteUser";
+import ModalUpdateUser from '../modals/ModalUpdateUser';
 
 const style = {
     position: 'absolute',
@@ -34,11 +34,8 @@ export default function MyAccount() {
     const handleClose = () => setOpen(false);
     const handleSignOut = () => {
         localStorage.clear();
-        dispatch(logout())
+        dispatch(logout)
         navigate('/login');
-    }
-    const handleClickEdit = () =>{
-
     }
 
     return (
@@ -76,10 +73,7 @@ export default function MyAccount() {
                     <p style={{color: "black", textAlign: "center"}}>{user.email} </p>
                     <div style={{marginTop:"100px"}}>
                         <Stack direction="row" sx={{float: "left"}} spacing={2}>
-                            <Button variant="outlined" startIcon={<Edit/>} onClick={handleClickEdit}>
-                                Edit
-                            </Button>
-
+                        <ModalUpdateUser/>
                         </Stack>
                         <Stack direction="row-reverse" spacing={2}>
                             <ModalDeleteUser sx={{ height: "402px" }}/>

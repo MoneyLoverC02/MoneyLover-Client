@@ -19,13 +19,12 @@ export class UserService {
                 }
             })
     }
-
-    // static updateUser(userID, data){
-    //     return axios.put(`http://localhost:4000/api/users/${userID}`),data,
-    //         {
-    //             headers: {
-    //                 'Authorization': `Bearer ${token}`
-    //             }
-    //         }
-    // }
+    static async updateUser(userID, token, data) {
+        return await axios.put(`http://localhost:4000/api/users/${userID}`, data,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+    }
 }
