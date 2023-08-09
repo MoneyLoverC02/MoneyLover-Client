@@ -1,5 +1,4 @@
 import axios from "axios";
-let token = localStorage.getItem('token');
 
 export class WalletService {
     static async getIcon(accessToken) {
@@ -18,20 +17,20 @@ export class WalletService {
             }
         }
     )}
-    static async createWallet(data, userID) {
+    static async createWallet(data, userID, accessToken) {
         return await axios.post(`http://localhost:4000/api/users/${userID}/wallets`, data,
             {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${accessToken}`
                 }
             }
         )
     }
-    static async createDetailWallet(data) {
+    static async createDetailWallet(data, accessToken) {
         return await axios.post('http://localhost:4000/api/users/walletRoles', data,
             {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${accessToken}`
                 }
             }
         )
@@ -55,29 +54,29 @@ export class WalletService {
         )
     }
 
-    static async updateWallet(userID, walletID, data) {
+    static async updateWallet(userID, walletID, data, accessToken) {
         return await axios.put(`http://localhost:4000/api/users/${userID}/wallets/${walletID}`, data,
             {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${accessToken}`
                 }
             }
         )
     }
-    static async deleteWallet(userID, walletID) {
+    static async deleteWallet(userID, walletID, accessToken) {
         return await axios.delete(`http://localhost:4000/api/users/${userID}/wallets/${walletID}`,
             {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${accessToken}`
                 }
             }
         )
     }
-    static tranferMoney(userID, walletSelectID, data) {
+    static tranferMoney(userID, walletSelectID, data, accessToken) {
         return axios.post(`http://localhost:4000/api/users/${userID}/wallets/${walletSelectID}/transfer`, data,
         {
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${accessToken}`
             }
         }
         )

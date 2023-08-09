@@ -23,7 +23,7 @@ export default function ModalDeleteWallets({ idWallet, onClose }) {
     };
     const handleDelete = () => {
         const token = localStorage.getItem('token')
-        WalletService.deleteWallet(user.id, idWallet).then((res) => {
+        WalletService.deleteWallet(user.id, idWallet, token).then((res) => {
             WalletService.getAllWallet(user.id, token).then(res => {
                 let walletList = res.data.walletList;
                 dispatch(getAllWallet(walletList));

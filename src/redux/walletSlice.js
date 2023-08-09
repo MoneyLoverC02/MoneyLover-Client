@@ -22,10 +22,16 @@ export const walletSlice = createSlice({
         },
         getAllWallet: (state, action) => {
             state.allWallet = action.payload
+        },
+        walletLogut: (state) => {
+            state.icons = [];
+            state.currencies = [];
+            state.walletSelect = null;
+            state.allWallet = [];
         }
     }
 })
 
-export const { getIcon, getCurrencies, setWalletSelect, getAllWallet } = walletSlice.actions;
+export const { getIcon, getCurrencies, setWalletSelect, getAllWallet, walletLogut } = walletSlice.actions;
 export default walletSlice.reducer;
 

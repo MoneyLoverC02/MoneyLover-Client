@@ -26,9 +26,9 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
     const [moneyInput, setMoneyInput] = React.useState(0);
     const [checkMoney, setCheckMoney] = React.useState(true);
     const dispatch = useDispatch();
+    let token = localStorage.getItem('token')
 
     React.useEffect(() => {
-        let token = localStorage.getItem('token')
         WalletService.getAllWallet(user.id, token).then(res => {
             dispatch(getAllWallet(res.data.walletList));
         })
@@ -52,8 +52,7 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
     const handleSubmit = () => {
         let walletIDReceived = walletReceived.id;
         let money = +moneyInput;
-        let token = localStorage.getItem('token');
-        WalletService.tranferMoney(user.id, walletSelect.id, { walletIDReceived, money }).then((res) => {
+        WalletService.tranferMoney(user.id, walletSelect.id, { walletIDReceived, money }, token).then((res) => {
             if (res.data.message === 'Money transfer success!') {
                 setMoneyInput(0);
                 let walletTranfer = res.data.walletTransfer;
