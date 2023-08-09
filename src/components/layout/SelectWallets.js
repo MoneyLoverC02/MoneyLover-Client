@@ -13,9 +13,6 @@ import PersonIcon from '@mui/icons-material/Person';
 import Typography from '@mui/material/Typography';
 import {blue} from '@mui/material/colors';
 import {useSelector} from 'react-redux';
-import {useNavigate} from 'react-router-dom';
-
-
 function SimpleDialog(props) {
     const { onClose, selectedValue, open } = props;
     const walletList = useSelector(state => state.wallet.allWallet);
