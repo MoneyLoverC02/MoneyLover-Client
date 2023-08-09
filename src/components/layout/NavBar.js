@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Slide } from "@mui/material";
+import { Button, IconButton, Slide } from "@mui/material";
 import { Search } from '@mui/icons-material';
 import SelectWallets from "./SelectWallets";
 

@@ -6,12 +6,10 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ClearIcon from '@mui/icons-material/Clear';
 import {Avatar, Stack} from "@mui/material";
 import {Edit} from "@mui/icons-material";
-import DeleteIcon from '@mui/icons-material/Delete';
 import PersonIcon from '@mui/icons-material/Person';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/authSlice';
 import { useNavigate } from 'react-router-dom';
-import { setWalletSelect } from '../../redux/walletSlice';
 import ModalDeleteUser from "../modals/ModalDeleteUser";
 
 const style = {
@@ -35,9 +33,8 @@ export default function MyAccount() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const handleSignOut = () => {
-        localStorage.removeItem('token');
-        dispatch(setWalletSelect(null));
-        dispatch(logout);
+        localStorage.clear();
+        dispatch(logout());
         navigate('/login');
     }
     const handleClickEdit = () =>{

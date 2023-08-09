@@ -28,8 +28,9 @@ export default function CardWallet() {
     const [isChecked, setIsChecked] = useState(false);
 
     const handleOpenSlide = (idWallet) => {
-        WalletService.getInfoWallet(user.id, idWallet).then(res => {
-            dispatch(setWalletSelect(res.data.wallet))
+        const token = localStorage.getItem('token');
+        WalletService.getInfoWallet(user.id, idWallet, token).then(res => {
+            dispatch(setWalletSelect(res.data.wallet));
             setChecked(true);
         })
     };
@@ -38,40 +39,43 @@ export default function CardWallet() {
         setChecked(false);
     };
     const handleClose = () => {
-        navigate('/')
+        navigate('/');
     }
 
     const handleOpenFormCreate = () => {
-        setOpenFormCreate(true)
+        setOpenFormCreate(true);
     }
     const handleCloseFormCreate = () => {
-        setOpenFormCreate(false)
+        setOpenFormCreate(false);
     }
     const handleSubmitFormCreate = () => {
-        handleCloseFormCreate()
+        handleCloseFormCreate();
+        setChecked(true);
     }
     const handleOpenFormUpdate = () => {
-        setOpenFormUpdate(true)
+        setOpenFormUpdate(true);
     }
     const handleCloseFormUpdate = () => {
-        setOpenFormUpdate(false)
+        setOpenFormUpdate(false);
     }
     const handleSubmitFormUpdate = () => {
-        handleCloseFormUpdate()
+        handleCloseFormUpdate();
+        setChecked(true);
     }
 
     const handleCheckboxChange = () => {
-        setIsChecked(!isChecked)
+        setIsChecked(!isChecked);
 
     };
     const handleOpenFormTranfer = () => {
-        setOpenFormTranfer(true)
+        setOpenFormTranfer(true);
     }
     const handleCloseFormTranfer = () => {
-        setOpenFormTranfer(false)
+        setOpenFormTranfer(false);
     }
     const handleSubmitFormTranfer = () => {
-        handleCloseFormTranfer()
+        handleCloseFormTranfer();
+        setChecked(true);
     }
 
     return (<div>
@@ -113,7 +117,7 @@ export default function CardWallet() {
                                 <>
                                     {allWallet.length > 0 && allWallet.map(wallet => (
                                         <Button onClick={() => handleOpenSlide(wallet.id)} variant="outlined"
-                                            fullWidth="575px" color="success"
+                                            fullWidth color="success"
                                             sx={{ color: "black", justifyContent: "left", textAlign: "left" }}>
                                             <div>
                                                 <img src={wallet.icon.icon}
@@ -123,7 +127,7 @@ export default function CardWallet() {
                                                 <div style={{ float: "left", margin: "15px" }}>
                                                     <span className='lowercase'>{wallet.name}</span><br />
                                                     <span className='lowercase'>{wallet.currency.sign} </span>
-                                                    <span>{wallet.amountOfMoney} </span>
+                                                    <span>{(wallet.amountOfMoney)} </span>
                                                 </div>
                                             </div>
                                         </Button>))}
@@ -178,7 +182,7 @@ export default function CardWallet() {
                                     </div>
                                     {isChecked === false ? (
                                         <>
-                                            <Button onClick={handleOpenFormTranfer} fullWidth sx={{ borderTop: "1px solid #ececec", color: "green" }}>
+                                            <Button disabled={allWallet.length < 2} onClick={handleOpenFormTranfer} fullWidth sx={{ borderTop: "1px solid #ececec", color: "green" }}>
                                                 <Grid item xs={12}>
                                                     <b>TRANFER MONEY</b>
                                                 </Grid>

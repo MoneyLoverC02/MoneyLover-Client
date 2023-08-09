@@ -10,8 +10,8 @@ function App() {
     return (
         <Routes>
             <Route path={"/"} element={user ? <HomePage/>: <Navigate to='/login'/>}/>
-            <Route path={"/login"} element={<LoginOrRegister props={true}/>}/>
-            <Route path={"/register"} element={<LoginOrRegister props={false}/>}/>
+            <Route path={"/login"} element={!user ? <LoginOrRegister props={true}/> : <Navigate to='/'/>}/>
+            <Route path={"/register"} element={!user ? <LoginOrRegister props={false}/> : <Navigate to='/'/>}/>
             <Route path={"/my-wallets"} element={user ? <MyWallet/>: <Navigate to='/login'/>}></Route>
             <Route path={"*"} element={user ? <Navigate to='/login'/>: <Navigate to='/'/>}/>
 

@@ -1,5 +1,6 @@
 import axios from "axios";
 let token = localStorage.getItem('token');
+
 export class WalletService {
     static async getIcon(accessToken) {
         return await axios.get('http://localhost:4000/api/iconWallets',
@@ -44,15 +45,16 @@ export class WalletService {
             }
         )
     }
-    static async getInfoWallet(userID, walletID) {
+    static async getInfoWallet(userID, walletID, accessToken) {
         return await axios.get(`http://localhost:4000/api/users/${userID}/wallets/${walletID}`,
             {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${accessToken}`
                 }
             }
         )
     }
+
     static async updateWallet(userID, walletID, data) {
         return await axios.put(`http://localhost:4000/api/users/${userID}/wallets/${walletID}`, data,
             {

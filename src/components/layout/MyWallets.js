@@ -1,15 +1,8 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import Slide from '@mui/material/Slide';
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useNavigate } from 'react-router-dom';
-
-
-
-// const Transition = React.forwardRef(function Transition(props, ref) {
-//     return <Slide direction="down" ref={ref} {...props} />;
-// });
 
 export default function MyWallets() {
     const navigate = useNavigate();
