@@ -7,8 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { WalletService } from "../../services/wallet.service";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllWallet} from "../../redux/walletSlice";
-
+import { getAllWallet, setWalletSelect} from "../../redux/walletSlice";
 
 export default function ModalDeleteWallets({ idWallet, onClose }) {
     const dispatch = useDispatch();
@@ -26,7 +25,9 @@ export default function ModalDeleteWallets({ idWallet, onClose }) {
         const token = localStorage.getItem('token')
         WalletService.deleteWallet(user.id, idWallet).then((res) => {
             WalletService.getAllWallet(user.id, token).then(res => {
-                dispatch(getAllWallet(res.data.walletList));
+                let walletList = res.data.walletList;
+                dispatch(getAllWallet(walletList));
+                dispatch(setWalletSelect(walletList[0]))
                 handleClose();
                 onClose();
             }).catch(err => console.log(err.message));

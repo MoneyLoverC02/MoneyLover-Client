@@ -72,13 +72,19 @@ export default function UpdateModal({ isOpen, onClose, onSubmit }) {
         let amountOfMoney = dataInput.amountOfMoney;
         let token = localStorage.getItem('token')
         WalletService.updateWallet(user.id, walletSelect.id, { name, iconID, currencyID, amountOfMoney }).then((res) => {
-            let updateWallet = res.data.updateWallet;
+            let updatedWallet = res.data.updatedWallet[0];
+            dispatch(setWalletSelect(updatedWallet));
             WalletService.getAllWallet(user.id, token).then(res => {
-                dispatch(setWalletSelect(updateWallet));
-                dispatch(getAllWallet(res.data.walletList));
+                let walletList = res.data.walletList;
+                dispatch(getAllWallet(walletList));
                 onSubmit();
             })
         }).catch(err => console.log(err.message));
+    }
+    const handleCancel = () => {
+        setCheckName(true);
+        setDataInput({name:walletSelect?.name, amountOfMoney:walletSelect?.amountOfMoney})
+        onSubmit()
     }
 
     return (
@@ -124,7 +130,8 @@ export default function UpdateModal({ isOpen, onClose, onSubmit }) {
                         </div>
                     </div>
                     <div className='py-[14px] px-6 flex justify-end'>
-                        <button type='button' onClick={handleSubmit} className='bg-lightgreen text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400' disabled={!isValid || !checkName}>Save</button>
+                        <button type='button' onClick={handleCancel} className='bg-slate-400 text-white text-sm font-medium py-2 px-8 uppercase rounded mr-3'>Cancel</button>
+                        <button type='button' onClick={handleSubmit} className='bg-lightgreen hover:opacity-80 text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400' disabled={!isValid || !checkName}>Save</button>
                     </div>
                 </Box>
             </Modal>

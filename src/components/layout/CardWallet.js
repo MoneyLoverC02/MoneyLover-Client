@@ -3,7 +3,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
     AppBar, Box, Card, Checkbox, Container, FormControlLabel, Grid, IconButton, Slide, Stack, Toolbar, Typography
 } from "@mui/material";
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Button from '@mui/material/Button';
 import ClearIcon from "@mui/icons-material/Clear";
 import ModalDeleteWallets from './ModalDeleteWallets';
@@ -11,8 +11,8 @@ import {WalletService} from '../../services/wallet.service';
 import {setWalletSelect} from '../../redux/walletSlice';
 import UpdateModal from '../modals/UpdateModal';
 import NestedModal from '../modals/NestedModal';
-import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
+import {useNavigate} from 'react-router-dom';
+import {useState} from "react";
 import TranferModal from '../modals/TranferModal';
 
 export default function CardWallet() {
@@ -27,8 +27,9 @@ export default function CardWallet() {
     const walletSelect = useSelector(state => state.wallet.walletSelect);
 
     const handleOpenSlide = (idWallet) => {
-        WalletService.getInfoWallet(user.id, idWallet).then(res => {
-            dispatch(setWalletSelect(res.data.wallet))
+        const token = localStorage.getItem('token');
+        WalletService.getInfoWallet(user.id, idWallet, token).then(res => {
+            dispatch(setWalletSelect(res.data.wallet));
             setChecked(true);
         })
     };
@@ -37,48 +38,55 @@ export default function CardWallet() {
         setChecked(false);
     };
     const handleClose = () => {
-        navigate('/')
+        navigate('/');
     }
 
     const handleOpenFormCreate = () => {
-        setOpenFormCreate(true)
+        setOpenFormCreate(true);
     }
     const handleCloseFormCreate = () => {
-        setOpenFormCreate(false)
+        setOpenFormCreate(false);
     }
     const handleSubmitFormCreate = () => {
-        handleCloseFormCreate()
+        handleCloseFormCreate();
+        setChecked(true);
+        console.log(walletSelect.walletRoles)
     }
     const handleOpenFormUpdate = () => {
-        setOpenFormUpdate(true)
+        setOpenFormUpdate(true);
     }
     const handleCloseFormUpdate = () => {
-        setOpenFormUpdate(false)
+        setOpenFormUpdate(false);
     }
     const handleSubmitFormUpdate = () => {
-        handleCloseFormUpdate()
+        handleCloseFormUpdate();
+        setChecked(true);
     }
 
-    const handleCheckboxChange =  () => {
-         WalletService.archivedWallet(user.id,walletSelect.id).then(()=>{
-              handleOpenSlide(walletSelect.id)
+    const handleCheckboxChange = () => {
+        let token = localStorage.getItem('token');
+        WalletService.archivedWallet(user.id, walletSelect.id, token).then(() => {
+            handleOpenSlide(walletSelect.id)
         })
 
     };
+
+
     const handleOpenFormTranfer = () => {
-        setOpenFormTranfer(true)
+        setOpenFormTranfer(true);
     }
     const handleCloseFormTranfer = () => {
-        setOpenFormTranfer(false)
+        setOpenFormTranfer(false);
     }
     const handleSubmitFormTranfer = () => {
-        handleCloseFormTranfer()
+        handleCloseFormTranfer();
+        setChecked(true);
     }
 
     return (<div>
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
             <div>
-                <AppBar sx={{ position: 'relative', backgroundColor: "white", color: "black" }}>
+                <AppBar sx={{position: 'relative', backgroundColor: "white", color: "black"}}>
                     <Toolbar>
                         <IconButton
                             edge="start"
@@ -86,13 +94,13 @@ export default function CardWallet() {
                             onClick={handleClose}
                             aria-label="close"
                         >
-                            <ArrowBackIcon />
+                            <ArrowBackIcon/>
                         </IconButton>
-                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                        <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
                             My Wallets
                         </Typography>
-                        <Button onClick={handleOpenFormCreate} variant="contained" sx={{ backgroundColor: "#1aa333" }}
-                            disableElevation>
+                        <Button onClick={handleOpenFormCreate} variant="contained" sx={{backgroundColor: "#1aa333"}}
+                                disableElevation>
                             <b>ADD WALLET</b>
                         </Button>
                     </Toolbar>
@@ -101,11 +109,11 @@ export default function CardWallet() {
         </Slide>
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
             <Container>
-                <Box sx={{ margin: " 50px auto" }}>
+                <Box sx={{margin: " 50px auto"}}>
 
                     <Grid container spacing={2}>
                         <Grid item xs={4}>
-                            <Card sx={{ maxWidth: 578 }} variant="outlined">
+                            <Card sx={{maxWidth: 578}} variant="outlined">
                                 <Box sx={{
                                     position: 'relative', backgroundColor: "#f4f4f4", color: "black", height: "40px",
                                 }}>
@@ -114,17 +122,17 @@ export default function CardWallet() {
                                 <>
                                     {allWallet.length > 0 && allWallet.map(wallet => (
                                         <Button onClick={() => handleOpenSlide(wallet.id)} variant="outlined"
-                                            fullWidth="575px" color="success"
-                                            sx={{ color: "black", justifyContent: "left", textAlign: "left" }}>
+                                                fullWidth color="success"
+                                                sx={{color: "black", justifyContent: "left", textAlign: "left"}}>
                                             <div>
                                                 <img src={wallet.icon.icon}
-                                                    style={{
-                                                        width: "40px", height: "40px", margin: "15px", float: "left"
-                                                    }} alt="" />
-                                                <div style={{ float: "left", margin: "15px" }}>
-                                                    <span className='lowercase'>{wallet.name}</span><br />
+                                                     style={{
+                                                         width: "40px", height: "40px", margin: "15px", float: "left"
+                                                     }} alt=""/>
+                                                <div style={{float: "left", margin: "15px"}}>
+                                                    <span className='lowercase'>{wallet.name}</span><br/>
                                                     <span className='lowercase'>{wallet.currency.sign} </span>
-                                                    <span>{wallet.amountOfMoney} </span>
+                                                    <span>{(wallet.amountOfMoney)} </span>
                                                 </div>
                                             </div>
                                         </Button>))}
@@ -144,7 +152,7 @@ export default function CardWallet() {
                                                                                     onClick={handleCloseSlide}><ClearIcon
                                             sx={{float: "left"}}/></Button>
                                             <b style={{marginLeft: "30px"}}>Wallet details</b>
-                                            {walletSelect.walletRoles[0].archived === false ? (
+                                            {walletSelect.walletRoles && walletSelect?.walletRoles[0].archived === false ? (
                                                 <Stack direction="row" sx={{float: "right"}} spacing={2}>
                                                     <ModalDeleteWallets sx={{height: "402px"}}
                                                                         idWallet={walletSelect.id}
@@ -159,31 +167,27 @@ export default function CardWallet() {
                                         </div>
                                     </Box>
                                     <div fullWidth color="success"
-                                        sx={{ color: "black", justifyContent: "left", textAlign: "left" }}>
+                                         sx={{color: "black", justifyContent: "left", textAlign: "left"}}>
                                         <div>
                                             <img src={walletSelect.icon.icon}
-                                                style={{
-                                                    width: "40px", height: "40px", margin: "15px", float: "left"
-                                                }} alt="" />
-                                            <div style={{ textAlign: "left", margin: "15px" }}>
-                                                <span className='lowercase'>{walletSelect.name}</span><br />
+                                                 style={{
+                                                     width: "40px", height: "40px", margin: "15px", float: "left"
+                                                 }} alt=""/>
+                                            <div style={{textAlign: "left", margin: "15px"}}>
+                                                <span className='lowercase'>{walletSelect.name}</span><br/>
                                                 <span className='lowercase'>{walletSelect.currency.sign} </span>
                                                 <span>{walletSelect.amountOfMoney} </span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div style={{ borderTop: "1px solid #ececec" }}>
-                                        <Container>
-                                            <Grid icon xs={4}>
-                                                <FormControlLabel
-                                                    control={<Checkbox style={{color: '#1aa333'}}
-                                                                       checked={walletSelect.walletRoles[0].archived}
-                                                                       onChange={handleCheckboxChange}/>}
-                                                    label="Archived"/>
+                                    {walletSelect.walletRoles && walletSelect?.walletRoles[0].archived === false ? (<>
+                                        <Button sx={{borderTop: "1px solid #ececec", color: "green"}}
+                                                fullWidth
+                                                onClick={handleCheckboxChange}>
+                                            <Grid item xs={12}>
+                                                <b>Archived</b>
                                             </Grid>
-                                        </Container>
-                                    </div>
-                                    {walletSelect.walletRoles[0].archived === false ? (<>
+                                        </Button>
                                         <Button onClick={handleOpenFormTranfer} fullWidth
                                                 sx={{borderTop: "1px solid #ececec", color: "green"}}>
                                             <Grid item xs={12}>
@@ -195,21 +199,32 @@ export default function CardWallet() {
                                                 <b>SHARE WALLET</b>
                                             </Grid>
                                         </Button>
-                                    </>) : (<Button fullWidth sx={{borderTop: "1px solid #ececec", color: "green"}}>
-                                        <Grid item xs={12}>
-                                            <b>SHARE WALLET</b>
-                                        </Grid>
-                                    </Button>)}
+                                    </>) : (
+                                       <>
+                                           <Button sx={{borderTop: "1px solid #ececec", color: "green"}}
+                                                   fullWidth
+                                                   onClick={handleCheckboxChange}>
+                                               <Grid item xs={12}>
+                                                   <b>Unarchived</b>
+                                               </Grid>
+                                           </Button>
+                                           <Button fullWidth sx={{borderTop: "1px solid #ececec", color: "green"}}>
+                                               <Grid item xs={12}>
+                                                   <b>SHARE WALLET</b>
+                                               </Grid>
+                                           </Button>
+                                       </>
+                                        )}
                                 </Card>
                             </Grid>
                         </Slide>}
                     </Grid>
                     <UpdateModal isOpen={openFormUpdate} onClose={handleCloseFormUpdate}
-                        onSubmit={handleSubmitFormUpdate} />
+                                 onSubmit={handleSubmitFormUpdate}/>
                     <NestedModal isOpen={openFormCreate} onClose={handleCloseFormCreate}
-                        onSubmit={handleSubmitFormCreate} />
+                                 onSubmit={handleSubmitFormCreate}/>
                     <TranferModal isOpen={openFormTranfer} onClose={handleCloseFormTranfer}
-                        onSubmit={handleSubmitFormTranfer} />
+                                  onSubmit={handleSubmitFormTranfer}/>
                 </Box>
             </Container>
         </Slide>
