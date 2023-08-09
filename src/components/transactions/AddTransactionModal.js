@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { Box, Modal } from '@mui/material';
-import CurrencyModal from './CurrencyModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletService } from '../../services/wallet.service';
 import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
-import WalletSelectModal from './WalletSelectModal';
+
 
 const style = {
     position: 'absolute',
@@ -17,26 +16,26 @@ const style = {
     boxShadow: 24,
 };
 
-export default function TranferModal({ isOpen, onClose, onSubmit }) {
+export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
     const [isValid, setIsValid] = React.useState(true);
-    const [walletReceived, setWalletReceived] = React.useState();
+    // const [walletReceived, setWalletReceived] = React.useState();
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     // const allWallet = useSelector(state => state.wallet.allWallet);
     const user = useSelector(state => state.auth.login.currentUser);
     const [moneyInput, setMoneyInput] = React.useState(0);
     const [checkMoney, setCheckMoney] = React.useState(true);
     const dispatch = useDispatch();
-    let token = localStorage.getItem('token')
 
     React.useEffect(() => {
+        let token = localStorage.getItem('token')
         WalletService.getAllWallet(user.id, token).then(res => {
             dispatch(getAllWallet(res.data.walletList));
         })
     }, [])
 
-    const handleSelectWallet = (wallet) => {
-        setWalletReceived(wallet);
-    }
+    // const handleSelectWallet = (wallet) => {
+    //     setWalletReceived(wallet);
+    // }
 
     const handleChange = (e) => {
         let data = e.target.value;
@@ -49,25 +48,26 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
         if (money > 0) setIsValid(true)
         else setIsValid(false);
     }
-    const handleSubmit = () => {
-        let walletIDReceived = walletReceived.id;
-        let money = +moneyInput;
-        WalletService.tranferMoney(user.id, walletSelect.id, { walletIDReceived, money }, token).then((res) => {
-            if (res.data.message === 'Money transfer success!') {
-                setMoneyInput(0);
-                let walletTranfer = res.data.walletTransfer;
-                WalletService.getAllWallet(user.id, token).then(res => {
-                    dispatch(setWalletSelect(walletTranfer));
-                    dispatch(getAllWallet(res.data.walletList));
-                    onSubmit();
-                })
-            }
-        }).catch(err => console.log(err.message));
-    }
+    // const handleSubmit = () => {
+    //     let walletIDReceived = walletReceived.id;
+    //     let money = +moneyInput;
+    //     let token = localStorage.getItem('token');
+    //     WalletService.tranferMoney(user.id, walletSelect.id, { walletIDReceived, money }).then((res) => {
+    //         if (res.data.message === 'Money transfer success!') {
+    //             setMoneyInput(0);
+    //             let walletTranfer = res.data.walletTransfer;
+    //             WalletService.getAllWallet(user.id, token).then(res => {
+    //                 dispatch(setWalletSelect(walletTranfer));
+    //                 dispatch(getAllWallet(res.data.walletList));
+    //                 onSubmit();
+    //             })
+    //         }
+    //     }).catch(err => console.log(err.message));
+    // }
     const handleCancel = () => {
         setCheckMoney(true);
         setMoneyInput(0);
-        onSubmit()
+        // onSubmit()
     }
 
     return (
@@ -79,13 +79,13 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
             >
                 <Box sx={{ ...style, width: 496 }}>
                     <div className='px-6 py-5 border-b-[1px] border-gray-300'>
-                        <p className='text-xl font-semibold'>Transfer money to another wallet</p>
+                        <p className='text-xl font-semibold'>Add transaction</p>
                     </div>
                     <div className='p-6'>
                         <div className='flex items-center justify-center mb-6'>
-                            <div className='w-64 mr-4 py-1 pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500 hover:cursor-pointer'>
+                            {/* <div className='w-64 mr-4 py-1 pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500 hover:cursor-pointer'>
                                 <WalletSelectModal walletDesSelect={handleSelectWallet} />
-                            </div>
+                            </div> */}
                             <div className='w-44 py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
                                 <p className='text-[12px] pb-[3px] text-slate-400'>Amount Of Money</p>
                                 <div className='pb-1'>
@@ -103,7 +103,7 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
                     </div>
                     <div className='py-[14px] px-6 flex justify-end'>
                         <button type='button' onClick={handleCancel} className='bg-slate-400 text-white text-sm font-medium py-2 px-8 uppercase rounded mr-3'>Cancel</button>
-                        <button type='button' onClick={handleSubmit} className='bg-lightgreen text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400' disabled={!isValid || !checkMoney}>Save</button>
+                        <button type='button' className='bg-lightgreen text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400' disabled={!isValid || !checkMoney}>Save</button>
                     </div>
                 </Box>
             </Modal>

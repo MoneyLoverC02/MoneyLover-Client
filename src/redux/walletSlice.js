@@ -7,8 +7,8 @@ const initialState = {
     allWallet: [],
 }
 
-export const walletSlice = createSlice ({
-    name:'wallet',
+export const walletSlice = createSlice({
+    name: 'wallet',
     initialState,
     reducers: {
         getIcon: (state, action) => {
@@ -20,12 +20,18 @@ export const walletSlice = createSlice ({
         setWalletSelect: (state, action) => {
             state.walletSelect = action.payload
         },
-        getAllWallet:(state, action) => {
-            state.allWallet =action.payload
+        getAllWallet: (state, action) => {
+            state.allWallet = action.payload
+        },
+        walletLogut: (state) => {
+            state.icons = [];
+            state.currencies = [];
+            state.walletSelect = null;
+            state.allWallet = [];
         }
     }
 })
 
-export const { getIcon, getCurrencies, setWalletSelect, getAllWallet } = walletSlice.actions;
+export const { getIcon, getCurrencies, setWalletSelect, getAllWallet, walletLogut } = walletSlice.actions;
 export default walletSlice.reducer;
 
