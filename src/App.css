@@ -117,3 +117,9 @@
   transition: all .5s ease-in-out;
   transform: rotate(90deg);
 }
+
+.custom-date-picker input:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}

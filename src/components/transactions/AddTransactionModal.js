@@ -3,6 +3,9 @@ import { Box, Modal } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletService } from '../../services/wallet.service';
 import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
+import WalletSelectTransactionModal from './WalletSelectTransaction';
+import CategorySelectModal from './CategorySelectModal';
+import DatePickerComponent from '../datePick/datePick';
 
 
 const style = {
@@ -18,9 +21,9 @@ const style = {
 
 export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
     const [isValid, setIsValid] = React.useState(true);
-    // const [walletReceived, setWalletReceived] = React.useState();
     const walletSelect = useSelector(state => state.wallet.walletSelect);
-    // const allWallet = useSelector(state => state.wallet.allWallet);
+    const [categorySelect, setCategorySelect] = React.useState();
+    const allWallet = useSelector(state => state.wallet.allWallet);
     const user = useSelector(state => state.auth.login.currentUser);
     const [moneyInput, setMoneyInput] = React.useState(0);
     const [checkMoney, setCheckMoney] = React.useState(true);
@@ -33,9 +36,12 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
         })
     }, [])
 
-    // const handleSelectWallet = (wallet) => {
-    //     setWalletReceived(wallet);
-    // }
+    const handleSelectWallet = (wallet) => {
+        dispatch(setWalletSelect(wallet));
+    }
+    const handleSelectCategory = (category) => {
+        setCategorySelect(category)
+    }
 
     const handleChange = (e) => {
         let data = e.target.value;
@@ -77,15 +83,18 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
                 onClose={onClose}
                 aria-describedby="parent-modal-description"
             >
-                <Box sx={{ ...style, width: 496 }}>
+                <Box sx={{ ...style, width: 800 }}>
                     <div className='px-6 py-5 border-b-[1px] border-gray-300'>
                         <p className='text-xl font-semibold'>Add transaction</p>
                     </div>
                     <div className='p-6'>
                         <div className='flex items-center justify-center mb-6'>
-                            {/* <div className='w-64 mr-4 py-1 pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500 hover:cursor-pointer'>
-                                <WalletSelectModal walletDesSelect={handleSelectWallet} />
-                            </div> */}
+                            <div className='w-64 mr-4 py-1 pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500 hover:cursor-pointer'>
+                                <WalletSelectTransactionModal walletTranssSelect={handleSelectWallet} />
+                            </div>
+                            <div className='w-64 mr-4 py-1 pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500 hover:cursor-pointer'>
+                                <CategorySelectModal selectCategory={handleSelectCategory} />
+                            </div>
                             <div className='w-44 py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
                                 <p className='text-[12px] pb-[3px] text-slate-400'>Amount Of Money</p>
                                 <div className='pb-1'>
@@ -93,11 +102,21 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
                                 </div>
                             </div>
                         </div>
-                        <div className=' text-center'>{!checkMoney ? (<p className="text-red-500 text-sm mt-3">Số tiền chuyển phải nhỏ hơn số dư!</p>) : null}</div>
-                        <div className='pt-[13px] pb-5 flex text-center'>
-                            <input className='w-4 h-4 hover: cursor-pointer mt-1' type="checkbox" name="vehicle1" value="Bike" required />
-                            <div className='ml-3'>
-                                <p>Chấp nhận điều khoản</p>
+                        <div className='flex items-center justify-center mb-6'>
+                            <div className='w-64 mr-4 py-1 pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500 hover:cursor-pointer'>
+                                <DatePickerComponent />
+                            </div>
+                            <div className='w-[450px] py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
+                                <p className='text-[12px] pb-[3px] text-slate-400'>Note</p>
+                                <div className='pb-1'>
+                                    <input onChange={handleChange} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="text" placeholder='Note' name="note" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div className=' text-center'>{!checkMoney ? (<p className="text-red-500 text-sm mt-3">Số tiền giao dịch phải nhỏ hơn số dư!</p>) : null}</div>
+                        <div className='pt-[13px] pb-5 flex text-center ml-2 text-'>
+                            <div className='ml-3 text-lightgreen underline underline-offset-2 hover:cursor-pointer'>
+                                <p>Add more details</p>
                             </div>
                         </div>
                     </div>
