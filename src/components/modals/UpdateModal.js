@@ -71,7 +71,7 @@ export default function UpdateModal({ isOpen, onClose, onSubmit }) {
         let currencyID = currencySelect?.id;
         let amountOfMoney = dataInput.amountOfMoney;
         let token = localStorage.getItem('token')
-        WalletService.updateWallet(user.id, walletSelect.id, { name, iconID, currencyID, amountOfMoney }).then((res) => {
+        WalletService.updateWallet(user.id, walletSelect.id, { name, iconID, currencyID, amountOfMoney }, token).then((res) => {
             let updatedWallet = res.data.updatedWallet[0];
             dispatch(setWalletSelect(updatedWallet));
             WalletService.getAllWallet(user.id, token).then(res => {

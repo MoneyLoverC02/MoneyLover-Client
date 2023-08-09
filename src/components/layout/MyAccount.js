@@ -34,7 +34,7 @@ export default function MyAccount() {
     const handleClose = () => setOpen(false);
     const handleSignOut = () => {
         localStorage.clear();
-        dispatch(logout());
+        dispatch(logout())
         navigate('/login');
     }
     const handleClickEdit = () =>{

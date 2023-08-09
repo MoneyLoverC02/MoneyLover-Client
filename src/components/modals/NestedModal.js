@@ -54,13 +54,14 @@ export default function NestedModal({isOpen, onClose, onSubmit}) {
   }
 
   const handleSubmit = () => {
+    let token = localStorage.getItem('token');
     let name = dataInput.name;
     let iconID = iconSelect.id;
     let currencyID = currencySelect?.id;
     let amountOfMoney = dataInput.amountOfMoney;
-    WalletService.createWallet({ name, iconID, currencyID, amountOfMoney }, user.id).then((res) => {
+    WalletService.createWallet({ name, iconID, currencyID, amountOfMoney }, user.id, token).then((res) => {
       let wallet = res.data.newWallet;
-      WalletService.createDetailWallet({ userID: user.id, walletID: wallet.id }).then(() => {
+      WalletService.createDetailWallet({ userID: user.id, walletID: wallet.id }, token).then(() => {
         dispatch(getAllWallet([...allWallet, wallet]));
         dispatch(setWalletSelect(wallet));
         setDataInput({ name: '', amountOfMoney: null })
