@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 import ModalDeleteUser from "../modals/ModalDeleteUser";
+import { persistor } from '../../redux/store';
 
 const style = {
     position: 'absolute',
@@ -35,6 +36,7 @@ export default function MyAccount() {
     const handleSignOut = () => {
         localStorage.clear();
         dispatch(logout());
+        persistor.purge();
         navigate('/login');
     }
     const handleClickEdit = () =>{

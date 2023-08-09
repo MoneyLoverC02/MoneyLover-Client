@@ -40,6 +40,9 @@ export default function LoginOrRegister({ props }) {
                             let walletList = res.data.walletList;
                             dispatch(getAllWallet(walletList));
                             if (walletList.length > 0) {
+                                console.log('====================================');
+                                console.log(walletList[0]);
+                                console.log('====================================');
                                 dispatch(setWalletSelect(walletList[0]))
                                 navigate('/');
                             } else navigate('/my-wallets')
