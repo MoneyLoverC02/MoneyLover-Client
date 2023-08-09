@@ -9,7 +9,7 @@ import { WalletService } from "../services/wallet.service";
 import { getAllWallet, setWalletSelect } from "../redux/walletSlice";
 
 
-const validateInput = Yup.object({
+export const validateInput = Yup.object({
     email: Yup.string()
         .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Email address invalid'),
     password: Yup.string()
