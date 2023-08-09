@@ -50,7 +50,6 @@ export default function CardWallet() {
     const handleSubmitFormCreate = () => {
         handleCloseFormCreate();
         setChecked(true);
-        console.log(walletSelect.walletRoles)
     }
     const handleOpenFormUpdate = () => {
         setOpenFormUpdate(true);
