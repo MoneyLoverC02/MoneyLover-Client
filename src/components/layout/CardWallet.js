@@ -31,6 +31,7 @@ export default function CardWallet() {
         WalletService.getInfoWallet(user.id, idWallet, token).then(res => {
             dispatch(setWalletSelect(res.data.wallet));
             setChecked(true);
+            console.log(walletSelect.walletRoles)
         })
     };
 
@@ -50,7 +51,6 @@ export default function CardWallet() {
     const handleSubmitFormCreate = () => {
         handleCloseFormCreate();
         setChecked(true);
-        console.log(walletSelect.walletRoles)
     }
     const handleOpenFormUpdate = () => {
         setOpenFormUpdate(true);
@@ -152,7 +152,7 @@ export default function CardWallet() {
                                                                                     onClick={handleCloseSlide}><ClearIcon
                                             sx={{float: "left"}}/></Button>
                                             <b style={{marginLeft: "30px"}}>Wallet details</b>
-                                            {walletSelect.walletRoles && walletSelect?.walletRoles[0].archived === false ? (
+                                            {walletSelect.walletRoles && walletSelect.walletRoles[0].archived === false ? (
                                                 <Stack direction="row" sx={{float: "right"}} spacing={2}>
                                                     <ModalDeleteWallets sx={{height: "402px"}}
                                                                         idWallet={walletSelect.id}
@@ -180,7 +180,7 @@ export default function CardWallet() {
                                             </div>
                                         </div>
                                     </div>
-                                    {walletSelect.walletRoles && walletSelect?.walletRoles[0].archived === false ? (<>
+                                    {walletSelect.walletRoles && walletSelect.walletRoles[0].archived === false ? (<>
                                         <Button sx={{borderTop: "1px solid #ececec", color: "green"}}
                                                 fullWidth
                                                 onClick={handleCheckboxChange}>
