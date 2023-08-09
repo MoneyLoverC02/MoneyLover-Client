@@ -1,16 +1,16 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import { useDispatch, useSelector } from "react-redux";
-import { Edit, Visibility, VisibilityOff } from "@mui/icons-material";
+import {useDispatch, useSelector} from "react-redux";
+import {Edit, Visibility, VisibilityOff} from "@mui/icons-material";
 import ClearIcon from "@mui/icons-material/Clear";
-import { Avatar, IconButton, Modal } from "@mui/material";
+import {Avatar, IconButton, Modal} from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 import * as Yup from 'yup';
-import { UserService } from "../../services/user.service";
-import { logout } from "../../redux/authSlice";
-import { useNavigate } from "react-router-dom";
+import {UserService} from "../../services/user.service";
+import {logout} from "../../redux/authSlice";
+import {useNavigate} from "react-router-dom";
 
 const style = {
     position: 'absolute',
@@ -94,17 +94,17 @@ export default function ModalUpdateUser() {
             >
                 <Box sx={style}>
                     <div>
-                        <Button sx={{ color: "black" }} onClick={handleClose}><ClearIcon sx={{ float: "left" }} /></Button>
-                        <b style={{ marginLeft: "60px" }}>My Account</b>
+                        <Button sx={{color: "black"}} onClick={handleClose}><ClearIcon sx={{float: "left"}}/></Button>
+                        <b style={{marginLeft: "60px"}}>My Account</b>
                     </div>
-                    <br />
-                    <hr />
-                    <br />
-                    <Avatar sx={{ margin: "auto", width: 70, height: 70 }} size="large">T</Avatar>
+                    <br/>
+                    <hr/>
+                    <br/>
+                    <Avatar sx={{margin: "auto", width: 70, height: 70}} size="large">T</Avatar>
                     <div className="text-center text-black ">
                         <p>{user.email} </p>
                     </div>
-                    <Box component="form" onSubmit={formUpdate.handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={formUpdate.handleSubmit} noValidate sx={{mt: 1}}>
                         <TextField
                             margin="normal"
                             required
@@ -180,7 +180,7 @@ export default function ModalUpdateUser() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{mt: 3, mb: 2}}
                         >
                             Change
                         </Button>
