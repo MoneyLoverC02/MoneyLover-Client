@@ -11,7 +11,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/authSlice';
 import { useNavigate } from 'react-router-dom';
-import { setWalletSelect } from '../../redux/walletSlice';
+
 
 const style = {
     position: 'absolute',
@@ -34,9 +34,8 @@ export default function MyAccount() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const handleSignOut = () => {
-        localStorage.removeItem('token');
-        dispatch(setWalletSelect(null));
-        dispatch(logout);
+        localStorage.clear();
+        dispatch(logout());
         navigate('/login');
     }
     return (

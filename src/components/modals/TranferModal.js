@@ -40,13 +40,13 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
 
     const handleChange = (e) => {
         let data = e.target.value;
-        data > walletSelect.amountOfMoney ? setCheckMoney(false):setCheckMoney(true);
+        data > walletSelect.amountOfMoney ? setCheckMoney(false) : setCheckMoney(true);
         setMoneyInput(data);
         handleCheckValid(e);
     }
     const handleCheckValid = (e) => {
         let money = e.target.value;
-        if (money > 0 ) setIsValid(true)
+        if (money > 0) setIsValid(true)
         else setIsValid(false);
     }
     const handleSubmit = () => {
@@ -64,6 +64,11 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
                 })
             }
         }).catch(err => console.log(err.message));
+    }
+    const handleCancel = () => {
+        setCheckMoney(true);
+        setMoneyInput(0);
+        onSubmit()
     }
 
     return (
@@ -98,6 +103,7 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
                         </div>
                     </div>
                     <div className='py-[14px] px-6 flex justify-end'>
+                        <button type='button' onClick={handleCancel} className='bg-slate-400 text-white text-sm font-medium py-2 px-8 uppercase rounded mr-3'>Cancel</button>
                         <button type='button' onClick={handleSubmit} className='bg-lightgreen text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400' disabled={!isValid || !checkMoney}>Save</button>
                     </div>
                 </Box>
