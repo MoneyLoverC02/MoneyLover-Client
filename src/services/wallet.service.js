@@ -71,4 +71,12 @@ export class WalletService {
             }
         )
     }
+    static archivedWallet(userID,walletID){
+        return axios.get(`http://localhost:4000/api/users/${userID}/wallets/${walletID}/archived`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+    }
 }

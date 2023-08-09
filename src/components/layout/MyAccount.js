@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { setWalletSelect } from '../../redux/walletSlice';
+import {UserService} from "../../services/user.service";
 
 const style = {
     position: 'absolute',
@@ -38,6 +39,17 @@ export default function MyAccount() {
         dispatch(setWalletSelect(null));
         dispatch(logout);
         navigate('/login');
+    }
+    const handeleDeleteUser=()=>{
+        const token = localStorage.getItem('token')
+        // console.log(user.id)
+        UserService.deleteUser(user.id,token).then((r)=>{
+            console.log(123)
+            console.log("nggn"+ r)
+        })
+            .catch(err=>{
+                console.log(err)
+            })
     }
     return (
         <div>
@@ -80,7 +92,7 @@ export default function MyAccount() {
 
                         </Stack>
                         <Stack direction="row-reverse" spacing={2}>
-                            <Button variant="outlined" color="error" startIcon={<DeleteIcon/>}>
+                            <Button variant="outlined" color="error" onClick={handeleDeleteUser} startIcon={<DeleteIcon/>}>
                                 Delete
                             </Button>
                         </Stack>

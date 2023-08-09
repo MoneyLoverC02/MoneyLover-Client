@@ -10,4 +10,13 @@ export class UserService {
     static createUser(data) {
         return axios.post('http://localhost:4000/api/users', data);
     }
+    static deleteUser(userID,accessToken) {
+        return axios.delete(`http://localhost:4000/api/users/:${userID}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+    }
+
 }
