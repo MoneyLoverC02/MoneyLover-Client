@@ -7,13 +7,18 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { WalletService } from "../../services/wallet.service";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllWallet, setWalletSelect} from "../../redux/walletSlice";
+import {getAllWallet, setWalletSelect} from "../../redux/walletSlice";
+import DeleteIcon from "@mui/icons-material/Delete";
+import {UserService} from "../../services/user.service";
+import {logout} from "../../redux/authSlice";
+import {useNavigate} from "react-router-dom";
 
-export default function ModalDeleteWallets({ idWallet, onClose }) {
+
+export default function ModalDeleteUser() {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
     const user = useSelector(state => state.auth.login.currentUser);
-
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -21,22 +26,19 @@ export default function ModalDeleteWallets({ idWallet, onClose }) {
     const handleClose = () => {
         setOpen(false);
     };
-    const handleDelete = () => {
-        const token = localStorage.getItem('token')
-        WalletService.deleteWallet(user.id, idWallet).then((res) => {
-            WalletService.getAllWallet(user.id, token).then(res => {
-                let walletList = res.data.walletList;
-                dispatch(getAllWallet(walletList));
-                dispatch(setWalletSelect(walletList[0]))
-                handleClose();
-                onClose();
-            }).catch(err => console.log(err.message));
-        }).catch(err => console.log(err.message));
+    const handleDeleteUser = () => {
+        const token = localStorage.getItem('token');
+        UserService.deleteUser(user.id, token)
+            .then(response => {
+                localStorage.removeItem('token')
+                dispatch(logout)
+                navigate('/login')
+            });
     }
-
-    return (<div>
-        <Button color="error" onClick={handleClickOpen}>
-            delete
+    return (
+        <div>
+        <Button variant="outlined" color="error" startIcon={<DeleteIcon/>} onClick={handleClickOpen}>
+            Delete
         </Button>
         <Dialog
             open={open}
@@ -45,17 +47,17 @@ export default function ModalDeleteWallets({ idWallet, onClose }) {
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                {"Bạn có chắc muốn xóa ví này?"}
+                {"Bạn có chắc muốn xóa tài khoản này?"}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    Xóa không lấy lại được đâu.
+                    Xóa không lấy lại được đâu ^^.
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button color="success" variant="outlined" onClick={handleClose} autoFocus>CANCEL</Button>
                 <Button color="error" variant="contained" onClick={() => {
-                    handleDelete()
+                    handleDeleteUser()
                 }}>
                     DELETE
                 </Button>

@@ -54,6 +54,7 @@ export class WalletService {
             }
         )
     }
+
     static async updateWallet(userID, walletID, data) {
         return await axios.put(`http://localhost:4000/api/users/${userID}/wallets/${walletID}`, data,
             {
@@ -72,8 +73,8 @@ export class WalletService {
             }
         )
     }
-    static async tranferMoney(userID, walletSelectID, data) {
-        return await axios.post(`http://localhost:4000/api/users/${userID}/wallets/${walletSelectID}/transfer`, data,
+    static tranferMoney(userID, walletSelectID, data) {
+        return axios.post(`http://localhost:4000/api/users/${userID}/wallets/${walletSelectID}/transfer`, data,
         {
             headers: {
                 'Authorization': `Bearer ${token}`

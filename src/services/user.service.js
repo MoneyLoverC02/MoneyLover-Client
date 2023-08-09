@@ -10,4 +10,22 @@ export class UserService {
     static async createUser(data) {
         return await axios.post('http://localhost:4000/api/users', data);
     }
+
+    static async deleteUser(userID, token) {
+        return await axios.delete(`http://localhost:4000/api/users/${userID}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+    }
+
+    // static updateUser(userID, data){
+    //     return axios.put(`http://localhost:4000/api/users/${userID}`),data,
+    //         {
+    //             headers: {
+    //                 'Authorization': `Bearer ${token}`
+    //             }
+    //         }
+    // }
 }
