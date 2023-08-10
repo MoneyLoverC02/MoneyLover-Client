@@ -11,6 +11,7 @@ import {UserService} from "../../services/user.service";
 import {logout} from "../../redux/authSlice";
 import {useNavigate} from "react-router-dom";
 import { walletLogout } from '../../redux/walletSlice';
+import { transactionLogout } from '../../redux/transactionSlice';
 
 
 export default function ModalDeleteUser() {
@@ -31,6 +32,7 @@ export default function ModalDeleteUser() {
                 localStorage.removeItem('token');
                 dispatch(logout());
                 dispatch(walletLogout());
+                // dispatch(transactionLogout());
                 navigate('/login');
             });
     }

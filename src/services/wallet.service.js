@@ -39,10 +39,11 @@ export class WalletService {
         )
     }
     static async getAllWallet() {
+        let token = localStorage.getItem('token');
         return await axios.get(`http://localhost:4000/api/users/wallets`,
             {
                 headers: {
-                    'Authorization': `Bearer ${WalletService.token}`
+                    'Authorization': `Bearer ${token}`
                 }
             }
         )
