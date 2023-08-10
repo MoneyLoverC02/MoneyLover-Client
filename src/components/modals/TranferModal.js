@@ -1,6 +1,6 @@
+
 import * as React from 'react';
 import { Box, Modal } from '@mui/material';
-import CurrencyModal from './CurrencyModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletService } from '../../services/wallet.service';
 import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
@@ -21,8 +21,6 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
     const [isValid, setIsValid] = React.useState(true);
     const [walletReceived, setWalletReceived] = React.useState(null);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
-    // const allWallet = useSelector(state => state.wallet.allWallet);
-    // const user = useSelector(state => state.auth.login.currentUser);
     const [moneyInput, setMoneyInput] = React.useState(0);
     const [checkMoney, setCheckMoney] = React.useState(true);
     const dispatch = useDispatch();

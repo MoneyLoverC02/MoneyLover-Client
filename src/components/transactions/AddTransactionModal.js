@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { Box, Modal } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { WalletService } from '../../services/wallet.service';
-import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
+import { setWalletSelect } from '../../redux/walletSlice';
 import WalletSelectTransactionModal from './WalletSelectTransaction';
 import CategorySelectModal from './CategorySelectModal';
 import DatePickerComponent, { formatDate } from '../datePick/datePick';
 import { TransactionService } from '../../services/transaction.service';
-import { getAllExpense, getAllIncome, getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
+import { getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
 
 
 const style = {
@@ -26,11 +25,9 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const [categorySelect, setCategorySelect] = React.useState(null);
     const [dataInput, setDataInput] = React.useState({money: 0, note: ''});
-    const [dateInput, setDateInput] = React.useState(new Date());
+    const [dateInput, setDateInput] = React.useState(formatDate(new Date()));
     const [checkMoney, setCheckMoney] = React.useState(true);
     const allTransaction = useSelector(state => state.transaction.allTransaction);
-    const allIncome = useSelector(state => state.transaction.allIncome);
-    const allExpense = useSelector(state => state.transaction.allExpense);
     const transactionSelect = useSelector(state => state.transaction.transactionSelect);
     const dispatch = useDispatch();
 
@@ -64,8 +61,8 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
     const handleSubmit = () => {
         let { money, note } = dataInput;
         let amount = +money;
-        let date = formatDate(dateInput);
-        console.log(date);
+        console.log(dateInput);
+        let date = dateInput;
         let categoryID = categorySelect.id;
         TransactionService.createTransaction(walletSelect.id, { amount, date, note, categoryID }).then((res) => {
             if (res.data.message === 'Creat transaction success!') {
@@ -76,11 +73,7 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
                 console.log('====================================');
                 TransactionService.getAllTransactionOfWallet(walletSelect.id).then(res => {
                     let transactionList = res.data.transactionList; 
-                    let incomeList = transactionList.filter(item => item.category.type === 'income');
-                    let expenseList = transactionList.filter(item => item.category.type === 'expense');
                     dispatch(getAllTransaction(transactionList));
-                    dispatch(getAllIncome(incomeList));
-                    dispatch(getAllExpense(expenseList));
                     setDataInput({money: 0, note: ''});
                     setDateInput(new Date());
                     setIsValid(false);
