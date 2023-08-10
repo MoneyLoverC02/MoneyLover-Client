@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authReducer from "./authSlice";
 import walletReducer from "./walletSlice";
+import transactionReducer from "./transactionSlice";
 import {
     persistStore,
     persistReducer,
@@ -23,12 +24,11 @@ const persistConfig = {
 const rootReducer = combineReducers({
     auth: authReducer,
     wallet: walletReducer,
+    transaction: transactionReducer
 });
 
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-
 
 export const store = configureStore({
     reducer: persistedReducer,
@@ -39,5 +39,13 @@ export const store = configureStore({
             },
         }),
 })
+
+// export const store = configureStore({
+//     reducer: {
+//         auth: authReducer,
+//         wallet: walletReducer,
+//         transaction: transactionReducer
+//     },
+// })
 
 export let persistor = persistStore(store);
