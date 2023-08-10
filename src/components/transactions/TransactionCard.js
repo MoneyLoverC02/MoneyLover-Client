@@ -26,8 +26,6 @@ export default function TransactionCard({ openModal, closeModal }) {
     const [isModalOpen, setModalOpen] = useState(false);
     const transactionSelect = useSelector(state => state.transaction.transactionSelect);
     const allTransaction = useSelector(state => state.transaction.allTransaction);
-    const allIncome = useSelector(state => state.transaction.allIncome);
-    const allExpense = useSelector(state => state.transaction.allExpense);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const allWallet = useSelector(state => state.wallet.allWallet);
     const allCategory = useSelector(state => state.transaction.allCategory)
@@ -40,6 +38,15 @@ export default function TransactionCard({ openModal, closeModal }) {
         })
 
     }, [])
+    React.useEffect(() => {
+        if (walletSelect) {
+            TransactionService.getAllTransactionOfWallet(walletSelect?.id).then(res => {
+                let transactionList = res.data.transactionList;
+                dispatch(getAllTransaction(transactionList))
+            })
+        }
+    },[walletSelect])
+
     const handleOpenSlide = (idTrans) => {
         TransactionService.getInfoTransaction(idTrans).then(res => {
             dispatch(setTransactionSelect(res.data.transaction));

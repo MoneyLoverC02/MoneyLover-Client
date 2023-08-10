@@ -1,8 +1,7 @@
+
 import * as React from 'react';
 import { Box, Modal } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIcon } from '../../redux/walletSlice';
-import { WalletService } from '../../services/wallet.service';
 import { TransactionService } from '../../services/transaction.service';
 import { getAllCategory } from '../../redux/transactionSlice';
 

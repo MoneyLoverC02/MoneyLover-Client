@@ -23,7 +23,6 @@ export default function UpdateModal({ isOpen, onClose, onSubmit }) {
     const allWallet = useSelector(state => state.wallet.allWallet);
     const [currencySelect, setCurrencySelect] = React.useState(walletSelect?.currency);
     const [iconSelect, setIconSelect] = React.useState(walletSelect?.icon);
-    // const user = useSelector(state => state.auth.login.currentUser);
     const [dataInput, setDataInput] = React.useState({ name: walletSelect?.name, amountOfMoney: walletSelect?.amountOfMoney });
     const dispatch = useDispatch();
     const [checkName, setCheckName] = React.useState(true);

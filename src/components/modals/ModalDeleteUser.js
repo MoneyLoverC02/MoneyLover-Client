@@ -11,14 +11,11 @@ import {UserService} from "../../services/user.service";
 import {logout} from "../../redux/authSlice";
 import {useNavigate} from "react-router-dom";
 import { walletLogout } from '../../redux/walletSlice';
-import { transactionLogout } from '../../redux/transactionSlice';
-
 
 export default function ModalDeleteUser() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
-    // const user = useSelector(state => state.auth.login.currentUser);
     const handleClickOpen = () => {
         setOpen(true);
     };
