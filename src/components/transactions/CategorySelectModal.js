@@ -3,6 +3,8 @@ import { Box, Modal } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIcon } from '../../redux/walletSlice';
 import { WalletService } from '../../services/wallet.service';
+import { TransactionService } from '../../services/transaction.service';
+import { getAllCategory } from '../../redux/transactionSlice';
 
 const style = {
     position: 'absolute',
@@ -15,105 +17,25 @@ const style = {
     boxShadow: 24,
 };
 
-const categoryList = [
-    {
-        id: 1,
-        type: "expense",
-        icon: "https://static.moneylover.me/img/icon/ic_category_foodndrink.png",
-        name: "Food & Beverage"
-    },
-    {
-        id: 2,
-        type: "expense",
-        icon: "https://static.moneylover.me/img/icon/ic_category_transport.png",
-        name: "Transportation"
-    },
-    {
-        id: 3,
-        type: "expense",
-        icon: "https://static.moneylover.me/img/icon/icon_136.png",
-        name: "Rentals"
-    },
-    {
-        id: 4,
-        type: "expense",
-        icon: "https://static.moneylover.me/img/icon/icon_124.png",
-        name: "Water Bill"
-    },
-    {
-        id: 5,
-        type: "expense",
-        icon: "https://static.moneylover.me/img/icon/icon_134.png",
-        name: "Phone Bill"
-    },
-    {
-        id: 6,
-        type: "expense",
-        icon: "https://static.moneylover.me/img/icon/icon_125.png",
-        name: "Electricity Bill"
-    },
-    {
-        id: 7,
-        type: "expense",
-        icon: "https://static.moneylover.me/img/icon/icon_139.png",
-        name: "Gas Bill"
-    },
-    {
-        id: 8,
-        type: "expense",
-        icon: "https://static.moneylover.me/img/icon/icon_53.png",
-        name: "Pets"
-    },
-    {
-        id: 9,
-        type: "expense",
-        icon: "https://static.moneylover.me/img/icon/icon_70.png",
-        name: "Fitness"
-    },
-    {
-        id: 10,
-        type: "expense",
-        icon: "https://static.moneylover.me/img/icon/icon_49.png",
-        name: "Fun Money"
-    },
-    {
-        id: 11,
-        type: "income",
-        icon: "https://static.moneylover.me/img/icon/icon_118.png",
-        name: "Collect Interest"
-    },
-    {
-        id: 12,
-        type: "income",
-        icon: "https://static.moneylover.me/img/icon/ic_category_salary.png",
-        name: "Salary"
-    },
-    {
-        id: 13,
-        type: "income",
-        icon: "https://static.moneylover.me/img/icon/ic_category_other_income.png",
-        name: "Other Income"
-    },
-    {
-        id: 14,
-        type: "income",
-        icon: "https://static.moneylover.me/img/icon/icon_143.png",
-        name: "Incoming Transfer"
-    }
-]
 
 export default function CategorySelectModal({ selectCategory }) {
     const [open, setOpen] = React.useState(false);
-    // const [allCategory, setAllCategory] = React.useState(categoryList);
+    const allCategory = useSelector(state => state.transaction.allCategory);
     const [allIncome, setAllIncome] = React.useState([]);
     const [allExpense, setAllExpense] = React.useState([]);
     const [selectInCome, setSelectIncome] = React.useState(false);
     const [categorySelect, setCategorySelect] = React.useState();
+    const dispatch = useDispatch();
     React.useEffect(() => {
-        let inComeList = categoryList.filter(category => category.type === 'income');
-        let expenseList = categoryList.filter(category => category.type === 'expense');
-        setAllIncome(inComeList);
-        setAllExpense(expenseList);
+        TransactionService.getAllCategory().then(res => {
+            let categoryList = res.data.categoryList;
+            dispatch(getAllCategory(categoryList));
+            let inComeList = categoryList.filter(category => category.type === 'income');
+            let expenseList = categoryList.filter(category => category.type === 'expense');
+            setAllIncome(inComeList);
+            setAllExpense(expenseList);
+        })
+
     }, [])
     const handleOpen = () => {
         setOpen(true);
@@ -128,7 +50,7 @@ export default function CategorySelectModal({ selectCategory }) {
         setSelectIncome(true);
     }
     const handleSelectCategory = (idCategory) => {
-        let category = categoryList.find(category => category.id === idCategory);
+        let category = allCategory.find(category => category.id === idCategory);
         if (category) {
             setCategorySelect(category);
             selectCategory(category);
@@ -199,22 +121,22 @@ export default function CategorySelectModal({ selectCategory }) {
                     </div>
                     <div className='grid grid-cols-2 scroll-smooth mt-2'>
                         {selectInCome ?
-                         allIncome.length > 0 && allIncome.map(category => (
-                        <div key={category.id} className='flex justify-start items-center p-2 cursor-pointer hover:bg-lime-50 pl-6' onClick={() => handleSelectCategory(category.id)}>
-                            <img id={category.id} src={category.icon} className='object-cover w-8 h-8' alt="" />
-                            <div className='flex-col items-center ml-5'>
-                                <p className='text-sm font-medium'>{category.name}</p>
-                            </div>
-                        </div>
-                        ))
-                        :
-                        allExpense.length > 0 && allExpense.map(category => (
-                            <div key={category.id} className='flex justify-start items-center p-2 cursor-pointer hover:bg-lime-50 pl-6' onClick={() => handleSelectCategory(category.id)}>
-                                <img id={category.id} src={category.icon} className='object-cover w-8 h-8' alt="" />
-                                <div className='flex-col items-center ml-5'>
-                                    <p className='text-sm font-medium'>{category.name}</p>
+                            allIncome.length > 0 && allIncome.map(category => (
+                                <div key={category.id} className='flex justify-start items-center p-2 cursor-pointer hover:bg-lime-50 pl-6' onClick={() => handleSelectCategory(category.id)}>
+                                    <img id={category.id} src={category.icon} className='object-cover w-8 h-8' alt="" />
+                                    <div className='flex-col items-center ml-5'>
+                                        <p className='text-sm font-medium'>{category.name}</p>
+                                    </div>
                                 </div>
-                            </div>
+                            ))
+                            :
+                            allExpense.length > 0 && allExpense.map(category => (
+                                <div key={category.id} className='flex justify-start items-center p-2 cursor-pointer hover:bg-lime-50 pl-6' onClick={() => handleSelectCategory(category.id)}>
+                                    <img id={category.id} src={category.icon} className='object-cover w-8 h-8' alt="" />
+                                    <div className='flex-col items-center ml-5'>
+                                        <p className='text-sm font-medium'>{category.name}</p>
+                                    </div>
+                                </div>
                             ))
                         }
                     </div>

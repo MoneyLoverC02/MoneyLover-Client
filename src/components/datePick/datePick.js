@@ -2,14 +2,45 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-export default function DatePickerComponent() {
+export const formatDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+export const convertDate = (dateStr) => {
+  // Chuyển chuỗi ngày tháng thành đối tượng Date
+  let dateObject = new Date(dateStr);
+
+  // Lấy thứ trong tuần
+  // let daysOfWeek = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+  let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  let dayOfWeek = daysOfWeek[dateObject.getDay()];
+
+  // Lấy ngày và tháng
+  let day = dateObject.getDate();
+  // let month = dateObject.getMonth() + 1;
+  let month = dateObject.toLocaleString('default', { month: 'long' });
+
+  let year = dateObject.getFullYear();
+
+  // Tạo định dạng mới
+  let newFormat = {dayOfWeek: `${dayOfWeek}`, day:`${day}`, month: `${month}`, year: `${year}`}
+
+  return newFormat;
+}
+
+export default function DatePickerComponent({ getDate }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    let dateString = formatDate(date);
+    getDate(dateString);
   };
 
   const CustomDatePickerInput = ({ value, onClick }) => (
-    <button className='relative pr-28' onClick={onClick}>
+    <button className='relative' onClick={onClick}>
       <p className='text-[12px] pb-[3px] text-slate-400 text-start'>Date</p>
       <div className='wrap-text-icon mb-1'>
         <div className='p-1 custom-date-picker'>{value}</div>
@@ -20,7 +51,7 @@ export default function DatePickerComponent() {
         </div>
       </div>
     </button>);
-  
+
   return (
     <DatePicker
       className="p-1 custom-date-picker text-semibold"
