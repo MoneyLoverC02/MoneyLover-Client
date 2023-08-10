@@ -20,13 +20,12 @@ export default function CurrencyModal({selectCurrency, currencyBeforeUpdate}) {
     const currencies = useSelector(state => state.wallet.currencies);
     const [currencySelect, setCurrencySelect] = React.useState(currencyBeforeUpdate ? currencyBeforeUpdate : null);
     const dispatch = useDispatch();
-    let token = localStorage.getItem('token');
 
     React.useEffect(() => {
-        WalletService.getCurrency(token).then(res => {
+        WalletService.getCurrency().then(res => {
             dispatch(getCurrencies(res.data.currencyList))
         })
-    })
+    },[])
     const handleOpen = () => {
         setOpen(true);
     };

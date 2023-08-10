@@ -1,6 +1,19 @@
+import { useState } from "react";
 import AddTransactionModal from "./AddTransactionModal";
 
-export default function TransactionCard({openModal, closeModal}) {
+export default function TransactionCard({ openModal, closeModal }) {
+    const [isModalOpen, setModalOpen] = useState(false);
+    const handleOpenModal = () => {
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        closeModal();
+    };
+    const handleSubmitFormTransaction = () => {
+        closeModal();
+    }
+
     return (
         <div className=" container mt-[66px] flex justify-center">
             <div className="mt-10 w-[600px] h-[300px] bg-zinc-100 rounded-md bg overflow-hidden">
@@ -17,8 +30,8 @@ export default function TransactionCard({openModal, closeModal}) {
                         <span className="text-2xl inline-block text-zinc-400"> No transactions</span>
                     </div>
                 </div>
-                    <AddTransactionModal isOpen={openModal} onClose={closeModal}
-                         />
+                <AddTransactionModal isOpen={openModal} onClose={handleCloseModal}
+                    onSubmit={handleSubmitFormTransaction} />
             </div>
         </div>
     );

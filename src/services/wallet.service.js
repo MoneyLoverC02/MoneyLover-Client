@@ -1,92 +1,96 @@
 import axios from "axios";
 
 export class WalletService {
-    static async getIcon(accessToken) {
+    static token = localStorage.getItem('token');
+    static async getIcon() {
         return await axios.get('http://localhost:4000/api/iconWallets',
-        {
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            }
-        }
-    )}
-    static async getCurrency(accessToken) {
-        return await axios.get('http://localhost:4000/api/currencies',
-        {
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            }
-        }
-    )}
-    static async createWallet(data, userID, accessToken) {
-        return await axios.post(`http://localhost:4000/api/users/${userID}/wallets`, data,
             {
                 headers: {
-                    'Authorization': `Bearer ${accessToken}`
+                    'Authorization': `Bearer ${WalletService.token}`
                 }
             }
         )
     }
-    static async createDetailWallet(data, accessToken) {
+    static async getCurrency() {
+        return await axios.get('http://localhost:4000/api/currencies',
+            {
+                headers: {
+                    'Authorization': `Bearer ${WalletService.token}`
+                }
+            }
+        )
+    }
+    static async createWallet(data) {
+        return await axios.post(`http://localhost:4000/api/users/wallets`, data,
+            {
+                headers: {
+                    'Authorization': `Bearer ${WalletService.token}`
+                }
+            }
+        )
+    }
+    static async createDetailWallet(data) {
         return await axios.post('http://localhost:4000/api/users/walletRoles', data,
             {
                 headers: {
-                    'Authorization': `Bearer ${accessToken}`
+                    'Authorization': `Bearer ${WalletService.token}`
                 }
             }
         )
     }
-    static async getAllWallet(userID, accessToken) {
-        return await axios.get(`http://localhost:4000/api/users/${userID}/wallets`,
+    static async getAllWallet() {
+        return await axios.get(`http://localhost:4000/api/users/wallets`,
             {
                 headers: {
-                    'Authorization': `Bearer ${accessToken}`
+                    'Authorization': `Bearer ${WalletService.token}`
                 }
             }
         )
     }
-    static async getInfoWallet(userID, walletID, accessToken) {
-        return await axios.get(`http://localhost:4000/api/users/${userID}/wallets/${walletID}`,
+    static async getInfoWallet(walletID) {
+        return await axios.get(`http://localhost:4000/api/users/wallets/${walletID}`,
             {
                 headers: {
-                    'Authorization': `Bearer ${accessToken}`
+                    'Authorization': `Bearer ${WalletService.token}`
                 }
             }
         )
     }
 
-    static async updateWallet(userID, walletID, data, accessToken) {
-        return await axios.put(`http://localhost:4000/api/users/${userID}/wallets/${walletID}`, data,
+    static async updateWallet(walletID, data) {
+        return await axios.put(`http://localhost:4000/api/users/wallets/${walletID}`, data,
             {
                 headers: {
-                    'Authorization': `Bearer ${accessToken}`
+                    'Authorization': `Bearer ${WalletService.token}`
                 }
             }
         )
     }
-    static async deleteWallet(userID, walletID, accessToken) {
-        return await axios.delete(`http://localhost:4000/api/users/${userID}/wallets/${walletID}`,
+    static async deleteWallet(walletID) {
+        return await axios.delete(`http://localhost:4000/api/users/wallets/${walletID}`,
             {
                 headers: {
-                    'Authorization': `Bearer ${accessToken}`
+                    'Authorization': `Bearer ${WalletService.token}`
                 }
             }
         )
     }
-    static tranferMoney(userID, walletSelectID, data, accessToken) {
-        return axios.post(`http://localhost:4000/api/users/${userID}/wallets/${walletSelectID}/transfer`, data,
-        {
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            }
-        }
-        )
-    }
-    static async archivedWallet(userID,walletID,accessToken){
-        return await axios.get(`http://localhost:4000/api/users/${userID}/wallets/${walletID}/archived`,
+    static async tranferMoney(walletSelectID, data) {
+        return await axios.post(`http://localhost:4000/api/users/wallets/${walletSelectID}/transfer`, data,
             {
                 headers: {
-                    'Authorization': `Bearer ${accessToken}`
+                    'Authorization': `Bearer ${WalletService.token}`
                 }
-            })
+            }
+        )
+    }
+    static async archivedWallet(walletID) {
+        return await axios.post(`http://localhost:4000/api/users/wallets/${walletID}/archived`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${WalletService.token}`
+                }
+            }
+        )
     }
 }

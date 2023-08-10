@@ -6,13 +6,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { WalletService } from "../../services/wallet.service";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getAllWallet, setWalletSelect} from "../../redux/walletSlice";
 
 export default function ModalDeleteWallets({ idWallet, onClose }) {
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
-    const user = useSelector(state => state.auth.login.currentUser);
+    // const user = useSelector(state => state.auth.login.currentUser);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -22,9 +22,8 @@ export default function ModalDeleteWallets({ idWallet, onClose }) {
         setOpen(false);
     };
     const handleDelete = () => {
-        const token = localStorage.getItem('token')
-        WalletService.deleteWallet(user.id, idWallet, token).then((res) => {
-            WalletService.getAllWallet(user.id, token).then(res => {
+        WalletService.deleteWallet(idWallet).then((res) => {
+            WalletService.getAllWallet().then(res => {
                 let walletList = res.data.walletList;
                 dispatch(getAllWallet(walletList));
                 dispatch(setWalletSelect(walletList[0]))

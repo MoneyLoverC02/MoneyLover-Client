@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
-    AppBar, Box, Card, Checkbox, Container, FormControlLabel, Grid, IconButton, Slide, Stack, Toolbar, Typography
+    AppBar, Box, Card, Container, Grid, IconButton, Slide, Stack, Toolbar, Typography
 } from "@mui/material";
 import {useDispatch, useSelector} from 'react-redux';
 import Button from '@mui/material/Button';
@@ -12,7 +12,6 @@ import {setWalletSelect} from '../../redux/walletSlice';
 import UpdateModal from '../modals/UpdateModal';
 import NestedModal from '../modals/NestedModal';
 import {useNavigate} from 'react-router-dom';
-import {useState} from "react";
 import TranferModal from '../modals/TranferModal';
 
 export default function CardWallet() {
@@ -22,13 +21,12 @@ export default function CardWallet() {
     const [openFormCreate, setOpenFormCreate] = React.useState(false);
     const [openFormUpdate, setOpenFormUpdate] = React.useState(false);
     const [openFormTranfer, setOpenFormTranfer] = React.useState(false);
-    const user = useSelector(state => state.auth.login.currentUser);
+    // const user = useSelector(state => state.auth.login.currentUser);
     const allWallet = useSelector(state => state.wallet.allWallet);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
 
     const handleOpenSlide = (idWallet) => {
-        const token = localStorage.getItem('token');
-        WalletService.getInfoWallet(user.id, idWallet, token).then(res => {
+        WalletService.getInfoWallet(idWallet).then(res => {
             dispatch(setWalletSelect(res.data.wallet));
             setChecked(true);
         })
@@ -61,15 +59,12 @@ export default function CardWallet() {
         handleCloseFormUpdate();
         setChecked(true);
     }
-
     const handleCheckboxChange = () => {
-        let token = localStorage.getItem('token');
-        WalletService.archivedWallet(user.id, walletSelect.id, token).then(() => {
+        WalletService.archivedWallet(walletSelect.id).then((res) => {
             handleOpenSlide(walletSelect.id)
-        })
+        }).catch(err => console.log(err))
 
     };
-
 
     const handleOpenFormTranfer = () => {
         setOpenFormTranfer(true);
@@ -187,7 +182,7 @@ export default function CardWallet() {
                                                 <b>Archived</b>
                                             </Grid>
                                         </Button>
-                                        <Button onClick={handleOpenFormTranfer} fullWidth
+                                        <Button disabled={allWallet.length <= 1} onClick={handleOpenFormTranfer} fullWidth
                                                 sx={{borderTop: "1px solid #ececec", color: "green"}}>
                                             <Grid item xs={12}>
                                                 <b>TRANFERMONEY</b>

@@ -9,7 +9,7 @@ import { WalletService } from "../services/wallet.service";
 import { getAllWallet, setWalletSelect } from "../redux/walletSlice";
 
 
-const validateInput = Yup.object({
+export const validateInput = Yup.object({
     email: Yup.string()
         .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Email address invalid'),
     password: Yup.string()
@@ -36,7 +36,7 @@ export default function LoginOrRegister({ props }) {
                         const token = res.data.token;
                         localStorage.setItem('token', token);
                         dispatch(loginSuccess(userLogin));
-                        WalletService.getAllWallet(userLogin.id, token).then(res => {
+                        WalletService.getAllWallet(token).then(res => {
                             let walletList = res.data.walletList;
                             dispatch(getAllWallet(walletList));
                             if (walletList.length > 0) {
