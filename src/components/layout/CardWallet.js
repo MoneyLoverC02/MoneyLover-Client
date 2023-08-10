@@ -108,56 +108,68 @@ export default function CardWallet() {
             </div>
         </Slide>
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
-            <Container>
-                <Box sx={{margin: " 50px auto"}}>
-
-                    <Grid container spacing={2}>
+            <Box sx={{margin: " 50px auto"}}>
+                <Grid spacing={2}>
+                    <div className="   flex justify-center">
                         <Grid item xs={4}>
-                            <Card sx={{maxWidth: 578}} variant="outlined">
-                                <Box sx={{
-                                    position: 'relative', backgroundColor: "#f4f4f4", color: "black", height: "40px",
-                                }}>
-                                    <p style={{padding: "5px 10px"}}>Excluded from Total</p>
-                                </Box>
-                                <>
-                                    {allWallet.length > 0 && allWallet.map(wallet => (
-                                        <Button onClick={() => handleOpenSlide(wallet.id)} variant="outlined"
-                                                fullWidth color="success"
-                                                sx={{color: "black", justifyContent: "left", textAlign: "left"}}>
-                                            <div>
-                                                <img src={wallet.icon.icon}
-                                                     style={{
-                                                         width: "40px", height: "40px", margin: "15px", float: "left"
-                                                     }} alt=""/>
-                                                <div style={{float: "left", margin: "15px"}}>
-                                                    <span className='lowercase'>{wallet.name}</span><br/>
-                                                    <span className='lowercase'>{wallet.currency.sign} </span>
-                                                    <span>{(wallet.amountOfMoney)} </span>
+                            <div className="animation-card">
+
+                                <Card sx={{maxWidth: 560}} variant="outlined">
+                                    <Box sx={{
+                                        position: 'relative',
+                                        backgroundColor: "#f4f4f4",
+                                        color: "black",
+                                        height: "40px",
+                                    }}>
+                                        <p style={{padding: "5px 10px"}}>Excluded from Total</p>
+                                    </Box>
+                                    <>
+                                        {allWallet.length > 0 && allWallet.map(wallet => (
+                                            <Button onClick={() => handleOpenSlide(wallet.id)} variant="outlined"
+                                                    fullWidth color="success"
+                                                    sx={{
+                                                        color: "black", justifyContent: "left", textAlign: "left"
+                                                    }}>
+                                                <div>
+                                                    <img src={wallet.icon.icon}
+                                                         style={{
+                                                             width: "40px",
+                                                             height: "40px",
+                                                             margin: "15px",
+                                                             float: "left"
+                                                         }} alt=""/>
+                                                    <div style={{float: "left", margin: "15px"}}>
+                                                        <span className='lowercase'>{wallet.name}</span><br/>
+                                                        <span className='lowercase'>{wallet.currency.sign} </span>
+                                                        <span>{(wallet.amountOfMoney)} </span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Button>))}
-                                </>
-                            </Card>
+                                            </Button>))}
+                                    </>
+                                </Card>
+                            </div>
                         </Grid>
                         {walletSelect && checked && <Slide direction="left" in={checked} mountOnEnter unmountOnExit>
-                            < Grid item xs={8}>
-                                <Card variant="outlined">
+                            < Grid sx={{width:"600px"}} item xs={8}>
+                                <Card  variant="outlined">
                                     <Box sx={{
                                         position: 'relative',
                                         color: "black",
                                         height: "50px",
                                         borderBottom: "1px solid #ececec"
                                     }}>
-                                        <div style={{padding: "5px 10px",}}><Button sx={{color: "black"}}
-                                                                                    onClick={handleCloseSlide}><ClearIcon
-                                            sx={{float: "left"}}/></Button>
+                                        <div style={{padding: "5px 10px",}}>
+                                            <Button sx={{color: "black"}}
+                                                    onClick={handleCloseSlide}><ClearIcon
+                                                sx={{float: "left"}}/></Button>
                                             <b style={{marginLeft: "30px"}}>Wallet details</b>
                                             {walletSelect.walletRoles && walletSelect.walletRoles[0].archived === false ? (
                                                 <Stack direction="row" sx={{float: "right"}} spacing={2}>
                                                     <ModalDeleteWallets sx={{height: "402px"}}
                                                                         idWallet={walletSelect.id}
                                                                         onClose={handleCloseSlide}/>
-                                                    <Button onClick={handleOpenFormUpdate} color='success'>EDIT</Button>
+                                                    <Button onClick={handleOpenFormUpdate}
+                                                            color='success'>EDIT</Button>
                                                 </Stack>) : (<Stack direction="row" sx={{float: "right"}}
                                                                     spacing={2}><ModalDeleteWallets
                                                 sx={{height: "402px"}}
@@ -167,7 +179,7 @@ export default function CardWallet() {
                                         </div>
                                     </Box>
                                     <div fullWidth color="success"
-                                         sx={{color: "black", justifyContent: "left", textAlign: "left"}}>
+                                         style={{color: "black", justifyContent: "left", textAlign: "left"}}>
                                         <div>
                                             <img src={walletSelect.icon.icon}
                                                  style={{
@@ -199,34 +211,32 @@ export default function CardWallet() {
                                                 <b>SHARE WALLET</b>
                                             </Grid>
                                         </Button>
-                                    </>) : (
-                                       <>
-                                           <Button sx={{borderTop: "1px solid #ececec", color: "green"}}
-                                                   fullWidth
-                                                   onClick={handleCheckboxChange}>
-                                               <Grid item xs={12}>
-                                                   <b>Unarchived</b>
-                                               </Grid>
-                                           </Button>
-                                           <Button fullWidth sx={{borderTop: "1px solid #ececec", color: "green"}}>
-                                               <Grid item xs={12}>
-                                                   <b>SHARE WALLET</b>
-                                               </Grid>
-                                           </Button>
-                                       </>
-                                        )}
+                                    </>) : (<>
+                                        <Button sx={{borderTop: "1px solid #ececec", color: "green"}}
+                                                fullWidth
+                                                onClick={handleCheckboxChange}>
+                                            <Grid item xs={12}>
+                                                <b>Unarchived</b>
+                                            </Grid>
+                                        </Button>
+                                        <Button fullWidth sx={{borderTop: "1px solid #ececec", color: "green"}}>
+                                            <Grid item xs={12}>
+                                                <b>SHARE WALLET</b>
+                                            </Grid>
+                                        </Button>
+                                    </>)}
                                 </Card>
                             </Grid>
                         </Slide>}
-                    </Grid>
-                    <UpdateModal isOpen={openFormUpdate} onClose={handleCloseFormUpdate}
-                                 onSubmit={handleSubmitFormUpdate}/>
-                    <NestedModal isOpen={openFormCreate} onClose={handleCloseFormCreate}
-                                 onSubmit={handleSubmitFormCreate}/>
-                    <TranferModal isOpen={openFormTranfer} onClose={handleCloseFormTranfer}
-                                  onSubmit={handleSubmitFormTranfer}/>
-                </Box>
-            </Container>
+                    </div>
+                </Grid>
+                <UpdateModal isOpen={openFormUpdate} onClose={handleCloseFormUpdate}
+                             onSubmit={handleSubmitFormUpdate}/>
+                <NestedModal isOpen={openFormCreate} onClose={handleCloseFormCreate}
+                             onSubmit={handleSubmitFormCreate}/>
+                <TranferModal isOpen={openFormTranfer} onClose={handleCloseFormTranfer}
+                              onSubmit={handleSubmitFormTranfer}/>
+            </Box>
         </Slide>
     </div>);
 }
