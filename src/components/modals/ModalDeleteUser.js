@@ -10,13 +10,14 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {UserService} from "../../services/user.service";
 import {logout} from "../../redux/authSlice";
 import {useNavigate} from "react-router-dom";
+import { walletLogout } from '../../redux/walletSlice';
 
 
 export default function ModalDeleteUser() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
-    const user = useSelector(state => state.auth.login.currentUser);
+    // const user = useSelector(state => state.auth.login.currentUser);
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -25,12 +26,12 @@ export default function ModalDeleteUser() {
         setOpen(false);
     };
     const handleDeleteUser = () => {
-        const token = localStorage.getItem('token');
-        UserService.deleteUser(user.id, token)
+        UserService.deleteUser()
             .then(response => {
-                localStorage.removeItem('token')
-                dispatch(logout)
-                navigate('/login')
+                localStorage.removeItem('token');
+                dispatch(logout());
+                dispatch(walletLogout());
+                navigate('/login');
             });
     }
     return (

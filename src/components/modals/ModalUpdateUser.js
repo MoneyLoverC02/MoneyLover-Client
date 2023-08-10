@@ -59,9 +59,7 @@ export default function ModalUpdateUser() {
         },
         validationSchema: validatePassword,
         onSubmit: values => {
-            console.log(values)
-            const token = localStorage.getItem('token');
-            UserService.updateUser(user.id, token, values)
+            UserService.updateUser(values)
                 .then(res => {
                     let checkValidCurrentPass = res.data.successCurrentPass
                     let checkValidNewPass = res.data.successNewPass
@@ -74,7 +72,7 @@ export default function ModalUpdateUser() {
                     }
                     if (checkValidPasswordUpdate) {
                         localStorage.removeItem('token')
-                        dispatch(logout)
+                        dispatch(logout())
                         navigate('/login')
                     }
                 })

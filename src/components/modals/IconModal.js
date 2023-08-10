@@ -20,13 +20,12 @@ export default function IconModal({selectIcon, iconBeforeUpdate}) {
   const iconWallets = useSelector(state => state.wallet.icons);
   const [iconSelect, setIconSelect] = React.useState(iconBeforeUpdate ? iconBeforeUpdate : null);
   const dispatch = useDispatch();
-  let token = localStorage.getItem('token');
   
   React.useEffect(() => {
-    WalletService.getIcon(token).then(res => {
+    WalletService.getIcon().then(res => {
         dispatch(getIcon(res.data.iconWalletList))
     })
-})
+}, [])
   const handleOpen = () => {
     setOpen(true);
   };

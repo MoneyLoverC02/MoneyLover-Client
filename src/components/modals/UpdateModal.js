@@ -23,7 +23,7 @@ export default function UpdateModal({ isOpen, onClose, onSubmit }) {
     const allWallet = useSelector(state => state.wallet.allWallet);
     const [currencySelect, setCurrencySelect] = React.useState(walletSelect?.currency);
     const [iconSelect, setIconSelect] = React.useState(walletSelect?.icon);
-    const user = useSelector(state => state.auth.login.currentUser);
+    // const user = useSelector(state => state.auth.login.currentUser);
     const [dataInput, setDataInput] = React.useState({ name: walletSelect?.name, amountOfMoney: walletSelect?.amountOfMoney });
     const dispatch = useDispatch();
     const [checkName, setCheckName] = React.useState(true);
@@ -34,8 +34,7 @@ export default function UpdateModal({ isOpen, onClose, onSubmit }) {
         setDataInput({ name: walletSelect?.name, amountOfMoney: walletSelect?.amountOfMoney })
     }, [walletSelect]);
     React.useEffect(() => {
-        let token = localStorage.getItem('token')
-        WalletService.getAllWallet(user.id, token).then(res => {
+        WalletService.getAllWallet().then(res => {
             dispatch(getAllWallet(res.data.walletList));
         })
     }, [])
@@ -70,11 +69,10 @@ export default function UpdateModal({ isOpen, onClose, onSubmit }) {
         let iconID = iconSelect?.id;
         let currencyID = currencySelect?.id;
         let amountOfMoney = dataInput.amountOfMoney;
-        let token = localStorage.getItem('token')
-        WalletService.updateWallet(user.id, walletSelect.id, { name, iconID, currencyID, amountOfMoney }, token).then((res) => {
+        WalletService.updateWallet(walletSelect.id, { name, iconID, currencyID, amountOfMoney }).then((res) => {
             let updatedWallet = res.data.updatedWallet[0];
             dispatch(setWalletSelect(updatedWallet));
-            WalletService.getAllWallet(user.id, token).then(res => {
+            WalletService.getAllWallet().then(res => {
                 let walletList = res.data.walletList;
                 dispatch(getAllWallet(walletList));
                 onSubmit();
@@ -84,7 +82,7 @@ export default function UpdateModal({ isOpen, onClose, onSubmit }) {
     const handleCancel = () => {
         setCheckName(true);
         setDataInput({name:walletSelect?.name, amountOfMoney:walletSelect?.amountOfMoney})
-        onSubmit()
+        onClose();
     }
 
     return (

@@ -11,6 +11,7 @@ import { logout } from '../../redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 import ModalDeleteUser from "../modals/ModalDeleteUser";
 import ModalUpdateUser from '../modals/ModalUpdateUser';
+import { walletLogout } from '../../redux/walletSlice';
 
 const style = {
     position: 'absolute',
@@ -34,7 +35,8 @@ export default function MyAccount() {
     const handleClose = () => setOpen(false);
     const handleSignOut = () => {
         localStorage.clear();
-        dispatch(logout)
+        dispatch(logout());
+        dispatch(walletLogout());
         navigate('/login');
     }
 

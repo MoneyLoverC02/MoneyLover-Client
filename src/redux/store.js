@@ -30,8 +30,6 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-
-
 export const store = configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
@@ -41,5 +39,13 @@ export const store = configureStore({
             },
         }),
 })
+
+// export const store = configureStore({
+//     reducer: {
+//         auth: authReducer,
+//         wallet: walletReducer,
+//         transaction: transactionReducer
+//     },
+// })
 
 export let persistor = persistStore(store);

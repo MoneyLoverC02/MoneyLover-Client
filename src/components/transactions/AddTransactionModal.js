@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Box, Modal } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletService } from '../../services/wallet.service';
-import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
+import { getAllWallet } from '../../redux/walletSlice';
 import WalletSelectTransactionModal from './WalletSelectTransaction';
 import CategorySelectModal from './CategorySelectModal';
 import DatePickerComponent from '../datePick/datePick';
@@ -21,23 +21,22 @@ const style = {
 
 export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
     const [isValid, setIsValid] = React.useState(true);
-    const walletSelect = useSelector(state => state.wallet.walletSelect);
-    const [categorySelect, setCategorySelect] = React.useState();
+    const [walletSelect, setWalletSelect] = React.useState(null);
+    const [categorySelect, setCategorySelect] = React.useState(null);
     const allWallet = useSelector(state => state.wallet.allWallet);
-    const user = useSelector(state => state.auth.login.currentUser);
+    // const user = useSelector(state => state.auth.login.currentUser);
     const [moneyInput, setMoneyInput] = React.useState(0);
     const [checkMoney, setCheckMoney] = React.useState(true);
     const dispatch = useDispatch();
 
     React.useEffect(() => {
-        let token = localStorage.getItem('token')
-        WalletService.getAllWallet(user.id, token).then(res => {
+        WalletService.getAllWallet().then(res => {
             dispatch(getAllWallet(res.data.walletList));
         })
     }, [])
 
     const handleSelectWallet = (wallet) => {
-        dispatch(setWalletSelect(wallet));
+        setWalletSelect(wallet);
     }
     const handleSelectCategory = (category) => {
         setCategorySelect(category)
@@ -71,9 +70,11 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
     //     }).catch(err => console.log(err.message));
     // }
     const handleCancel = () => {
+        setCategorySelect(null);
+        setWalletSelect(null);
         setCheckMoney(true);
         setMoneyInput(0);
-        // onSubmit()
+        onClose();
     }
 
     return (
@@ -90,7 +91,7 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
                     <div className='p-6'>
                         <div className='flex items-center justify-center mb-6'>
                             <div className='w-64 mr-4 py-1 pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500 hover:cursor-pointer'>
-                                <WalletSelectTransactionModal walletTranssSelect={handleSelectWallet} />
+                                <WalletSelectTransactionModal walletTransSelect={handleSelectWallet} />
                             </div>
                             <div className='w-64 mr-4 py-1 pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500 hover:cursor-pointer'>
                                 <CategorySelectModal selectCategory={handleSelectCategory} />

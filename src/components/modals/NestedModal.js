@@ -22,7 +22,7 @@ export default function NestedModal({isOpen, onClose, onSubmit}) {
   const [isValid, setIsValid] = React.useState(false);
   const [currencySelect, setCurrencySelect] = React.useState(null);
   const [iconSelect, setIconSelect] = React.useState({id: 1, icon: 'https://static.moneylover.me/img/icon/icon.png'});
-  const user = useSelector(state => state.auth.login.currentUser);
+  // const user = useSelector(state => state.auth.login.currentUser);
   const allWallet = useSelector(state => state.wallet.allWallet);
   const [checkName, setCheckName] = React.useState(true);
   const dispatch = useDispatch();
@@ -54,17 +54,23 @@ export default function NestedModal({isOpen, onClose, onSubmit}) {
   }
 
   const handleSubmit = () => {
-    let token = localStorage.getItem('token');
     let name = dataInput.name;
     let iconID = iconSelect.id;
     let currencyID = currencySelect?.id;
     let amountOfMoney = dataInput.amountOfMoney;
-    WalletService.createWallet({ name, iconID, currencyID, amountOfMoney }, user.id, token).then((res) => {
+    WalletService.createWallet({ name, iconID, currencyID, amountOfMoney }).then((res) => {
       let wallet = res.data.newWallet;
-      WalletService.createDetailWallet({ userID: user.id, walletID: wallet.id }, token).then(() => {
+      WalletService.createDetailWallet({walletID: wallet.id }).then((res) => {
+        let walletDetail = res.data.newWallet;
+        let walletRoles = [];
+        walletRoles.push({id:walletDetail.id, role: walletDetail.role, archived: walletDetail.archived});
+        wallet = {...wallet, walletRoles};
         dispatch(getAllWallet([...allWallet, wallet]));
         dispatch(setWalletSelect(wallet));
-        setDataInput({ name: '', amountOfMoney: null })
+        setDataInput({ name: '', amountOfMoney: null });
+        setIconSelect({id: 1, icon: 'https://static.moneylover.me/img/icon/icon.png'});
+        setCurrencySelect(null);
+        setIsValid(false)
         onSubmit();
       }).catch(err => console.log(err.message));
     }).catch(err => console.log(err.message));
@@ -113,7 +119,7 @@ export default function NestedModal({isOpen, onClose, onSubmit}) {
             </div>
           </div>
           <div className='py-[14px] px-6 flex justify-end'>
-            <button type='button' onClick={handleSubmit} className='bg-lightgreen text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400' disabled={!isValid}>Save</button>
+            <button type='button' onClick={handleSubmit} className='bg-lightgreen text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400' disabled={!isValid || !checkName}>Save</button>
           </div>
         </Box>
       </Modal>

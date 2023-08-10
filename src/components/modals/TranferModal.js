@@ -19,17 +19,17 @@ const style = {
 
 export default function TranferModal({ isOpen, onClose, onSubmit }) {
     const [isValid, setIsValid] = React.useState(true);
-    const [walletReceived, setWalletReceived] = React.useState();
+    const [walletReceived, setWalletReceived] = React.useState(null);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     // const allWallet = useSelector(state => state.wallet.allWallet);
-    const user = useSelector(state => state.auth.login.currentUser);
+    // const user = useSelector(state => state.auth.login.currentUser);
     const [moneyInput, setMoneyInput] = React.useState(0);
     const [checkMoney, setCheckMoney] = React.useState(true);
     const dispatch = useDispatch();
     let token = localStorage.getItem('token')
 
     React.useEffect(() => {
-        WalletService.getAllWallet(user.id, token).then(res => {
+        WalletService.getAllWallet(token).then(res => {
             dispatch(getAllWallet(res.data.walletList));
         })
     }, [])
@@ -52,20 +52,24 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
     const handleSubmit = () => {
         let walletIDReceived = walletReceived.id;
         let money = +moneyInput;
-        WalletService.tranferMoney(user.id, walletSelect.id, { walletIDReceived, money }, token).then((res) => {
+        WalletService.tranferMoney(walletSelect.id, { walletIDReceived, money }).then((res) => {
             if (res.data.message === 'Money transfer success!') {
                 setMoneyInput(0);
                 let walletTranfer = res.data.walletTransfer;
-                WalletService.getAllWallet(user.id, token).then(res => {
+                WalletService.getAllWallet().then(res => {
                     dispatch(setWalletSelect(walletTranfer));
                     dispatch(getAllWallet(res.data.walletList));
                     onSubmit();
                 })
+            } else if (res.data.message === "Money transfer failed!") {
+                alert('Ví chuyển đến không có quyền owner!'); //sau thay thông báo
             }
+            setWalletReceived(null);
         }).catch(err => console.log(err.message));
     }
     const handleCancel = () => {
         setCheckMoney(true);
+        setWalletReceived(null)
         setMoneyInput(0);
         onSubmit()
     }
@@ -103,7 +107,7 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
                     </div>
                     <div className='py-[14px] px-6 flex justify-end'>
                         <button type='button' onClick={handleCancel} className='bg-slate-400 text-white text-sm font-medium py-2 px-8 uppercase rounded mr-3'>Cancel</button>
-                        <button type='button' onClick={handleSubmit} className='bg-lightgreen text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400' disabled={!isValid || !checkMoney}>Save</button>
+                        <button type='button' onClick={handleSubmit} className='bg-lightgreen text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400' disabled={!isValid || !checkMoney || !walletReceived}>Save</button>
                     </div>
                 </Box>
             </Modal>
