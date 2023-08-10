@@ -48,7 +48,7 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
 
     const handleChange = (e) => {
         let data = { ...dataInput, [e.target.name]: e.target.value };
-        data.money > walletSelect.amountOfMoney ? setCheckMoney(false) : setCheckMoney(true);
+        data.money > walletSelect?.amountOfMoney ? setCheckMoney(false) : setCheckMoney(true);
         setDataInput(data);
         handleCheckValid(e);
     }
