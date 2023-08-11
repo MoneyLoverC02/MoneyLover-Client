@@ -63,6 +63,9 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
         let amount = +money;
         console.log(dateInput);
         let date = dateInput;
+        if (typeof(dataInput) === 'object' ) {
+            date = formatDate(date);
+        }
         let categoryID = categorySelect.id;
         TransactionService.createTransaction(walletSelect.id, { amount, date, note, categoryID }).then((res) => {
             if (res.data.message === 'Creat transaction success!') {
