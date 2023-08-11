@@ -20,7 +20,7 @@ export default function WalletSelectModal({walletDesSelect}) {
     const [allDestinationWallet, setAllDestinationWallet] = React.useState(allWallet);
     const [walletDestinationSelect, setDestinationWalletSelect] = React.useState();
     React.useEffect(() => {
-        let walletArr = allWallet.filter(wallet => wallet.id !== walletSelect.id)
+        let walletArr = allWallet?.filter(wallet => wallet.id !== walletSelect?.id)
         setAllDestinationWallet(walletArr)
     }, [])
     const handleOpen = () => {
@@ -45,8 +45,8 @@ export default function WalletSelectModal({walletDesSelect}) {
                     <div onClick={handleSelectWallet} className='flex justify-center items-center'>
                         {walletDestinationSelect ?
                             (<>
-                                <img src={walletDestinationSelect.icon.icon} className="w-6 h-6 object-cover mr-4 rounded-full" alt='icon-flag' />
-                                <span className="text-input text-start">{walletDestinationSelect.name}</span>
+                                <img src={walletDestinationSelect?.icon.icon} className="w-6 h-6 object-cover mr-4 rounded-full" alt='icon-flag' />
+                                <span className="text-input text-start">{walletDestinationSelect?.name}</span>
                             </>
                             ) :
                             (<>

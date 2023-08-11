@@ -11,16 +11,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import PersonIcon from '@mui/icons-material/Person';
 import Typography from '@mui/material/Typography';
-import { blue } from '@mui/material/colors';
-import { useDispatch, useSelector } from 'react-redux';
-import { setWalletSelect } from '../../redux/walletSlice';
+import {blue} from '@mui/material/colors';
+import {useDispatch, useSelector} from 'react-redux';
+import {setWalletSelect} from '../../redux/walletSlice';
+
 function SimpleDialog(props) {
-    const { onClose, selectedValue, open } = props;
+    const {onClose, selectedValue, open} = props;
     const walletList = useSelector(state => state.wallet.allWallet);
-    const walletSelect = useSelector(state => state.wallet.walletSelect);
 
     const handleClose = () => {
-
         onClose(selectedValue);
     };
 let totalMoney = 0
@@ -63,7 +62,6 @@ let totalMoney = 0
                             <img src={wallet.icon.icon} alt=""/>
                         </Avatar>
                     </ListItemAvatar>
-                    {/*<ListItemText primary={wallet.name +" : "+wallet.amountOfMoney +" "+ wallet.currency.sign } />*/}
                     <ListItemText
                         primary={wallet.name}
                         secondary={
@@ -87,15 +85,10 @@ SimpleDialog.propTypes = {
 
 export default function SelectWallets() {
     const [open, setOpen] = React.useState(false);
-    // const allWallet = useSelector(state => state.wallet.allWallet);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const dispatch = useDispatch();
 
-    // const [selectedName, setSelectedName] = React.useState( allWallet.length> 0 ? allWallet[0].name : '')
-    // const [selectedMoney, setSelectedMoney] = React.useState( allWallet.length> 0 ? allWallet[0].amountOfMoney : 0);
-
     const handleClickOpen = () => {
-        console.log(walletSelect)
         setOpen(true);
     };
 
@@ -106,18 +99,19 @@ export default function SelectWallets() {
         }
     };
 
-    return (<div>
-
-        <Button sx={{ color: "black", justifyContent: "left", textTransform: 'lowercase' }} onClick={handleClickOpen}>
-            {walletSelect?.name}
-        </Button>
-        <Typography variant="subtitle1" component="div">
-            {walletSelect.amountOfMoney>0?"+":null} {walletSelect?.amountOfMoney} {walletSelect.currency.sign}
-        </Typography>
-        <SimpleDialog
-            selectedValue={walletSelect?.name}
-            open={open}
-            onClose={handleClose}
-        />
-    </div>);
+    return (
+        <div>
+            <Button sx={{color: "black", justifyContent: "left", textTransform: 'lowercase'}} onClick={handleClickOpen}>
+                {walletSelect?.name}
+            </Button>
+            <Typography variant="subtitle1" component="div">
+                {walletSelect?.amountOfMoney > 0 ? "+" : null} {walletSelect?.amountOfMoney} {walletSelect?.currency.sign}
+            </Typography>
+            <SimpleDialog
+                selectedValue={walletSelect?.name}
+                open={open}
+                onClose={handleClose}
+            />
+        </div>
+    );
 }

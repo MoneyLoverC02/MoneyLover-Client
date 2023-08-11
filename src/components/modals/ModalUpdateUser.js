@@ -82,7 +82,7 @@ export default function ModalUpdateUser() {
     return (
         <div>
             <Button variant="outlined" startIcon={<Edit />} onClick={handleClickOpen}>
-                Edit
+                Edit password
             </Button>
             <Modal
                 open={open}
