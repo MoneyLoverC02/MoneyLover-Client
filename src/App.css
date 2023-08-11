@@ -5,8 +5,8 @@
   margin-left: 92px;
   height: 67px;
   background-color: white;
-  z-index: 10000;
   position: fixed;
+  z-index: 10;
   top: 0px;
   left: 0px;
   right: 0px;
@@ -128,12 +128,9 @@
 }
 
 .component {
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
-  transition: all 0.3s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
 .move-left {
-  transform: translateX(-50px);
+  transform: translateX(-390px);
 }
