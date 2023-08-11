@@ -35,7 +35,7 @@ export default function MyAccount() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const handleSignOut = () => {
-        localStorage.clear();
+        localStorage.removeItem('token');
         dispatch(logout());
         dispatch(walletLogout());
         // dispatch(transactionLogout());
