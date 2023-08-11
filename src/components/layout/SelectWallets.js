@@ -108,7 +108,9 @@ function SimpleDialog(props) {
     };
 
     const handleListItemClick = (value) => {
-        onClose(value);
+        if (value) {
+            onClose(value);
+        }
     };
 
     return (<Dialog onClose={handleClose} open={open}>
@@ -117,11 +119,11 @@ function SimpleDialog(props) {
             {Array.isArray(walletList) && walletList?.length > 0 && walletList.map((wallet) => (<ListItem disableGutters>
                 <ListItemButton onClick={() => handleListItemClick(wallet)} key={wallet.id}>
                     <ListItemAvatar>
-                        <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
-                            <PersonIcon />
+                        <Avatar sx={{bgcolor: blue[100], color: blue[600]}}>
+                            <PersonIcon/>
                         </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={wallet.name} />
+                    <ListItemText primary={wallet.name}/>
                 </ListItemButton>
             </ListItem>))}
         </List>
@@ -147,7 +149,9 @@ export default function SelectWallets() {
 
     const handleClose = (value) => {
         setOpen(false);
-        dispatch(setWalletSelect(value))
+        if (typeof value === "object" && value !== null) {
+            dispatch(setWalletSelect(value))
+        }
     };
 
     return (<div>
