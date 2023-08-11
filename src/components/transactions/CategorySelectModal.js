@@ -17,13 +17,13 @@ const style = {
 };
 
 
-export default function CategorySelectModal({ selectCategory }) {
+export default function CategorySelectModal({ selectCategory, categoryBefore }) {
     const [open, setOpen] = React.useState(false);
     const allCategory = useSelector(state => state.transaction.allCategory);
     const [allIncome, setAllIncome] = React.useState([]);
     const [allExpense, setAllExpense] = React.useState([]);
     const [selectInCome, setSelectIncome] = React.useState(false);
-    const [categorySelect, setCategorySelect] = React.useState();
+    const [categorySelect, setCategorySelect] = React.useState(categoryBefore ? categoryBefore : null);
     const dispatch = useDispatch();
     React.useEffect(() => {
         TransactionService.getAllCategory().then(res => {

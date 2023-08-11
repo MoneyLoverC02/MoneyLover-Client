@@ -1,34 +1,28 @@
 import * as React from 'react';
 import { useState } from "react";
 import AddTransactionModal from "./AddTransactionModal";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
-    AppBar, Box, Card, Container, Grid, IconButton, Slide, Stack, Toolbar, Typography
+    Card, Slide, Stack
 } from "@mui/material";
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import ClearIcon from "@mui/icons-material/Clear";
-import { WalletService } from '../../services/wallet.service';
-import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
-import UpdateModal from '../modals/UpdateModal';
-import NestedModal from '../modals/NestedModal';
 import { useNavigate } from 'react-router-dom';
-import TranferModal from '../modals/TranferModal';
 import { TransactionService } from '../../services/transaction.service';
-import { getAllCategory, getAllExpense, getAllIncome, getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
-import ModalDeleteWallets from '../layout/ModalDeleteWallets';
+import { getAllCategory, getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
 import { convertDate } from '../datePick/datePick';
 import ModalDeleteTrans from './ModalDeleteTrans';
+import UpdateTransactionModal from './UpdateTransactionModal';
 
 export default function TransactionCard({ openModal, closeModal }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [checked, setChecked] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
+    const [openFormUpdate, setOpenFormUpdate] = useState(false);
     const transactionSelect = useSelector(state => state.transaction.transactionSelect);
     const allTransaction = useSelector(state => state.transaction.allTransaction);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
-    const allWallet = useSelector(state => state.wallet.allWallet);
     const allCategory = useSelector(state => state.transaction.allCategory)
     const [calculate, setCalculate] = useState({ totalInflow: 1000, totalOutflow: 10 }); //đang fix cứng
 
@@ -71,9 +65,15 @@ export default function TransactionCard({ openModal, closeModal }) {
     }
 
     const handleOpenFormUpdate = () => {
-
+        setOpenFormUpdate(true);
     }
-
+    const handleCloseFormUpdate = () => {
+        setOpenFormUpdate(false);
+    }
+    const handleSubmitFormUpdate = () => {
+        handleCloseFormUpdate();
+        setChecked(true);
+    }
     return (
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
             <div className='ml-[92px] px-8 mt-10'>
@@ -106,7 +106,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                         </div>
                                                         <div className='flex justify-end px-4 py-2'>
                                                             <span className='border-t-2 pl-4 py-2'>
-                                                            {walletSelect?.currency.sign} {calculate.totalInflow - calculate.totalOutflow}
+                                                                {walletSelect?.currency.sign} {calculate.totalInflow - calculate.totalOutflow}
 
                                                             </span>
                                                         </div>
@@ -216,10 +216,12 @@ export default function TransactionCard({ openModal, closeModal }) {
                             </div>
                         </Card>
                     </Slide> :
-                    null
+                        null
                     }
                     <AddTransactionModal isOpen={openModal} onClose={handleCloseModal}
                         onSubmit={handleSubmitFormTransaction} />
+                    <UpdateTransactionModal isOpen={openFormUpdate} onClose={handleCloseFormUpdate}
+                        onSubmit={handleSubmitFormUpdate} />
                 </div>
             </div >
         </Slide >
