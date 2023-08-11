@@ -65,7 +65,7 @@ export default function ModalDeleteTrans({ idWallet, onClose }) {
             <DialogActions>
                 <Button color="success" variant="outlined" onClick={handleClose} autoFocus>CANCEL</Button>
                 <Button color="error" variant="contained" onClick={() => {
-                    handleDelete()
+                    handleDelete();
                 }}>
                     DELETE
                 </Button>
