@@ -56,7 +56,6 @@ export default function TransactionCard({ openModal, closeModal }) {
     };
     const handleCloseSlide = () => {
         setChecked(false);
-        console.log(checked);
     };
     const handleOpenModal = () => {
         setModalOpen(true);
