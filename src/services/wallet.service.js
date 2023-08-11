@@ -79,8 +79,7 @@ export class WalletService {
             }
         )
     }
-    static async archivedWallet(walletID) {
-        let token = localStorage.getItem('token');
+    static async archivedWallet(walletID,token) {
         return await axios.post(`http://localhost:4000/api/users/wallets/${walletID}/archived`,
             {
                 headers: {
