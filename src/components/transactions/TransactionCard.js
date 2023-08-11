@@ -32,13 +32,14 @@ export default function TransactionCard({ openModal, closeModal }) {
         const navbarHeight = 111;
         const stopPosition = navbarHeight;
 
-        const handleScroll = () => {
-            const scrollTop = window.scrollY;
-            if (scrollTop <= stopPosition) {
-                scrollStopper.style.top = `${stopPosition - scrollTop}px `;
-            } else {
-                scrollStopper.style.top = '66px';
-            }
+            const handleScroll = () => {
+                const scrollTop = window.scrollY;
+                console.log( scrollTop)
+                if (scrollTop <= stopPosition) {
+                    scrollStopper.style.top = `${stopPosition  - scrollTop}px `;
+                } else {
+                    scrollStopper.style.top = '65px';
+                }
 
         };
 
