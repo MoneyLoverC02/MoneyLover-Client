@@ -104,6 +104,7 @@ function SimpleDialog(props) {
     // const walletSelect = useSelector(state => state.wallet.walletSelect);
 
     const handleClose = () => {
+
         onClose(selectedValue);
     };
 
@@ -149,10 +150,10 @@ export default function SelectWallets() {
 
     const handleClose = (value) => {
         setOpen(false);
-        if (value) {
+        console.log(typeof value)
+        if (typeof value === "object" && value !== null) {
             dispatch(setWalletSelect(value))
         }
-
     };
 
     return (<div>
