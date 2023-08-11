@@ -9,6 +9,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
+import PersonIcon from '@mui/icons-material/Person';
 import Typography from '@mui/material/Typography';
 import {blue} from '@mui/material/colors';
 import {useDispatch, useSelector} from 'react-redux';
@@ -21,7 +22,10 @@ function SimpleDialog(props) {
     const handleClose = () => {
         onClose(selectedValue);
     };
-
+let totalMoney = 0
+    for (let i = 0; i < walletList.length; i++) {
+        totalMoney+=walletList[0].amountOfMoney
+    }
     const handleListItemClick = (value) => {
         if (value) {
             onClose(value);
@@ -30,11 +34,31 @@ function SimpleDialog(props) {
 
     return (<Dialog onClose={handleClose} open={open}>
         <DialogTitle>Excluded from Total</DialogTitle>
-        <List sx={{pt: 0, width: "500px"}}>
-            {walletList?.length > 0 && walletList.map((wallet) => (<ListItem disableGutters>
+        <List sx={{ pt: 0, width:"500px" }}>
+            <ListItem disableGutters>
+                <ListItemButton >
+                    <ListItemAvatar>
+                        <Avatar sx={{ bgcolor: blue[100], color: blue[600] } }>
+                            <PersonIcon/>
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                        primary="Total monney"
+                        secondary={
+                            <React.Fragment>
+                                <Typography variant="body2" color="text.secondary">
+                                    {totalMoney}
+                                </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItemButton>
+            </ListItem>
+            {walletList?.length > 0 && walletList.map((wallet) => (
+                <ListItem disableGutters>
                 <ListItemButton onClick={() => handleListItemClick(wallet)} key={wallet.id}>
                     <ListItemAvatar>
-                        <Avatar sx={{bgcolor: blue[100], color: blue[600]}}>
+                        <Avatar sx={{ bgcolor: blue[100], color: blue[600] } }>
                             <img src={wallet.icon.icon} alt=""/>
                         </Avatar>
                     </ListItemAvatar>
@@ -49,7 +73,8 @@ function SimpleDialog(props) {
                         }
                     />
                 </ListItemButton>
-            </ListItem>))}
+            </ListItem>
+            ))}
         </List>
     </Dialog>);
 }
