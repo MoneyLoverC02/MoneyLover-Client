@@ -3,12 +3,13 @@
 @tailwind utilities;
 .navbar {
   margin-left: 92px;
-  height: 66px;
+  height: 67px;
   background-color: white;
   position: fixed;
   top: 0px;
   left: 0px;
   right: 0px;
+  border-bottom:1px solid rgb(201, 201, 201, 1) ;
 }
  .App {
   text-align: center;
@@ -55,6 +56,7 @@
   background-color: white;
   padding: 10px;
   width: 90px;
+  position: fixed;
   height: 100vh;
   box-shadow: 2px 0 rgb(201, 201, 201, 1);
   text-align: center;
@@ -122,4 +124,12 @@
   outline: none;
   border: none;
   box-shadow: none;
+}
+
+.component {
+  transition: all 0.1s ease-in-out;
+}
+
+.move-left {
+  transform: translateX(-390px);
 }
