@@ -71,8 +71,7 @@ export default function SelectWallets() {
     // const [selectedMoney, setSelectedMoney] = React.useState( allWallet.length> 0 ? allWallet[0].amountOfMoney : 0);
 
     const handleClickOpen = () => {
-        console.log(walletSelect)
-        setOpen(true);
+       setOpen(true);
     };
 
     const handleClose = (value) => {
@@ -88,7 +87,7 @@ export default function SelectWallets() {
             {walletSelect?.name}
         </Button>
         <Typography variant="subtitle1" component="div">
-            {walletSelect.amountOfMoney>0?"+":null} {walletSelect?.amountOfMoney} {walletSelect.currency.sign}
+            {walletSelect?.amountOfMoney>0?"+":null} {walletSelect?.amountOfMoney} {walletSelect?.currency.sign}
         </Typography>
         <SimpleDialog
             selectedValue={walletSelect?.name}
