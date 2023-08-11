@@ -76,8 +76,8 @@ export default function TransactionCard({ openModal, closeModal }) {
     }
     return (
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
-            <div className='ml-[92px] px-8 mt-10'>
-                <div className='flex justify-center gap-8'>
+            <div className='ml-[92px] px-4 mt-10'>
+                <div className='flex justify-center gap-4'>
                     <div className='component'>
                         {allTransaction?.length > 0 ?
                             (
@@ -184,8 +184,8 @@ export default function TransactionCard({ openModal, closeModal }) {
                         }
                     </div>
 
-                    {(transactionSelect && checked) ? <Slide direction="left" in={checked} mountOnEnter unmountOnExit>
-                        <Card variant="outlined" className='md:w-[600px] h-[250px]'>
+                    {(transactionSelect && checked && allTransaction?.length > 0) ? <Slide direction="left" in={checked} mountOnEnter unmountOnExit>
+                        <Card variant="outlined" className='md:w-[800px] h-[250px]'>
                             <div className='flex text-center justify-between mx-3 my-4'>
                                 <div className='text-center'>
                                     <Button sx={{ color: "black" }}
@@ -218,11 +218,11 @@ export default function TransactionCard({ openModal, closeModal }) {
                     </Slide> :
                         null
                     }
-                    <AddTransactionModal isOpen={openModal} onClose={handleCloseModal}
-                        onSubmit={handleSubmitFormTransaction} />
-                    <UpdateTransactionModal isOpen={openFormUpdate} onClose={handleCloseFormUpdate}
-                        onSubmit={handleSubmitFormUpdate} />
                 </div>
+                <AddTransactionModal isOpen={openModal} onClose={handleCloseModal}
+                    onSubmit={handleSubmitFormTransaction} />
+                <UpdateTransactionModal isOpen={openFormUpdate} onClose={handleCloseFormUpdate}
+                    onSubmit={handleSubmitFormUpdate} />
             </div >
         </Slide >
     );
