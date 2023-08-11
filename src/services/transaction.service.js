@@ -35,9 +35,19 @@ export class TransactionService {
             }
         )
     }
-    static async deleteTransaction(walletID, transactionID) {
+    static async deleteTransaction(walletID, transactionID, data) {
         let token = localStorage.getItem('token');
         return await axios.delete(`http://localhost:4000/api/users/wallets/${walletID}/transactions/${transactionID}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+    }
+    static async updateTransaction(walletID, transactionID, data) {
+        let token = localStorage.getItem('token');
+        return await axios.put(`http://localhost:4000/api/users/wallets/${walletID}/transactions/${transactionID}`, data,
             {
                 headers: {
                     'Authorization': `Bearer ${token}`

@@ -99,8 +99,15 @@ export const convertDate = (dateStr) => {
   return newFormat;
 }
 
-export default function DatePickerComponent({ getDate }) {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+function parseDate(input) {
+  var parts = input.split('-');
+  // parts[0] is the year, parts[1] is the month, and parts[2] is the day
+  return new Date(parts[0], parts[1] - 1, parts[2]); // Note: Month is 0-based
+}
+
+export default function DatePickerComponent({ getDate, dateBefore }) {
+;
+  const [selectedDate, setSelectedDate] = useState(dateBefore ? parseDate(dateBefore) : new Date());
   const handleDateChange = (date) => {
     setSelectedDate(date);
     let dateString = formatDate(date);
