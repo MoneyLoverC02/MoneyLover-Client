@@ -1,18 +1,19 @@
 import * as React from 'react';
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import AddTransactionModal from "./AddTransactionModal";
 import {
-    Card, Slide, Stack
+    Card, IconButton, Slide, Stack
 } from "@mui/material";
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import ClearIcon from "@mui/icons-material/Clear";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { TransactionService } from '../../services/transaction.service';
 import { getAllCategory, getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
 import { convertDate } from '../datePick/datePick';
 import ModalDeleteTrans from './ModalDeleteTrans';
 import UpdateTransactionModal from './UpdateTransactionModal';
+import NavigationIcon from '@mui/icons-material/Navigation';
 
 export default function TransactionCard({ openModal, closeModal }) {
     const dispatch = useDispatch();
@@ -27,28 +28,28 @@ export default function TransactionCard({ openModal, closeModal }) {
     const [calculate, setCalculate] = useState({ totalInflow: 1000, totalOutflow: 10 }); //đang fix cứng
 
 
-        useEffect(() => {
-            const scrollStopper = document.querySelector('.scroll-stopper');
-            const navbarHeight = 111;
-            const stopPosition = navbarHeight;
+    useEffect(() => {
+        const scrollStopper = document.querySelector('.scroll-stopper');
+        const navbarHeight = 111;
+        const stopPosition = navbarHeight;
 
-            const handleScroll = () => {
-                const scrollTop = window.scrollY;
-                console.log( scrollTop)
-                if (scrollTop <= stopPosition) {
-                    scrollStopper.style.top = `${stopPosition  - scrollTop}px `;
-                } else {
-                    scrollStopper.style.top = '66px';
-                }
+        const handleScroll = () => {
+            const scrollTop = window.scrollY;
+            console.log(scrollTop)
+            if (scrollTop <= stopPosition) {
+                scrollStopper.style.top = `${stopPosition - scrollTop}px `;
+            } else {
+                scrollStopper.style.top = '66px';
+            }
 
-            };
+        };
 
-            window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll);
 
-            return () => {
-                window.removeEventListener('scroll', handleScroll);
-            };
-        }, []);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
 
 
@@ -104,7 +105,7 @@ export default function TransactionCard({ openModal, closeModal }) {
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
             <div className='ml-[92px] px-4 mt-10'>
                 <div className='flex justify-center gap-4'>
-                    <div className='component'>
+                    <div className={`component`}>
                         {allTransaction?.length > 0 ?
                             (
                                 <div className="min-w-[350px] md:w-[600px] min-h-[300px] bg-zinc-100 rounded-md bg overflow-hidden">
@@ -210,38 +211,42 @@ export default function TransactionCard({ openModal, closeModal }) {
                         }
                     </div>
 
-                    {(transactionSelect && checked && allTransaction?.length > 0) ? <Slide direction="left" in={checked} mountOnEnter unmountOnExit>
-                        <Card variant="outlined" className='md:w-[800px] h-[250px]'>
-                            <div className='flex text-center justify-between mx-3 my-4'>
-                                <div className='text-center'>
-                                    <Button sx={{ color: "black" }}
-                                        onClick={handleCloseSlide}><ClearIcon
-                                            sx={{ float: "left" }} /></Button>
-                                    <span className='ml-4 font-semibold text-xl h-[37px] '>Transaction details</span>
-                                </div>
-                                <Stack direction="row" sx={{ float: "right" }} spacing={2}>
-                                    <ModalDeleteTrans sx={{ height: "402px" }}
-                                        idWallet={walletSelect?.id}
-                                        onClose={() => handleCloseSlide} />
-                                    <Button onClick={handleOpenFormUpdate} color='success'>EDIT</Button>
-                                </Stack>
-                            </div>
-                            <div className='text-center flex pb-4'>
-                                <div className='pl-2 mt-3'>
-                                    <img src={transactionSelect?.category.icon}
-                                        style={{
-                                            width: "60px", height: "60px", margin: "15px", float: "left"
-                                        }} alt="" />
-                                </div>
-                                <div style={{ textAlign: "left", margin: "15px" }}>
-                                    <div className='font-normal text-2xl'>{transactionSelect?.category.name}</div>
-                                    <div className='text-sm font-medium min-h-[20px]'>{transactionSelect?.note ? transactionSelect?.note : 'ghi chú'} </div>
-                                    <div className='text-xs py-2 border-b min-w-[200px]'>{transactionSelect?.date} </div>
-                                    <div className='pt-2'>{transactionSelect?.category.type === "expense" ? <span className='text-4xl text-red-500 font-medium'>-{walletSelect?.currency.sign} {transactionSelect?.amount}</span> : <span className='text-4xl text-sky-500 font-medium'>+{walletSelect?.currency.sign} {transactionSelect?.amount}</span>}  </div>
-                                </div>
-                            </div>
-                        </Card>
-                    </Slide> :
+                    {(transactionSelect && checked && allTransaction?.length > 0) ?
+                        <div className=''>
+                            <Slide direction="left" in={checked} mountOnEnter unmountOnExit>
+                                <Card variant="outlined" className='md:w-[750px] h-[250px]'>
+                                    <div className='flex text-center justify-between mx-3 my-4'>
+                                        <div className='text-center'>
+                                            <Button sx={{ color: "black" }}
+                                                onClick={handleCloseSlide}><ClearIcon
+                                                    sx={{ float: "left" }} /></Button>
+                                            <span className='ml-4 font-semibold text-xl h-[37px] '>Transaction details</span>
+                                        </div>
+                                        <Stack direction="row" sx={{ float: "right" }} spacing={2}>
+                                            <ModalDeleteTrans sx={{ height: "402px" }}
+                                                idWallet={walletSelect?.id}
+                                                onClose={() => handleCloseSlide} />
+                                            <Button onClick={handleOpenFormUpdate} color='success'>EDIT</Button>
+                                        </Stack>
+                                    </div>
+                                    <div className='text-center flex pb-4'>
+                                        <div className='pl-2 mt-3'>
+                                            <img src={transactionSelect?.category.icon}
+                                                style={{
+                                                    width: "60px", height: "60px", margin: "15px", float: "left"
+                                                }} alt="" />
+                                        </div>
+                                        <div style={{ textAlign: "left", margin: "15px" }}>
+                                            <div className='font-normal text-2xl'>{transactionSelect?.category.name}</div>
+                                            <div className='text-sm font-medium min-h-[20px]'>{transactionSelect?.note ? transactionSelect?.note : 'ghi chú'} </div>
+                                            <div className='text-xs py-2 border-b min-w-[200px]'>{transactionSelect?.date} </div>
+                                            <div className='pt-2'>{transactionSelect?.category.type === "expense" ? <span className='text-4xl text-red-500 font-medium'>-{walletSelect?.currency.sign} {transactionSelect?.amount}</span> : <span className='text-4xl text-sky-500 font-medium'>+{walletSelect?.currency.sign} {transactionSelect?.amount}</span>}  </div>
+                                        </div>
+                                    </div>
+                                </Card>
+                            </Slide>
+                        </div>
+                        :
                         null
                     }
                 </div>
@@ -249,6 +254,15 @@ export default function TransactionCard({ openModal, closeModal }) {
                     onSubmit={handleSubmitFormTransaction} />
                 <UpdateTransactionModal isOpen={openFormUpdate} onClose={handleCloseFormUpdate}
                     onSubmit={handleSubmitFormUpdate} />
+                <div className='float-right'>
+                    <a href='#'>
+                        <IconButton aria-label="delete" sx={{ color: "black", marginRight: "35px" }}>
+                            <NavigationIcon sx={{ fontSize: '50px', color: '#2db84c' }} />
+                        </IconButton>
+                    </a>
+
+                </div>
+
             </div >
         </Slide >
     );

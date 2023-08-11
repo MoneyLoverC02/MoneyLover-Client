@@ -128,12 +128,9 @@
 }
 
 .component {
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
-  transition: all 0.3s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
 .move-left {
-  transform: translateX(-50px);
+  transform: translateX(-390px);
 }
