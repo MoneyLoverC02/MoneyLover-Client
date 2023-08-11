@@ -40,7 +40,6 @@ export default function TransactionCard({ openModal, closeModal }) {
 
             const handleScroll = () => {
                 const scrollTop = window.scrollY;
-                console.log( scrollTop)
                 if (scrollTop <= stopPosition) {
                     scrollStopper.style.top = `${stopPosition  - scrollTop}px `;
                 } else {
