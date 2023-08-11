@@ -14,9 +14,11 @@ export default function HomePage() {
     return (
         <>
             <NavBar onClickAddBtn={handleOpenModal} />
-            <div className="flex justify-start">
+            <div>
                 <Sidebar />
-                <TransactionCard openModal = {isModalVisible} closeModal={handleCloseModal}/>
+
+                    <TransactionCard openModal = {isModalVisible} closeModal={handleCloseModal}/>
+
             </div>
         </>
     )

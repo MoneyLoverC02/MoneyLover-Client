@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Box, Modal } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setWalletSelect } from '../../redux/walletSlice';
 
 const style = {
     position: 'absolute',
@@ -16,8 +17,8 @@ const style = {
 export default function WalletSelectTransactionModal({walletTransSelect}) {
     const [open, setOpen] = React.useState(false);
     const allWallet = useSelector(state => state.wallet.allWallet);
-    // const walletSelect = useSelector(state => state.wallet.walletSelect)
-    const [walletTransactionSelect, setWalletTransactionSelect] = React.useState();
+    const walletTransactionSelect = useSelector(state => state.wallet.walletSelect);
+    const dispatch = useDispatch();
 
     const handleOpen = () => {
         setOpen(true);
@@ -28,7 +29,7 @@ export default function WalletSelectTransactionModal({walletTransSelect}) {
     const handleSelectWallet = (id) => {
         let wallet = allWallet.find(item => item.id === id);
         if (wallet) {
-            setWalletTransactionSelect(wallet);
+            dispatch(setWalletSelect(wallet))
             walletTransSelect(wallet);
             setOpen(false);
         }

@@ -70,14 +70,16 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { WalletService } from "../../services/wallet.service";
-import { useDispatch } from "react-redux";
-import { getAllWallet, setWalletSelect} from "../../redux/walletSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { TransactionService } from '../../services/transaction.service';
+import { getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
+import { setWalletSelect } from '../../redux/walletSlice';
 
-export default function ModalDeleteWallets({ idWallet, onClose }) {
+export default function ModalDeleteTrans({ idWallet, onClose }) {
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
-    // const user = useSelector(state => state.auth.login.currentUser);
+    let transactionSelect= useSelector(state => state.transaction.transactionSelect);
+    let walletSelect = useSelector(state => state.wallet.walletSelect);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -87,14 +89,24 @@ export default function ModalDeleteWallets({ idWallet, onClose }) {
         setOpen(false);
     };
     const handleDelete = () => {
-        WalletService.deleteWallet(idWallet).then((res) => {
-            WalletService.getAllWallet().then(res => {
-                let walletList = res.data.walletList;
-                dispatch(getAllWallet(walletList));
-                dispatch(setWalletSelect(walletList[0]))
-                handleClose();
-                onClose();
-            }).catch(err => console.log(err.message));
+        TransactionService.deleteTransaction(idWallet, transactionSelect?.id).then((res) => {
+            if (res.data.message === 'Delete transaction success!') {
+                let newMoney;
+                if (transactionSelect.category.type === 'expense') {
+                    newMoney = walletSelect.amountOfMoney + transactionSelect.amount
+                } else newMoney = walletSelect.amountOfMoney - transactionSelect.amount
+                dispatch(setWalletSelect({...walletSelect, amountOfMoney: newMoney}))
+                TransactionService.getAllTransactionOfWallet(idWallet).then(res => {
+                    let transactionList = res.data.transactionList;
+                    console.log(res.data);
+                    dispatch(getAllTransaction(transactionList));
+                    dispatch(setTransactionSelect(transactionList[0]))
+                    onClose();
+                }).catch(err => console.log(err.message));
+            } else {
+                alert('không có quyền xóa');
+            }
+            handleClose();
         }).catch(err => console.log(err.message));
     }
 

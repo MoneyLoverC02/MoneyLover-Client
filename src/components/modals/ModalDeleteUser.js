@@ -12,12 +12,10 @@ import {logout} from "../../redux/authSlice";
 import {useNavigate} from "react-router-dom";
 import { walletLogout } from '../../redux/walletSlice';
 
-
 export default function ModalDeleteUser() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
-    // const user = useSelector(state => state.auth.login.currentUser);
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -31,6 +29,7 @@ export default function ModalDeleteUser() {
                 localStorage.removeItem('token');
                 dispatch(logout());
                 dispatch(walletLogout());
+                // dispatch(transactionLogout());
                 navigate('/login');
             });
     }
