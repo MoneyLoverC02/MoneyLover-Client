@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import AddTransactionModal from "./AddTransactionModal";
 import {
     Card, Slide, Stack
@@ -25,6 +25,32 @@ export default function TransactionCard({ openModal, closeModal }) {
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const allCategory = useSelector(state => state.transaction.allCategory)
     const [calculate, setCalculate] = useState({ totalInflow: 1000, totalOutflow: 10 }); //đang fix cứng
+
+
+        useEffect(() => {
+            const scrollStopper = document.querySelector('.scroll-stopper');
+            const navbarHeight = 111;
+            const stopPosition = navbarHeight;
+
+            const handleScroll = () => {
+                const scrollTop = window.scrollY;
+                console.log( scrollTop)
+                if (scrollTop <= stopPosition) {
+                    scrollStopper.style.top = `${stopPosition  - scrollTop}px `;
+                } else {
+                    scrollStopper.style.top = '66px';
+                }
+
+            };
+
+            window.addEventListener('scroll', handleScroll);
+
+            return () => {
+                window.removeEventListener('scroll', handleScroll);
+            };
+        }, []);
+
+
 
     React.useEffect(() => {
         TransactionService.getAllCategory().then(res => {
@@ -83,12 +109,12 @@ export default function TransactionCard({ openModal, closeModal }) {
                             (
                                 <div className="min-w-[350px] md:w-[600px] min-h-[300px] bg-zinc-100 rounded-md bg overflow-hidden">
                                     <div className="pt-4 bg-white">
-                                        <div className="h-[48px] fomt-normal border-b flex justify-center">
+                                        <div className="h-[48px] w-[600px] fomt-normal border-b flex justify-center fixed scroll-stopper" style={{ backgroundColor: "white" }} >
                                             <button className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">Last Month</button>
                                             <button className="w-full py-[15px] uppercase leading-4 text-sm font-semibold border-b-4 border-lightgreen text-lightgreen">This Month</button>
                                             <button className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">Future</button>
                                         </div>
-                                        <div className="bg-zinc-100 text-center">
+                                        <div className="bg-zinc-100 mt-[48px] text-center">
                                             <div>
                                                 <div id='all-trans' className='bg-white text-zinc-600 text-sm font-medium text-center mb-8'>
                                                     <div>
@@ -123,7 +149,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                     const categoryInfo = (
                                                         <div className='flex justify-between px-4 py-3'>
                                                             <div className='flex justify-start'>
-                                                                <img src={transactionsInCategory[0]?.category.icon} alt="" className='w-10 h-10 object-cover mr-4 rounded-full' />
+                                                                <img src={transactionsInCategory[0]?.category.icon} alt="" className='w-10 h-10 object-cover mr-4 rounded-full ' />
                                                                 <span className='text-start'>
                                                                     <div>{transactionsInCategory[0]?.category.name}</div>
                                                                     <div className='text-xs text-zinc-400 font-normal'>{transactionsInCategory.length} Transactions</div>
@@ -133,7 +159,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                         </div>
                                                     );
                                                     return (
-                                                        <div key={category.id} id='expense-trans' className='bg-white text-zinc-600 text-sm font-medium'>
+                                                        <div key={category.id} id='expense-trans' className='bg-white text-zinc-600 text-sm font-medium' >
                                                             <div className='mb-8'>
                                                                 {categoryInfo}
                                                                 {transactionsInCategory.map(item => (
