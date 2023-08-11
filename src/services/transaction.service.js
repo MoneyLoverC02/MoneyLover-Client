@@ -35,4 +35,14 @@ export class TransactionService {
             }
         )
     }
+    static async deleteTransaction(walletID, transactionID) {
+        let token = localStorage.getItem('token');
+        return await axios.delete(`http://localhost:4000/api/users/wallets/${walletID}/transactions/${transactionID}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+    }
 }
