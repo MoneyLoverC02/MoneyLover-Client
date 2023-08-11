@@ -1,6 +1,7 @@
 import { Button, IconButton, Slide } from "@mui/material";
 import { Search } from '@mui/icons-material';
 import SelectWallets from "./SelectWallets";
+import ModalSearch from "../modals/ModalSearch";
 
 export default function NavBar({onClickAddBtn}) {
 
@@ -15,9 +16,7 @@ export default function NavBar({onClickAddBtn}) {
                         <SelectWallets />
                     </div>
                     <div style={{ float: "right", height: "66px", margin: "15px" }}>
-                        <IconButton aria-label="delete" sx={{ color: "black", marginRight: "35px" }}>
-                            <Search />
-                        </IconButton>
+                        <ModalSearch/>
                         <Button onClick={onClickAddBtn} variant="contained" sx={{ backgroundColor: "#1aa333" }} disableElevation>
                             <b>ADD TRANSACTION</b>
                         </Button>
