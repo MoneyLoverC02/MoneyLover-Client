@@ -49,33 +49,34 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
         setDataInput(data);
         handleCheckValid(e);
     }
-    const handleCheckValid = (e) => {
-        let money = dataInput.money;
-        if (e.target.name === 'money') {
-            money = e.target.value;
-        }
-        if (money > 0 && walletSelect && categorySelect) setIsValid(true)
+    const handleCheckValid = () => {
+        if (walletSelect && categorySelect) setIsValid(true)
         else setIsValid(false);
     }
 
     const handleSubmit = () => {
         let { money, note } = dataInput;
         let amount = +money;
-        console.log(dateInput);
         let date = dateInput;
+        console.log(dateInput);
+        // if (typeof(dataInput) === 'object' ) {
+        //     date = formatDate(date);
+        // }
         let categoryID = categorySelect.id;
         TransactionService.createTransaction(walletSelect.id, { amount, date, note, categoryID }).then((res) => {
             if (res.data.message === 'Creat transaction success!') {
                 let newTransaction = res.data.newTransaction;
+                let newMoney;
+                if (newTransaction.category.type === "expense") {
+                    newMoney = walletSelect.amountOfMoney - newTransaction.amount;
+                } else newMoney = walletSelect.amountOfMoney + newTransaction.amount
+                dispatch(setWalletSelect({...walletSelect, amountOfMoney: newMoney}))
                 dispatch(setTransactionSelect(newTransaction));
-                console.log('====================================');
-                console.log(newTransaction);
-                console.log('====================================');
                 TransactionService.getAllTransactionOfWallet(walletSelect.id).then(res => {
                     let transactionList = res.data.transactionList; 
                     dispatch(getAllTransaction(transactionList));
                     setDataInput({money: 0, note: ''});
-                    setDateInput(new Date());
+                    setDateInput(formatDate(new Date()));
                     setIsValid(false);
                     setCheckMoney(true);
                     onSubmit();
