@@ -65,9 +65,9 @@ export default function UpdateTransactionModal({ isOpen, onClose, onSubmit }) {
                 TransactionService.getAllTransactionOfWallet(walletSelect.id).then(res => {
                     let transactionList = res.data.transactionList;
                     dispatch(getAllTransaction(transactionList));
-                    setDataInput({ money: 0, note: '' });
-                    setDateTras(formatDate(new Date()));
-                    setIsValid(false);
+                    // setDataInput({ money: 0, note: '' });
+                    // setDateTras(formatDate(new Date()));
+                    // setIsValid(false);
                     onSubmit();
                 }).catch(err => console.log(err.message));
             } else {
