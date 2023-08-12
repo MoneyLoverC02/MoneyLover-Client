@@ -16,7 +16,6 @@ const style = {
     boxShadow: 24,
 };
 
-
 export default function CategorySelectModal({ selectCategory, categoryBefore }) {
     const [open, setOpen] = React.useState(false);
     const allCategory = useSelector(state => state.transaction.allCategory);
@@ -49,7 +48,7 @@ export default function CategorySelectModal({ selectCategory, categoryBefore }) 
         setSelectIncome(true);
     }
     const handleSelectCategory = (idCategory) => {
-        let category = allCategory.find(category => category.id === idCategory);
+        let category = allCategory?.find(category => category.id === idCategory);
         if (category) {
             setCategorySelect(category);
             selectCategory(category);

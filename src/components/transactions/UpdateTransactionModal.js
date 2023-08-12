@@ -3,7 +3,7 @@ import { Box, Modal } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setWalletSelect } from '../../redux/walletSlice';
 import CategorySelectModal from './CategorySelectModal';
-import DatePickerComponent, { formatDate } from '../datePick/datePick';
+import DatePickerComponent from '../datePick/datePick';
 import { TransactionService } from '../../services/transaction.service';
 import { getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
 import WalletSelectTransactionUpdateModal from './WalletTransUpdate';
@@ -23,7 +23,6 @@ export default function UpdateTransactionModal({ isOpen, onClose, onSubmit }) {
     const [isValid, setIsValid] = React.useState(true);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const transactionSelect = useSelector(state => state.transaction.transactionSelect);
-    // const allWallet = useSelector(state => state.wallet.allWallet);
     const [categorySelect, setCategorySelect] = React.useState(transactionSelect?.category);
     const [dateTrans, setDateTras] = React.useState(transactionSelect?.date)
     const [dataInput, setDataInput] = React.useState({ money: transactionSelect?.amount, note: transactionSelect?.note });
@@ -42,9 +41,9 @@ export default function UpdateTransactionModal({ isOpen, onClose, onSubmit }) {
         setDateTras(date)
     }
 
-    const handleChange = (e) => {
-        let data = { ...dataInput, [e.target.name]: e.target.value };
-        setDataInput(data);
+    const handleChangeUpdate = (e) => {
+        let dataInputUpdate = { ...dataInput, [e.target.name]: e.target.value };
+        setDataInput(dataInputUpdate);
         handleCheckValid(e);
     }
     const handleCheckValid = (e) => {
@@ -62,7 +61,7 @@ export default function UpdateTransactionModal({ isOpen, onClose, onSubmit }) {
                 let updatedTransaction = res.data.updatedTransaction;
                 dispatch(setTransactionSelect(updatedTransaction))
                 dispatch(setWalletSelect({ ...walletSelect, amountOfMoney: updatedTransaction.walletRole.wallet.amountOfMoney }))
-                TransactionService.getAllTransactionOfWallet(walletSelect.id).then(res => {
+                TransactionService.getAllTransactionOfWallet(walletSelect?.id).then(res => {
                     let transactionList = res.data.transactionList;
                     dispatch(getAllTransaction(transactionList));
                     // setDataInput({ money: 0, note: '' });
@@ -102,7 +101,7 @@ export default function UpdateTransactionModal({ isOpen, onClose, onSubmit }) {
                             <div className='w-44 py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
                                 <p className='text-[12px] pb-[3px] text-slate-400'>Amount Of Money</p>
                                 <div className='pb-1'>
-                                    <input onChange={handleChange} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="number" placeholder='0' name="money" value={dataInput.money} required />
+                                    <input onChange={handleChangeUpdate} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="number" placeholder='0' name="money" value={dataInput.money} required />
                                 </div>
                             </div>
                         </div>
@@ -113,7 +112,7 @@ export default function UpdateTransactionModal({ isOpen, onClose, onSubmit }) {
                             <div className='w-[450px] py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
                                 <p className='text-[12px] pb-[3px] text-slate-400'>Note</p>
                                 <div className='pb-1'>
-                                    <input onChange={handleChange} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="text" placeholder='Note' name="note" value={dataInput.note} />
+                                    <input onChange={handleChangeUpdate} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="text" placeholder='Note' name="note" value={dataInput.note} />
                                 </div>
                             </div>
                         </div>

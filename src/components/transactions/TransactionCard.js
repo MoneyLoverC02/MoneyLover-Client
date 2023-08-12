@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from "react";
 import AddTransactionModal from "./AddTransactionModal";
 import {
-    Card, IconButton, Slide, Stack
+    Card, Slide, Stack
 } from "@mui/material";
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
@@ -16,9 +16,7 @@ import UpdateTransactionModal from './UpdateTransactionModal';
 
 export default function TransactionCard({ openModal, closeModal }) {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const [checked, setChecked] = useState(false);
-    const [isModalOpen, setModalOpen] = useState(false);
     const [openFormUpdate, setOpenFormUpdate] = useState(false);
     const transactionSelect = useSelector(state => state.transaction.transactionSelect);
     const allTransaction = useSelector(state => state.transaction.allTransaction);
@@ -27,27 +25,28 @@ export default function TransactionCard({ openModal, closeModal }) {
     const [calculate, setCalculate] = useState({ totalInflow: 0, totalOutflow: 0 });
 
 
-    // useEffect(() => {
-        // const scrollStopper = document.querySelector('.scroll-stopper');
-        // const navbarHeight = 111;
-        // const stopPosition = navbarHeight;
-        //
-        // const handleScroll = () => {
-        //     const scrollTop = window.scrollY;
-        //     if (scrollTop <= stopPosition) {
-        //         scrollStopper.style.top = `${stopPosition - scrollTop}px `;
-        //     } else {
-        //         scrollStopper.style.top = '66px';
-        //     }
-        //
-        // };
+    useEffect(() => {
+        const scrollStopper = document.querySelector('.scroll-stopper');
+        const navbarHeight = 111;
+        const stopPosition = navbarHeight;
 
-    //     window.addEventListener('scroll', handleScroll);
-    //
-    //     return () => {
-    //         window.removeEventListener('scroll', handleScroll);
-    //     };
-    // }, []);
+            const handleScroll = () => {
+                const scrollTop = window.scrollY;
+                console.log( scrollTop)
+                if (scrollTop <= stopPosition) {
+                    scrollStopper.style.top = `${stopPosition  - scrollTop}px `;
+                } else {
+                    scrollStopper.style.top = '65px';
+                }
+
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     useEffect(() => {
         let totalInflow = 0;
@@ -86,12 +85,7 @@ export default function TransactionCard({ openModal, closeModal }) {
     };
     const handleCloseSlide = () => {
         setChecked(false);
-        console.log(checked);
     };
-    const handleOpenModal = () => {
-        setModalOpen(true);
-    };
-
     const handleCloseModal = () => {
         closeModal();
     };
@@ -120,7 +114,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                 <>
                                     <div className="min-w-[350px] md:w-[600px] min-h-[300px] bg-zinc-100 rounded-md bg overflow-hidden">
                                         <div className="pt-4 bg-white">
-                                            <div className="h-[48px] w-[600px] fomt-normal border-b flex justify-center  scroll-stopper" style={{ backgroundColor: "white" }} >
+                                            <div className="h-[48px] w-[600px] fomt-normal border-b flex justify-center fixed scroll-stopper" style={{ backgroundColor: "white" }} >
                                                 <button className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">Last Month</button>
                                                 <button className="w-full py-[15px] uppercase leading-4 text-sm font-semibold border-b-4 border-lightgreen text-lightgreen">This Month</button>
                                                 <button className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">Future</button>

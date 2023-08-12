@@ -27,7 +27,7 @@ export default function WalletSelectTransactionModal({walletTransSelect}) {
         setOpen(false);
     };
     const handleSelectWallet = (id) => {
-        let wallet = allWallet.find(item => item.id === id);
+        let wallet = allWallet?.find(item => item.id === id);
         if (wallet) {
             dispatch(setWalletSelect(wallet))
             walletTransSelect(wallet);
