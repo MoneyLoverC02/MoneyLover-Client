@@ -27,8 +27,6 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
     const [dataInput, setDataInput] = React.useState({money: 0, note: ''});
     const [dateInput, setDateInput] = React.useState(formatDate(new Date()));
     const [checkMoney, setCheckMoney] = React.useState(true);
-    const allTransaction = useSelector(state => state.transaction.allTransaction);
-    const transactionSelect = useSelector(state => state.transaction.transactionSelect);
     const dispatch = useDispatch();
 
     const handleSelectWallet = (wallet) => {
@@ -41,9 +39,8 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
         setDateInput(date);
     }
 
-    const handleChange = (e) => {
+    const handleChangeAdd = (e) => {
         let data = { ...dataInput, [e.target.name]: e.target.value };
-        // data.money > walletSelect.amountOfMoney ? setCheckMoney(false) : setCheckMoney(true);
         setDataInput(data);
         handleCheckValid(e);
     }
@@ -57,8 +54,6 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
         let { money, note } = dataInput;
         let amount = +money;
         let date = dateInput;
-        console.log(dateInput);
-
         let categoryID = categorySelect.id;
         TransactionService.createTransaction(walletSelect.id, { amount, date, note, categoryID }).then((res) => {
             if (res.data.message === 'Creat transaction success!') {
@@ -112,7 +107,7 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
                             <div className='w-44 py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
                                 <p className='text-[12px] pb-[3px] text-slate-400'>Amount Of Money</p>
                                 <div className='pb-1'>
-                                    <input onChange={handleChange} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="number" placeholder='0' name="money" value={dataInput.money} required />
+                                    <input onChange={handleChangeAdd} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="number" placeholder='0' name="money" value={dataInput.money} required />
                                 </div>
                             </div>
                         </div>
@@ -123,7 +118,7 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
                             <div className='w-[450px] py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
                                 <p className='text-[12px] pb-[3px] text-slate-400'>Note</p>
                                 <div className='pb-1'>
-                                    <input onChange={handleChange} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="text" placeholder='Note' name="note" value={dataInput.note}/>
+                                    <input onChange={handleChangeAdd} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="text" placeholder='Note' name="note" value={dataInput.note}/>
                                 </div>
                             </div>
                         </div>

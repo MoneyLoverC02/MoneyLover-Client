@@ -52,7 +52,7 @@ export default function UpdateModal({ isOpen, onClose, onSubmit }) {
         setDataInput(data);
         if (e.target.name === 'name') {
             name = e.target.value;
-            let walletListCheck = allWallet.filter(item => item.name !== walletSelect.name);
+            let walletListCheck = allWallet.filter(item => item.name !== walletSelect?.name);
             let wallet = walletListCheck.find(item => item.name === name);
             wallet ? setCheckName(false) : setCheckName(true);
         }
@@ -68,7 +68,7 @@ export default function UpdateModal({ isOpen, onClose, onSubmit }) {
         let iconID = iconSelect?.id;
         let currencyID = currencySelect?.id;
         let amountOfMoney = dataInput.amountOfMoney;
-        WalletService.updateWallet(walletSelect.id, { name, iconID, currencyID, amountOfMoney }).then((res) => {
+        WalletService.updateWallet(walletSelect?.id, { name, iconID, currencyID, amountOfMoney }).then((res) => {
             let updatedWallet = res.data.updatedWallet[0];
             dispatch(setWalletSelect(updatedWallet));
             WalletService.getAllWallet().then(res => {

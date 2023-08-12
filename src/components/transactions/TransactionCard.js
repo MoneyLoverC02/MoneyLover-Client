@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from "react";
 import AddTransactionModal from "./AddTransactionModal";
 import {
-    Card, IconButton, Slide, Stack
+    Card, Slide, Stack
 } from "@mui/material";
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
@@ -16,9 +16,7 @@ import UpdateTransactionModal from './UpdateTransactionModal';
 
 export default function TransactionCard({ openModal, closeModal }) {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const [checked, setChecked] = useState(false);
-    const [isModalOpen, setModalOpen] = useState(false);
     const [openFormUpdate, setOpenFormUpdate] = useState(false);
     const transactionSelect = useSelector(state => state.transaction.transactionSelect);
     const allTransaction = useSelector(state => state.transaction.allTransaction);
@@ -87,12 +85,7 @@ export default function TransactionCard({ openModal, closeModal }) {
     };
     const handleCloseSlide = () => {
         setChecked(false);
-        console.log(checked);
     };
-    const handleOpenModal = () => {
-        setModalOpen(true);
-    };
-
     const handleCloseModal = () => {
         closeModal();
     };

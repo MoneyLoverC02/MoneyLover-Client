@@ -37,7 +37,7 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
 
     const handleChange = (e) => {
         let data = e.target.value;
-        data > walletSelect.amountOfMoney ? setCheckMoney(false) : setCheckMoney(true);
+        data > walletSelect?.amountOfMoney ? setCheckMoney(false) : setCheckMoney(true);
         setMoneyInput(data);
         handleCheckValid(e);
     }
@@ -49,7 +49,7 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
     const handleSubmit = () => {
         let walletIDReceived = walletReceived.id;
         let money = +moneyInput;
-        WalletService.tranferMoney(walletSelect.id, { walletIDReceived, money }).then((res) => {
+        WalletService.tranferMoney(walletSelect?.id, { walletIDReceived, money }).then((res) => {
             if (res.data.message === 'Money transfer success!') {
                 setMoneyInput(0);
                 let walletTranfer = res.data.walletTransfer;
