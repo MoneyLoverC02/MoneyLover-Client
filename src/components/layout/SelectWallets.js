@@ -49,6 +49,7 @@ SimpleDialog.propTypes = {
 export default function SelectWallets() {
     const [open, setOpen] = React.useState(false);
     const allWallet = useSelector(state => state.wallet.allWallet)
+    console.log(allWallet)
     const [selectedName, setSelectedName] = React.useState( allWallet.length> 0 ? allWallet[0].name : '')
     const [selectedMoney, setSelectedMoney] = React.useState( allWallet.length> 0 ? allWallet[0].amountOfMoney : 0);
 
