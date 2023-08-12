@@ -42,11 +42,11 @@ function SimpleDialog(props) {
                     </ListItemAvatar>
                     {/*<ListItemText primary={wallet.name +" : "+wallet.amountOfMoney +" "+ wallet.currency.sign } />*/}
                     <ListItemText
-                        primary={wallet.name}
+                        primary={wallet?.name}
                         secondary={
                             <React.Fragment>
                                 <Typography variant="body2" color="text.secondary">
-                                    {wallet.amountOfMoney} {wallet.currency.sign}
+                                    {wallet?.amountOfMoney} {wallet?.currency.sign}
                                 </Typography>
                             </React.Fragment>
                         }
@@ -88,7 +88,7 @@ export default function SelectWallets() {
             {walletSelect?.name}
         </Button>
         <Typography variant="subtitle1" component="div">
-            {walletSelect.amountOfMoney>0?"+":null} {walletSelect?.amountOfMoney} {walletSelect.currency.sign}
+            {walletSelect?.amountOfMoney>0?"+":null} {walletSelect?.amountOfMoney} {walletSelect?.currency.sign}
         </Typography>
         <SimpleDialog
             selectedValue={walletSelect?.name}

@@ -27,27 +27,27 @@ export default function TransactionCard({ openModal, closeModal }) {
     const [calculate, setCalculate] = useState({ totalInflow: 0, totalOutflow: 0 });
 
 
-    useEffect(() => {
-        const scrollStopper = document.querySelector('.scroll-stopper');
-        const navbarHeight = 111;
-        const stopPosition = navbarHeight;
+    // useEffect(() => {
+        // const scrollStopper = document.querySelector('.scroll-stopper');
+        // const navbarHeight = 111;
+        // const stopPosition = navbarHeight;
+        //
+        // const handleScroll = () => {
+        //     const scrollTop = window.scrollY;
+        //     if (scrollTop <= stopPosition) {
+        //         scrollStopper.style.top = `${stopPosition - scrollTop}px `;
+        //     } else {
+        //         scrollStopper.style.top = '66px';
+        //     }
+        //
+        // };
 
-        const handleScroll = () => {
-            const scrollTop = window.scrollY;
-            if (scrollTop <= stopPosition) {
-                scrollStopper.style.top = `${stopPosition - scrollTop}px `;
-            } else {
-                scrollStopper.style.top = '66px';
-            }
-
-        };
-
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
+    //     window.addEventListener('scroll', handleScroll);
+    //
+    //     return () => {
+    //         window.removeEventListener('scroll', handleScroll);
+    //     };
+    // }, []);
 
     useEffect(() => {
         let totalInflow = 0;
@@ -120,7 +120,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                 <>
                                     <div className="min-w-[350px] md:w-[600px] min-h-[300px] bg-zinc-100 rounded-md bg overflow-hidden">
                                         <div className="pt-4 bg-white">
-                                            <div className="h-[48px] w-[600px] fomt-normal border-b flex justify-center fixed scroll-stopper" style={{ backgroundColor: "white" }} >
+                                            <div className="h-[48px] w-[600px] fomt-normal border-b flex justify-center  scroll-stopper" style={{ backgroundColor: "white" }} >
                                                 <button className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">Last Month</button>
                                                 <button className="w-full py-[15px] uppercase leading-4 text-sm font-semibold border-b-4 border-lightgreen text-lightgreen">This Month</button>
                                                 <button className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">Future</button>
