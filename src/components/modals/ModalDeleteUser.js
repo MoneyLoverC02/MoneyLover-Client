@@ -5,20 +5,17 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {UserService} from "../../services/user.service";
 import {logout} from "../../redux/authSlice";
 import {useNavigate} from "react-router-dom";
 import { walletLogout } from '../../redux/walletSlice';
-import { transactionLogout } from '../../redux/transactionSlice';
-
 
 export default function ModalDeleteUser() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
-    // const user = useSelector(state => state.auth.login.currentUser);
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -32,7 +29,6 @@ export default function ModalDeleteUser() {
                 localStorage.removeItem('token');
                 dispatch(logout());
                 dispatch(walletLogout());
-                // dispatch(transactionLogout());
                 navigate('/login');
             });
     }

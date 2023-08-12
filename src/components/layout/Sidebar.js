@@ -8,10 +8,8 @@ import MyWallets from "./MyWallets";
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import TollIcon from '@mui/icons-material/Toll';
-
 import { useSelector } from 'react-redux';
 import Slide from "@mui/material/Slide";
-
 
 export default function Sidebar() {
     const user = useSelector(state => state.auth.login.currentUser)
@@ -42,7 +40,6 @@ export default function Sidebar() {
             <Slide direction="right" in={true} mountOnEnter unmountOnExit>
                 <div className="sidebar">
                     <div>
-
                         <React.Fragment key={"left"}>
                             <Button onClick={toggleDrawer("left", true)}><ReorderIcon sx={{ color: "#282828" }} /></Button>
                             <SwipeableDrawer
@@ -73,7 +70,6 @@ export default function Sidebar() {
                             backgroundColor: "rgba(0,0,0,.12)"
                         }} />
                     </div>
-
                 </div>
             </Slide>
         </div>

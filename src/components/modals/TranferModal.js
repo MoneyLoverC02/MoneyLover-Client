@@ -1,6 +1,6 @@
+
 import * as React from 'react';
 import { Box, Modal } from '@mui/material';
-import CurrencyModal from './CurrencyModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletService } from '../../services/wallet.service';
 import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
@@ -21,15 +21,12 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
     const [isValid, setIsValid] = React.useState(true);
     const [walletReceived, setWalletReceived] = React.useState(null);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
-    // const allWallet = useSelector(state => state.wallet.allWallet);
-    // const user = useSelector(state => state.auth.login.currentUser);
     const [moneyInput, setMoneyInput] = React.useState(0);
     const [checkMoney, setCheckMoney] = React.useState(true);
     const dispatch = useDispatch();
-    let token = localStorage.getItem('token')
 
     React.useEffect(() => {
-        WalletService.getAllWallet(token).then(res => {
+        WalletService.getAllWallet().then(res => {
             dispatch(getAllWallet(res.data.walletList));
         })
     }, [])
@@ -40,7 +37,7 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
 
     const handleChange = (e) => {
         let data = e.target.value;
-        data > walletSelect.amountOfMoney ? setCheckMoney(false) : setCheckMoney(true);
+        data > walletSelect?.amountOfMoney ? setCheckMoney(false) : setCheckMoney(true);
         setMoneyInput(data);
         handleCheckValid(e);
     }
@@ -52,7 +49,7 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
     const handleSubmit = () => {
         let walletIDReceived = walletReceived.id;
         let money = +moneyInput;
-        WalletService.tranferMoney(walletSelect.id, { walletIDReceived, money }).then((res) => {
+        WalletService.tranferMoney(walletSelect?.id, { walletIDReceived, money }).then((res) => {
             if (res.data.message === 'Money transfer success!') {
                 setMoneyInput(0);
                 let walletTranfer = res.data.walletTransfer;

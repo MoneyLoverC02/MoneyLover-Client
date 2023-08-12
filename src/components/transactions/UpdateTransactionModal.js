@@ -2,12 +2,11 @@ import * as React from 'react';
 import { Box, Modal } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setWalletSelect } from '../../redux/walletSlice';
-import WalletSelectTransactionModal from './WalletSelectTransaction';
 import CategorySelectModal from './CategorySelectModal';
-import DatePickerComponent, { formatDate } from '../datePick/datePick';
+import DatePickerComponent from '../datePick/datePick';
 import { TransactionService } from '../../services/transaction.service';
 import { getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
-
+import WalletSelectTransactionUpdateModal from './WalletTransUpdate';
 
 const style = {
     position: 'absolute',
@@ -20,28 +19,31 @@ const style = {
     boxShadow: 24,
 };
 
-export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
+export default function UpdateTransactionModal({ isOpen, onClose, onSubmit }) {
     const [isValid, setIsValid] = React.useState(true);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
-    const [categorySelect, setCategorySelect] = React.useState(null);
-    const [dataInput, setDataInput] = React.useState({money: 0, note: ''});
-    const [dateInput, setDateInput] = React.useState(formatDate(new Date()));
-    const [checkMoney, setCheckMoney] = React.useState(true);
+    const transactionSelect = useSelector(state => state.transaction.transactionSelect);
+    const [categorySelect, setCategorySelect] = React.useState(transactionSelect?.category);
+    const [dateTrans, setDateTras] = React.useState(transactionSelect?.date)
+    const [dataInput, setDataInput] = React.useState({ money: transactionSelect?.amount, note: transactionSelect?.note });
     const dispatch = useDispatch();
+    const [checkName, setCheckName] = React.useState(true);
 
-    const handleSelectWallet = (wallet) => {
-        dispatch(setWalletSelect(wallet));
-    }
+    React.useEffect(() => {
+        setCategorySelect(transactionSelect?.category);
+        setDataInput({ money: transactionSelect?.amount, note: transactionSelect?.note })
+    }, [transactionSelect]);
+
     const handleSelectCategory = (category) => {
-        setCategorySelect(category)
+        setCategorySelect(category);
     }
     const handleGetDate = (date) => {
-        setDateInput(date);
+        setDateTras(date)
     }
 
-    const handleChangeAdd = (e) => {
-        let data = { ...dataInput, [e.target.name]: e.target.value };
-        setDataInput(data);
+    const handleChangeUpdate = (e) => {
+        let dataInputUpdate = { ...dataInput, [e.target.name]: e.target.value };
+        setDataInput(dataInputUpdate);
         handleCheckValid(e);
     }
     const handleCheckValid = (e) => {
@@ -49,39 +51,31 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
         if (data.money > 0 && walletSelect && categorySelect) setIsValid(true)
         else setIsValid(false);
     }
-
     const handleSubmit = () => {
         let { money, note } = dataInput;
         let amount = +money;
-        let date = dateInput;
+        let date = dateTrans;
         let categoryID = categorySelect.id;
-        TransactionService.createTransaction(walletSelect.id, { amount, date, note, categoryID }).then((res) => {
-            if (res.data.message === 'Creat transaction success!') {
-                let newTransaction = res.data.newTransaction;
-                let newMoney;
-                if (newTransaction.category.type === "expense") {
-                    newMoney = walletSelect.amountOfMoney - newTransaction.amount;
-                } else newMoney = walletSelect.amountOfMoney + newTransaction.amount
-                dispatch(setWalletSelect({...walletSelect, amountOfMoney: newMoney}))
-                dispatch(setTransactionSelect(newTransaction));
-                TransactionService.getAllTransactionOfWallet(walletSelect.id).then(res => {
-                    let transactionList = res.data.transactionList; 
+        TransactionService.updateTransaction(walletSelect?.id, transactionSelect?.id, { amount, date, note, categoryID }).then((res) => {
+            if (res.data.message === 'Update transaction success!') {
+                let updatedTransaction = res.data.updatedTransaction;
+                dispatch(setTransactionSelect(updatedTransaction))
+                dispatch(setWalletSelect({ ...walletSelect, amountOfMoney: updatedTransaction.walletRole.wallet.amountOfMoney }))
+                TransactionService.getAllTransactionOfWallet(walletSelect?.id).then(res => {
+                    let transactionList = res.data.transactionList;
                     dispatch(getAllTransaction(transactionList));
-                    setDataInput({money: 0, note: ''});
-                    setDateInput(formatDate(new Date()));
-                    setIsValid(false);
-                    setCheckMoney(true);
+                    // setDataInput({ money: 0, note: '' });
+                    // setDateTras(formatDate(new Date()));
+                    // setIsValid(false);
                     onSubmit();
-                })
+                }).catch(err => console.log(err.message));
             } else {
-                alert("Không có quyền thêm giao dịch");
+                alert("Không có quyền sửa giao dịch");
             }
         }).catch(err => console.log(err.message));
     }
     const handleCancel = () => {
-        setCategorySelect(null);
-        setCheckMoney(true);
-        setDataInput({money:0, note: ''});
+        setCheckName(true);
         onClose();
     }
 
@@ -94,31 +88,31 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
             >
                 <Box sx={{ ...style, width: 800 }}>
                     <div className='px-6 py-5 border-b-[1px] border-gray-300'>
-                        <p className='text-xl font-semibold'>Add transaction</p>
+                        <p className='text-xl font-semibold'>Update transaction</p>
                     </div>
                     <div className='p-6'>
                         <div className='flex items-center justify-center mb-6'>
-                            <div className='w-64 mr-4 py-1 pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500 hover:cursor-pointer'>
-                                <WalletSelectTransactionModal walletTransSelect={handleSelectWallet} />
+                            <div className='w-64 mr-4 py-[6px] pl-4 pr-3 border border-dashed rounded-lg border-slate-400'>
+                                <WalletSelectTransactionUpdateModal />
                             </div>
                             <div className='w-64 mr-4 py-1 pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500 hover:cursor-pointer'>
-                                <CategorySelectModal selectCategory={handleSelectCategory} />
+                                <CategorySelectModal selectCategory={handleSelectCategory} categoryBefore={transactionSelect?.category} />
                             </div>
                             <div className='w-44 py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
                                 <p className='text-[12px] pb-[3px] text-slate-400'>Amount Of Money</p>
                                 <div className='pb-1'>
-                                    <input onChange={handleChangeAdd} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="number" placeholder='0' name="money" value={dataInput.money} required />
+                                    <input onChange={handleChangeUpdate} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="number" placeholder='0' name="money" value={dataInput.money} required />
                                 </div>
                             </div>
                         </div>
                         <div className='flex items-center justify-center mb-6'>
                             <div className='w-64 mr-4 py-1 pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500 hover:cursor-pointer'>
-                                <DatePickerComponent getDate={handleGetDate}/>
+                                <DatePickerComponent getDate={handleGetDate} dateBefore={transactionSelect?.date} />
                             </div>
                             <div className='w-[450px] py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
                                 <p className='text-[12px] pb-[3px] text-slate-400'>Note</p>
                                 <div className='pb-1'>
-                                    <input onChange={handleChangeAdd} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="text" placeholder='Note' name="note" value={dataInput.note}/>
+                                    <input onChange={handleChangeUpdate} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="text" placeholder='Note' name="note" value={dataInput.note} />
                                 </div>
                             </div>
                         </div>

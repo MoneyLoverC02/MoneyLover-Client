@@ -40,12 +40,4 @@ export const store = configureStore({
         }),
 })
 
-// export const store = configureStore({
-//     reducer: {
-//         auth: authReducer,
-//         wallet: walletReducer,
-//         transaction: transactionReducer
-//     },
-// })
-
 export let persistor = persistStore(store);
