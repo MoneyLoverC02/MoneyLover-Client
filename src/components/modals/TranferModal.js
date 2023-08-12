@@ -24,10 +24,9 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
     const [moneyInput, setMoneyInput] = React.useState(0);
     const [checkMoney, setCheckMoney] = React.useState(true);
     const dispatch = useDispatch();
-    let token = localStorage.getItem('token')
 
     React.useEffect(() => {
-        WalletService.getAllWallet(token).then(res => {
+        WalletService.getAllWallet().then(res => {
             dispatch(getAllWallet(res.data.walletList));
         })
     }, [])
