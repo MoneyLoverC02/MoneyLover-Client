@@ -20,73 +20,66 @@ function SimpleDialog(props) {
     const {onClose, selectedValue, open} = props;
     const walletList = useSelector(state => state.wallet.allWallet);
     const [totalMoney, setTotalMoney] = useState(0)
+    const transactionSelect = useSelector(state => state.transaction.transactionSelect);
+    const allTransaction = useSelector(state => state.transaction.allTransaction);
+    const dispatch = useDispatch();
+
 
     const handleClose = () => {
         onClose(selectedValue);
     };
 
-    // useEffect(() => {
-    //     walletList.forEach(wallet=>{
-    //         setTotalMoney(totalMoney+wallet.amountOfMoney)
-    //         console.log(totalMoney)
-    //
-    //     })
-    // }, []);
+
     useEffect(() => {
         setTotalMoney(0);
         walletList.forEach(wallet => {
             setTotalMoney(prevTotal => prevTotal + wallet.amountOfMoney);
         });
-    }, [walletList]);
+    }, [transactionSelect, walletList]);
     const handleListItemClick = (value) => {
         if (value) {
             onClose(value);
+
         }
     };
 
     return (<Dialog onClose={handleClose} open={open}>
         <DialogTitle>Excluded from Total</DialogTitle>
-        <List sx={{ pt: 0, width:"500px" }}>
+        <List sx={{pt: 0, width: "500px"}}>
             <ListItem disableGutters>
-                <ListItemButton >
+                <ListItemButton>
                     <ListItemAvatar>
-                        <Avatar sx={{ bgcolor: blue[100], color: blue[600] } }>
+                        <Avatar sx={{bgcolor: blue[100], color: blue[600]}}>
                             <PersonIcon/>
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText
                         primary="Total monney"
-                        secondary={
-                            <React.Fragment>
-                                <Typography variant="body2" color="text.secondary">
-                                    {totalMoney}
-                                </Typography>
-                            </React.Fragment>
-                        }
+                        secondary={<React.Fragment>
+                            <Typography variant="body2" color="text.secondary">
+                                {totalMoney}
+                            </Typography>
+                        </React.Fragment>}
                     />
                 </ListItemButton>
             </ListItem>
-            {walletList?.length > 0 && walletList.map((wallet) => (
-                <ListItem disableGutters>
+            {walletList?.length > 0 && walletList.map((wallet) => (<ListItem disableGutters>
                 <ListItemButton onClick={() => handleListItemClick(wallet)} key={wallet.id}>
                     <ListItemAvatar>
-                        <Avatar sx={{ bgcolor: blue[100], color: blue[600] } }>
+                        <Avatar sx={{bgcolor: blue[100], color: blue[600]}}>
                             <img src={wallet.icon.icon} alt=""/>
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText
                         primary={wallet.name}
-                        secondary={
-                            <React.Fragment>
-                                <Typography variant="body2" color="text.secondary">
-                                    {wallet.amountOfMoney} {wallet.currency.sign}
-                                </Typography>
-                            </React.Fragment>
-                        }
+                        secondary={<React.Fragment>
+                            <Typography variant="body2" color="text.secondary">
+                                {wallet.amountOfMoney} {wallet.currency.sign}
+                            </Typography>
+                        </React.Fragment>}
                     />
                 </ListItemButton>
-            </ListItem>
-            ))}
+            </ListItem>))}
         </List>
     </Dialog>);
 }
@@ -111,19 +104,17 @@ export default function SelectWallets() {
         }
     };
 
-    return (
-        <div>
-            <Button sx={{color: "black", justifyContent: "left", textTransform: 'lowercase'}} onClick={handleClickOpen}>
-                {walletSelect?.name}
-            </Button>
-            <Typography variant="subtitle1" component="div">
-                {walletSelect?.amountOfMoney > 0 ? "+" : null} {walletSelect?.amountOfMoney} {walletSelect?.currency.sign}
-            </Typography>
-            <SimpleDialog
-                selectedValue={walletSelect?.name}
-                open={open}
-                onClose={handleClose}
-            />
-        </div>
-    );
+    return (<div>
+        <Button sx={{color: "black", justifyContent: "left", textTransform: 'lowercase'}} onClick={handleClickOpen}>
+            {walletSelect?.name}
+        </Button>
+        <Typography variant="subtitle1" component="div">
+            {walletSelect?.amountOfMoney > 0 ? "+" : null} {walletSelect?.amountOfMoney} {walletSelect?.currency.sign}
+        </Typography>
+        <SimpleDialog
+            selectedValue={walletSelect?.name}
+            open={open}
+            onClose={handleClose}
+        />
+    </div>);
 }
