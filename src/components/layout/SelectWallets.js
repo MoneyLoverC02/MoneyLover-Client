@@ -13,7 +13,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import Typography from '@mui/material/Typography';
 import {blue} from '@mui/material/colors';
 import {useDispatch, useSelector} from 'react-redux';
-import {setWalletSelect} from '../../redux/walletSlice';
+import {getAllWallet, setWalletSelect} from '../../redux/walletSlice';
 import {useEffect, useState} from "react";
 
 function SimpleDialog(props) {
@@ -31,14 +31,17 @@ function SimpleDialog(props) {
 
 
     useEffect(() => {
+        console.log(walletList)
         setTotalMoney(0);
-        walletList.forEach(wallet => {
+        typeof walletList !== "object"? walletList.forEach(wallet => {
             setTotalMoney(prevTotal => prevTotal + wallet.amountOfMoney);
-        });
+        }):
+        <></>
     }, [transactionSelect, walletList]);
     const handleListItemClick = (value) => {
         if (value) {
             onClose(value);
+            dispatch(getAllWallet(value))
 
         }
     };
