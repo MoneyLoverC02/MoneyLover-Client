@@ -77,6 +77,13 @@ export const formatDate = (date) => {
   return `${year}-${month}-${day}`;
 };
 
+export function changeDate(date) {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
 export const convertDate = (dateStr) => {
   // Chuyển chuỗi ngày tháng thành đối tượng Date
   let dateObject = new Date(dateStr);
@@ -99,7 +106,7 @@ export const convertDate = (dateStr) => {
   return newFormat;
 }
 
-function parseDate(input) {
+export function parseDate(input) {
   var parts = input.split('-');
   // parts[0] is the year, parts[1] is the month, and parts[2] is the day
   return new Date(parts[0], parts[1] - 1, parts[2]); // Note: Month is 0-based

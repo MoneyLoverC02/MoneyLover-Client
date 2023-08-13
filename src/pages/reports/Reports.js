@@ -1,24 +1,15 @@
-import { useState } from "react";
-import NavBar from "../components/layout/NavBar";
-import Sidebar from "../components/layout/Sidebar";
+import ReportsCard from "../../components/card/ReportsCard";
+import Sidebar from "../../components/layout/Sidebar";
+import ReportsNavBar from "../../components/navbars/ReportsNavbar";
 
 export default function Reports() {
-    // const [isModalVisible, setModalVisible] = useState(false);
-    // const handleOpenModal = () => {
-    //     setModalVisible(true);
-    // };
-    // const handleCloseModal = () => {
-    //     setModalVisible(false);
-    // };
     return (
         <>
-            {/* <NavBar onClickAddBtn={handleOpenModal} /> */}
-            <div>
-                <Sidebar />
-
-                    {/* <TransactionCard openModal = {isModalVisible} closeModal={handleCloseModal}/> */}
-
-            </div>
-        </>
-    )
+        <ReportsNavBar />
+        <div>
+            <Sidebar/>
+            <ReportsCard/>
+        </div>
+    </>
+    );
 }
