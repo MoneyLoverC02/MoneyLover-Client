@@ -55,4 +55,18 @@ export class TransactionService {
             }
         )
     }
+    static async getTransactionsByTimeRange(walletID, startDate, endDate) {
+        let token = localStorage.getItem('token');
+        return await axios.get(`http://localhost:4000/api/users/wallets/${walletID}/report`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                params: {
+                    startDate: startDate,
+                    endDate: endDate
+                }
+            }
+        )
+    }
 }

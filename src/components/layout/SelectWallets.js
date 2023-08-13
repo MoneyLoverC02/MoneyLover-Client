@@ -95,7 +95,6 @@ export default function SelectWallets() {
     const [open, setOpen] = React.useState(false);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const dispatch = useDispatch();
-
     const handleClickOpen = () => {
         setOpen(true);
     };
