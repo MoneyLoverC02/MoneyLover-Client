@@ -23,7 +23,7 @@ export default function TransactionCard({ openModal, closeModal }) {
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const allCategory = useSelector(state => state.transaction.allCategory)
     const [calculate, setCalculate] = useState({ totalInflow: 0, totalOutflow: 0 });
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         const scrollStopper = document.querySelector('.scroll-stopper');
@@ -32,7 +32,6 @@ export default function TransactionCard({ openModal, closeModal }) {
 
             const handleScroll = () => {
                 const scrollTop = window.scrollY;
-                console.log( scrollTop)
                 if (scrollTop <= stopPosition) {
                     scrollStopper.style.top = `${stopPosition  - scrollTop}px `;
                 } else {
@@ -104,6 +103,9 @@ export default function TransactionCard({ openModal, closeModal }) {
         handleCloseFormUpdate();
         setChecked(true);
     }
+    const handleViewReport = () => {
+        navigate('/reports')
+    }
     return (
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
             <div className='ml-[92px] px-4 mt-10'>
@@ -141,9 +143,9 @@ export default function TransactionCard({ openModal, closeModal }) {
 
                                                                 </span>
                                                             </div>
-                                                            <div className='px-4 py-3 uppercase text-center text-lightgreen hover:cursor-pointer'>
+                                                            <button onClick={handleViewReport} className='px-4 py-3 uppercase text-center text-lightgreen hover:cursor-pointer'>
                                                                 view report for this period
-                                                            </div>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                     {allCategory?.length > 0 && allCategory.map(category => {

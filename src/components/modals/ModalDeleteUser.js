@@ -24,7 +24,8 @@ export default function ModalDeleteUser() {
         setOpen(false);
     };
     const handleDeleteUser = () => {
-        UserService.deleteUser()
+        let token = localStorage.getItem('token')
+        UserService.deleteUser(token)
             .then(response => {
                 localStorage.removeItem('token');
                 dispatch(logout());
