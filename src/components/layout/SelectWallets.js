@@ -14,11 +14,17 @@ import Typography from '@mui/material/Typography';
 import {blue} from '@mui/material/colors';
 import {useDispatch, useSelector} from 'react-redux';
 import {setWalletSelect} from '../../redux/walletSlice';
+import {useEffect} from "react";
 
 function SimpleDialog(props) {
     const {onClose, selectedValue, open} = props;
-    const walletList = useSelector(state => state.wallet.allWallet);
+        let walletList = useSelector(state => state.wallet.allWallet);
+    const walletSelect = useSelector(state => state.wallet.walletSelect)
+    const allTransaction = useSelector(state => state.transaction.allTransaction);
 
+    useEffect(() => {
+        setWalletSelect()
+    }, [allTransaction]);
     const handleClose = () => {
         onClose(selectedValue);
     };
@@ -29,8 +35,11 @@ let totalMoney = 0
     const handleListItemClick = (value) => {
         if (value) {
             onClose(value);
+            setWalletSelect(value)
         }
     };
+
+
 
     return (<Dialog onClose={handleClose} open={open}>
         <DialogTitle>Excluded from Total</DialogTitle>
