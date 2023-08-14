@@ -14,12 +14,14 @@ import Typography from '@mui/material/Typography';
 import {blue} from '@mui/material/colors';
 import {useDispatch, useSelector} from 'react-redux';
 import {setWalletSelect} from '../../redux/walletSlice';
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 function SimpleDialog(props) {
     const {onClose, selectedValue, open} = props;
         let walletList = useSelector(state => state.wallet.allWallet);
     const walletSelect = useSelector(state => state.wallet.walletSelect)
+    const [totalMoney, setTotalMoney] = useState(0)
+    const transactionSelect = useSelector(state => state.transaction.transactionSelect);
     const allTransaction = useSelector(state => state.transaction.allTransaction);
 
     useEffect(() => {
@@ -28,10 +30,12 @@ function SimpleDialog(props) {
     const handleClose = () => {
         onClose(selectedValue);
     };
-let totalMoney = 0
-    for (let i = 0; i < walletList.length; i++) {
-        totalMoney+=walletList[0].amountOfMoney
-    }
+    useEffect(() => {
+        setTotalMoney(0)
+         walletList.forEach(wallet => {
+                setTotalMoney(prevTotal => prevTotal + wallet.amountOfMoney);
+            })
+    }, [transactionSelect, walletList]);
     const handleListItemClick = (value) => {
         if (value) {
             onClose(value);

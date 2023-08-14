@@ -10,6 +10,7 @@ import AnalyticsIcon from '@mui/icons-material/Analytics';
 import TollIcon from '@mui/icons-material/Toll';
 import { useSelector } from 'react-redux';
 import Slide from "@mui/material/Slide";
+import {Link} from "react-router-dom";
 
 export default function Sidebar() {
     const user = useSelector(state => state.auth.login.currentUser)
@@ -52,12 +53,12 @@ export default function Sidebar() {
                             </SwipeableDrawer>
                         </React.Fragment>
                         <div className="iconSideBar">
-                            <Button><AccountBalanceWalletIcon className="colorIcon" /></Button>
-                            <span className="colorIcon">Trasactions</span>
+                            <Link to="/"><Button><AccountBalanceWalletIcon className="colorIcon" /></Button>
+                                <span className="colorIcon">Trasactions</span></Link>
                         </div>
                         <div className="iconSideBar">
-                            <Button><AnalyticsIcon className="colorIcon" /></Button>
-                            <span className="colorIcon">Report</span>
+                            <Link to="/reports"><Button><AnalyticsIcon className="colorIcon" /></Button>
+                                <span className="colorIcon">Report</span></Link>
                         </div>
                         <div className="iconSideBar">
                             <Button><TollIcon className="colorIcon" /></Button>

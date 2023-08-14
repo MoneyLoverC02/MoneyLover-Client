@@ -1,14 +1,11 @@
-import {Box, Grid} from "@mui/material";
-import Button from "@mui/material/Button";
+import {Box} from "@mui/material";
 import * as React from "react";
 import Modal from "@mui/material/Modal";
-import IconModal from "./IconModal";
-import CurrencyModal from "./CurrencyModal";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
+import io from "socket.io-client"
 const style = {
     position: 'absolute',
     top: '40%',
@@ -27,6 +24,9 @@ export default function ShareWallet ({isOpen, onClose}) {
     const handleChange = (event) => {
         setPermission(event.target.value);
     };
+    const handleShare = ()=>{
+
+    }
 
     return(
         <>
@@ -86,7 +86,7 @@ export default function ShareWallet ({isOpen, onClose}) {
                         </div>
                     </div>
                     <div className='py-[14px] px-6 flex justify-end'>
-                        <button type='button'  className='bg-lightgreen text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400' >Save</button>
+                        <button type='button' onSubmit={handleShare}  className='bg-lightgreen text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400' >Save</button>
                     </div>
                 </Box>
             </Modal>
