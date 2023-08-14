@@ -35,7 +35,7 @@ function SimpleDialog(props) {
          walletList.forEach(wallet => {
                 setTotalMoney(prevTotal => prevTotal + wallet.amountOfMoney);
             })
-    }, [transactionSelect, walletList]);
+    }, [transactionSelect, walletList,]);
     const handleListItemClick = (value) => {
         if (value) {
             onClose(value);
