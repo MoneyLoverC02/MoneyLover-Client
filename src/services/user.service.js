@@ -28,4 +28,7 @@ export class UserService {
                 }
             })
     }
+    static async verifyEmail(tokenVerifyEmail) {
+        return await axios.get(`http://localhost:4000/api/verify/${tokenVerifyEmail}`)
+    }
 }

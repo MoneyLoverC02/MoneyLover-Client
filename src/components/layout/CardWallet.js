@@ -61,7 +61,6 @@ export default function CardWallet() {
         setChecked(true);
     }
     const handleCheckboxChange = () => {
-        console.log(WalletService.archivedWallet(walletSelect.id));
         WalletService.archivedWallet(walletSelect.id).then(()=>{
             handleOpenSlide(walletSelect.id)
         })
