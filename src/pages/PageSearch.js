@@ -1,6 +1,6 @@
 import NavbarSearch from "../components/navbars/NavbarSearch";
 import Sidebar from "../components/layout/Sidebar";
-import SearchCard from "../components/layout/searchCard";
+import SearchCard from "../components/layout/search/SearchCard";
 import {useState} from "react";
 
 export default function PageSearch() {
