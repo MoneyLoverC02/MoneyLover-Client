@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { TransactionService } from "../../services/transaction.service";
 import { getDataBarChart, setDataByDate, setDataCalculated } from "../../redux/reportSlice";
-import { changeDate, formatDate, parseDate } from "../datePick/datePick";
+import { parseDate } from "../datePick/datePick";
 import numeral from 'numeral';
 import DoughnutChart from "../chart/DoughnutChart";
 import NetInComeCard from "./NetInComeCard";
@@ -202,6 +202,7 @@ export default function ReportsCard() {
             let balance = viewBalance(transactionList, transactionListBefore);
             let dataCalculated = calculatorAmountByCategory(transactionList);
             let dataByDate = (getTransByDate(transactionList));
+            console.log(dataCalculated);
             setBalance(balance);
             setDayArr(days);
             dispatch(getDataBarChart(data));

@@ -119,7 +119,7 @@ export default function DoughnutChart({ data }) {
                 // stroke="#1a2728"
                 // strokeWidth={2}
                 >
-                    {data.map((entry, index) => (
+                    {data && data.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={colors[index]} stroke="none" />
                     ))}
                 </Pie>
