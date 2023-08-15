@@ -8,6 +8,8 @@ import { parseDate } from "../datePick/datePick";
 import numeral from 'numeral';
 import DoughnutChart from "../chart/DoughnutChart";
 import NetInComeCard from "./NetInComeCard";
+import InComeCard from "./InComeCard";
+import ExpenseCard from "./ExpenseCard";
 
 
 //chuyển từ dd/mm/yyyy -> date object
@@ -26,6 +28,16 @@ function convertDateFormat(inputDate) {
     const month = parts[1];
     const year = parts[2];
     const newDate = `${year}-${month}-${day}`;
+    return newDate;
+}
+
+//chuyển từ yyyy-mm-dd -> dd/mm/yyyy 
+export function convertDateFormatNew(inputDate) {
+    const parts = inputDate.split('-');
+    const year = parts[0];
+    const month = parts[1];
+    const day = parts[2];
+    const newDate = `${day}/${month}/${year}`;
     return newDate;
 }
 
@@ -185,6 +197,8 @@ export function getTransByDate(transactions) {
 
 export default function ReportsCard() {
     const [openNetInCome, setOpenNetInCome] = useState(false);
+    const [openInCome, setOpenInCome] = useState(false);
+    const [openExpense, setOpenExpense] = useState(false);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const dateSelect = useSelector(state => state.report.dateSelect);
     const dataCalculated = useSelector(state => state.report.dataCalculated);
@@ -202,7 +216,6 @@ export default function ReportsCard() {
             let balance = viewBalance(transactionList, transactionListBefore);
             let dataCalculated = calculatorAmountByCategory(transactionList);
             let dataByDate = (getTransByDate(transactionList));
-            console.log(dataCalculated);
             setBalance(balance);
             setDayArr(days);
             dispatch(getDataBarChart(data));
@@ -212,10 +225,28 @@ export default function ReportsCard() {
     }, [dateSelect, walletSelect]);
 
     const handleOpenNetInCard = () => {
-        setOpenNetInCome(true)
+        setOpenNetInCome(true);
+        setOpenInCome(false);
+        setOpenExpense(false);
     }
     const handleCloseNetInCard = () => {
-        setOpenNetInCome(false)
+        setOpenNetInCome(false);
+    }
+    const handleOpenInCard = () => {
+        setOpenInCome(true);
+        setOpenNetInCome(false);
+        setOpenExpense(false);
+    }
+    const handleCloseInCard = () => {
+        setOpenInCome(false);
+    }
+    const handleOpenExpenseCard = () => {
+        setOpenExpense(true);
+        setOpenNetInCome(false);
+        setOpenInCome(false);
+    }
+    const handleCloseExpenseCard = () => {
+        setOpenExpense(false);
     }
 
     return (
@@ -252,7 +283,7 @@ export default function ReportsCard() {
                                 </button>
                             </div>
                             <div className="grid grid-cols-2">
-                                <button className="hover:bg-lightlime w-full z-5">
+                                <button onClick={handleOpenInCard} className="hover:bg-lightlime w-full z-5">
                                     <div className="py-2">
                                         <p className="text-graynew">Income</p>
                                         <p className="text-md text-sky-500">+{numeral(balance?.totalIncome).format('0,0')} {walletSelect?.currency.sign}</p>
@@ -263,7 +294,7 @@ export default function ReportsCard() {
                                         </div>
                                     </div>
                                 </button>
-                                <button className="hover:bg-lightlime w-full z-5">
+                                <button onClick={handleOpenExpenseCard} className="hover:bg-lightlime w-full z-5">
                                     <div className="py-2">
                                         <p className="text-graynew">Expense</p>
                                         <p className="text-md text-red-500">{numeral(balance?.totalExpense).format('0,0')} {walletSelect?.currency.sign}</p>
@@ -313,6 +344,8 @@ export default function ReportsCard() {
                         </div>
                     </div>
                     {openNetInCome && <NetInComeCard balance={balance} dayArr={dayArr} isOpen={openNetInCome} onClose={handleCloseNetInCard} />}
+                    {openInCome && <InComeCard balance={balance} isOpen={openInCome} onClose={handleCloseInCard} />}
+                    {openExpense && <ExpenseCard balance={balance} isOpen={openExpense} onClose={handleCloseExpenseCard} />}
                 </div>
             </div>
         </Slide>
