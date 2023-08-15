@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import SelectWallets from "../layout/SelectWallets";
 import SelectTimeRangeModal from "../modals/SelectTimeRangeModal";
 import { useState } from "react";
+import {Link} from "react-router-dom";
 
 
 export default function ReportsNavBar() {
@@ -36,9 +37,9 @@ export default function ReportsNavBar() {
                                 <span className="text-xs font-normal text-zinc-400">{dateSelect?.firstDay} - {dateSelect?.lastDay}</span>
                             </div>
                             <div className="w-[230px] flex justify-end">
-                                <button>
+                                <Link to="/search">
                                     <SearchTwoToneIcon sx={{ fontSize: '28px', color:'gray'}} />
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </div>

@@ -31,13 +31,13 @@ export default function TransactionCard({ openModal, closeModal }) {
         const navbarHeight = 111;
         const stopPosition = navbarHeight;
 
-            const handleScroll = () => {
-                const scrollTop = window.scrollY;
-                if (scrollTop <= stopPosition) {
-                    scrollStopper.style.top = `${stopPosition  - scrollTop}px `;
-                } else {
-                    scrollStopper.style.top = '65px';
-                }
+        const handleScroll = () => {
+            const scrollTop = window.scrollY;
+            if (scrollTop <= stopPosition) {
+                scrollStopper.style.top = `${stopPosition  - scrollTop}px `;
+            } else {
+                scrollStopper.style.top = '65px';
+            }
 
         };
 
@@ -51,7 +51,7 @@ export default function TransactionCard({ openModal, closeModal }) {
     useEffect(() => {
         let totalInflow = 0;
         let  totalOutflow = 0
-        allTransaction.forEach(item => {
+        allTransaction?.forEach(item => {
             if (item.category.type === 'expense') {
                 totalOutflow += item.amount
             } else {
