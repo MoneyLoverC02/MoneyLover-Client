@@ -5,7 +5,10 @@ import { getTime } from "../components/modals/SelectTimeRangeModal";
 const initialState = {
     dateSelect: {firstDay: changeDate(getTime('This month').firstDay), lastDay: changeDate(getTime('This month').lastDay), name: "This month"},
     dataBarChart: {dataIncome: [], dataExpense: []},
-    balance: null
+    balance: null,
+    dataCalculated: null,
+    dataByDate: null
+
 }
 
 export const reportSlice = createSlice({
@@ -20,10 +23,16 @@ export const reportSlice = createSlice({
         },
         getBalance: (state, action) => {
             state.balance = action.payload
+        },
+        setDataCalculated: (state, action) => {
+            state.dataCalculated = action.payload
+        },
+        setDataByDate: (state, action) => {
+            state.dataByDate = action.payload
         }
     }
 })
 
-export const { setDateSelect, getDataBarChart, getBalance } = reportSlice.actions;
+export const { setDateSelect, getDataBarChart, getBalance, setDataCalculated , setDataByDate} = reportSlice.actions;
 export default reportSlice.reducer;
 
