@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Range } from 'react-range';
 
 const Slider = () => {
-    const [values, setValues] = useState([50, 75]);
+    const [values, setValues] = useState([0, 100]);
 
     const handleChange = (newValues) => {
         setValues(newValues);
@@ -24,7 +24,7 @@ const Slider = () => {
                             ...props.style,
                             height: '6px',
                             width: '100%',
-                            backgroundColor: '#ccc'
+                            backgroundColor: '#666666'
                         }}
                     >
                         {children}
@@ -37,7 +37,7 @@ const Slider = () => {
                             ...props.style,
                             height: '20px',
                             width: '20px',
-                            backgroundColor: '#007BFF',
+                            backgroundColor: '#e4e4e4',
                             borderRadius: '50%'
                         }}
                     />

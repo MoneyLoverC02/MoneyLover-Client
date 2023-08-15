@@ -70,9 +70,8 @@ export default function CardWallet() {
         setChecked(true);
     }
     const handleCheckboxChange = () => {
-        let token = localStorage.getItem('token');
-        WalletService.archivedWallet( walletSelect?.id, token).then(() => {
-            handleOpenSlide(walletSelect?.id)
+        WalletService.archivedWallet(walletSelect.id).then(()=>{
+            handleOpenSlide(walletSelect.id)
         })
     };
 

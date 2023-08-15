@@ -67,9 +67,9 @@ export default function NavbarSearch() {
                             className='w-[300px] mr-4 py-1 pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500 hover:cursor-pointer'>
                             <CategorySelectModal selectCategory={handleSelectCategory}/>
                         </div>
-                        <div
-                            className='w-[300px] py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
-                            <button onClick={handleOpenTimeRangeModal}>
+                        <button onClick={handleOpenTimeRangeModal}>
+                            <div
+                                className='w-[300px] py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
                                 <p className='text-[12px] pb-[3px] text-slate-400 text-start'>Date</p>
                                 <div className='wrap-text-icon'>
                                     <div className='flex justify-center items-center'>
@@ -85,8 +85,9 @@ export default function NavbarSearch() {
                                         </div>
                                     </div>
                                 </div>
-                            </button>
-                        </div>
+
+                            </div>
+                        </button>
                         <div
                             className='w-[300px] py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
                             <p className='text-[12px] pb-[3px] text-slate-400'>Note</p>
