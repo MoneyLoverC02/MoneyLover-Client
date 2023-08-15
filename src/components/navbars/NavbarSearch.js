@@ -12,7 +12,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import {useState} from "react";
 import SelectTimeRangeModal from "../modals/SelectTimeRangeModal";
 import FilterMoney from "../layout/search/FilterMoney";
-import Slider from "../layout/search/DemoSlider";
+import Slider from "../layout/search/Slider";
 
 export default function NavbarSearch() {
     const dispatch = useDispatch();
