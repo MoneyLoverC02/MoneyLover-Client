@@ -13,7 +13,7 @@ export default function MyWallets() {
     return (
         <div>
             <Button>
-                <div onClick={handleClickOpen} style={{width: "364px", color: "#747474"}}>
+                <div onClick={handleClickOpen} style={{width: "364px", color: "#747474"}} className='pr-4'>
                     <div style={{float: "left", marginRight: "40px"}}>
                         <AccountBalanceWalletIcon sx={{fontSize: "40px", marginLeft: "20px"}}/>
                     </div>
