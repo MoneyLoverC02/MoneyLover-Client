@@ -55,7 +55,7 @@ export default function TransByDateModal({ onOpen, onClose, data }) {
                         </div>
                         <div className="mt-8 bg-white">
                             <div>
-                                <div className='flex justify-between items-center px-4 py-2 border-t hover:bg-lightlime cursor-pointer'>
+                                <div className='flex justify-between items-center px-4 py-2 border-'>
                                     <div className='flex justify-start items-center'>
                                         <span className='mr-4 text-4xl font-normal text-black'>{convertDate(data[0]?.date).day}</span>
                                         <span className='text-start'>
