@@ -5,7 +5,7 @@ import MyWallet from './pages/wallets/MyWallet';
 import HomePage from "./pages/homePage";
 import {useSelector} from "react-redux";
 import Reports from './pages/reports/Reports';
-import AcceptCard from './components/card/AcceptCard';
+import VerifyRegister from "./pages/VerifyRegister";
 
 function App() {
     const auth = useSelector(state => state.auth.login.success);
@@ -16,9 +16,8 @@ function App() {
             <Route path={"/register"} element={!auth ? <LoginOrRegister props={false}/> : <Navigate to='/'/>}/>
             <Route path={"/my-wallets"} element={auth ? <MyWallet/>: <Navigate to='/login'/>}></Route>
             <Route path={"/reports"} element={auth ? <Reports/> : <Navigate to='/login'/>}></Route>
-            <Route path={"/test"} element={auth ? <AcceptCard/> : <Navigate to='/login'/>}></Route>
+            <Route path={"/verify/:token"} element={<VerifyRegister/>}></Route>
             <Route path={"*"} element={auth ? <Navigate to='/login'/>: <Navigate to='/'/>}/>
-
         </Routes>
     );
 }

@@ -21,7 +21,6 @@ export function changeDate(date) {
 
 //chuyển sang định dạng thứ, ngày , tháng, năm:
 export const convertDate = (dateStr) => {
-  console.log(dateStr);
   let dateObject = new Date(dateStr);
   // let daysOfWeek = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
   let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
