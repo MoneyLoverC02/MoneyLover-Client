@@ -17,8 +17,8 @@ function App() {
             {/*<Route path={"/login"} element={<LoginOrRegister props={true}/>}/>*/}
             <Route path={"/register"} element={!auth ? <LoginOrRegister props={false}/> : <Navigate to='/'/>}/>
             <Route path={"/my-wallets"} element={auth ? <MyWallet/>: <Navigate to='/login'/>}></Route>
-            <Route path={"/verify/:token"} element={<VerifyRegister/>}></Route>
             <Route path={"/reports"} element={auth ? <Reports/> : <Navigate to='/login'/>}></Route>
+            <Route path={"/verify/:token"} element={<VerifyRegister/>}></Route>
             <Route path={"/search"} element={auth ? <PageSearch/> : <Navigate to='/'/>}></Route>
 
             <Route path={"*"} element={auth ? <Navigate to='/login'/>: <Navigate to='/'/>}/>

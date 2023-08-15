@@ -24,18 +24,26 @@ export function getTime(option) {
         time.lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
     } else if (option === 'Last month') {
         time.firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
-        time.lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() , 0);
-    } else {
+        time.lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+    } else if (option === 'Last 3 months') {
         time.firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth() - 2, 1);
         time.lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+    }   else if (option === 'Last 6 months') {
+        time.firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth() - 5, 1);
+        time.lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+    } else {
+        time.firstDay = new Date(currentDate.getFullYear(), 0, 1);
+        time.lastDay = new Date(currentDate.getFullYear(), 11, 31);
     }
 
-  return time;
+    return time;
 }
 
 let dataRangeThisMonth = `${changeDate(getTime('This month').firstDay)} - ${changeDate(getTime('This month').lastDay)}`;
 let dataRangeLastMonth = `${changeDate(getTime('Last month').firstDay)} - ${changeDate(getTime('Last month').lastDay)}`;
-let dataRangeLast3Month = `${changeDate(getTime('Last 3 months').firstDay)} - ${changeDate(getTime('Last 3 months').lastDay)}`;
+let dataRangeLast3Months = `${changeDate(getTime('Last 3 months').firstDay)} - ${changeDate(getTime('Last 3 months').lastDay)}`;
+let dataRangeLast6Months = `${changeDate(getTime('Last 6 months').firstDay)} - ${changeDate(getTime('Last 6 months').lastDay)}`;
+let dataRangeThisYear = `${changeDate(getTime('This year').firstDay)} - ${changeDate(getTime('This year').lastDay)}`;
 
 export default function SelectTimeRangeModal({ onOpen, onClose }) {
     const dispatch = useDispatch()
@@ -47,7 +55,7 @@ export default function SelectTimeRangeModal({ onOpen, onClose }) {
         let time = getTime(option);
         let firstDay = changeDate(time.firstDay);
         let lastDay = changeDate(time.lastDay);
-        dispatch(setDateSelect({firstDay, lastDay, name: option}));
+        dispatch(setDateSelect({ firstDay, lastDay, name: option }));
         handleClose();
     }
 
@@ -82,7 +90,15 @@ export default function SelectTimeRangeModal({ onOpen, onClose }) {
                         </button>
                         <button onClick={() => handleSelectTime('Last 3 months')} className='w-full text-start px-8 py-4 border-y hover:bg-lightlime'>
                             <p>Last 3 months</p>
-                            <p>{dataRangeLast3Month}</p>
+                            <p>{dataRangeLast3Months}</p>
+                        </button>
+                        <button onClick={() => handleSelectTime('Last 6 months')} className='w-full text-start px-8 py-4 border-y hover:bg-lightlime'>
+                            <p>Last 6 months</p>
+                            <p>{dataRangeLast6Months}</p>
+                        </button>
+                        <button onClick={() => handleSelectTime('This year')} className='w-full text-start px-8 py-4 border-y hover:bg-lightlime'>
+                            <p>This year</p>
+                            <p>{dataRangeThisYear}</p>
                         </button>
                     </div>
                 </Box>

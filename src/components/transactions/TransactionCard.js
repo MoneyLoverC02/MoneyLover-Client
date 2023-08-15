@@ -7,12 +7,13 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import ClearIcon from "@mui/icons-material/Clear";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { TransactionService } from '../../services/transaction.service';
 import { getAllCategory, getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
 import { convertDate } from '../datePick/datePick';
 import ModalDeleteTrans from './ModalDeleteTrans';
 import UpdateTransactionModal from './UpdateTransactionModal';
+import { calculatorAmountByCategory } from '../card/ReportsCard';
 
 export default function TransactionCard({ openModal, closeModal }) {
     const dispatch = useDispatch();
@@ -149,7 +150,18 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                         </div>
                                                     </div>
                                                     {allCategory?.length > 0 && allCategory.map(category => {
+                                                        let totalAmount = 0;
+                                                        let allDataCalculated = calculatorAmountByCategory(allTransaction);
                                                         const transactionsInCategory = allTransaction?.filter(item => item.category.id === category.id);
+                                                        if (category.type === 'income') {
+                                                            allDataCalculated.listIncome.forEach(item => {
+                                                                if (category.name === item.categoryName) totalAmount = item.totalAmount
+                                                            }) 
+                                                        } else {
+                                                            allDataCalculated.listExpense.forEach(item => {
+                                                                if (category.name === item.categoryName) totalAmount = item.totalAmount
+                                                            })
+                                                        }
                                                         if (transactionsInCategory.length === 0) {
                                                             return null;
                                                         }
@@ -162,7 +174,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                         <div className='text-xs text-zinc-400 font-normal'>{transactionsInCategory.length} Transactions</div>
                                                                     </span>
                                                                 </div>
-                                                                <span><p className='mt-3'>{transactionsInCategory[0].category.type === "expense" ? '-' : '+'}{walletSelect?.currency.sign} {transactionsInCategory[0]?.amount}</p></span>
+                                                                <span><p className='mt-3'>{transactionsInCategory[0].category.type === "expense" ? '-' : '+'}{walletSelect?.currency.sign} {totalAmount}</p></span>
                                                             </div>
                                                         );
                                                         return (

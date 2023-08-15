@@ -11,12 +11,14 @@ import TollIcon from '@mui/icons-material/Toll';
 import { useSelector } from 'react-redux';
 import Slide from "@mui/material/Slide";
 import {Link} from "react-router-dom";
+import Notifycation from './Notifycation';
 
 export default function Sidebar() {
     const user = useSelector(state => state.auth.login.currentUser)
     const [state, setState] = React.useState({
         left: false,
     });
+
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -40,9 +42,10 @@ export default function Sidebar() {
         <div className='h-[66px]'>
             <Slide direction="right" in={true} mountOnEnter unmountOnExit>
                 <div className="sidebar">
-                    <div>
+                    <div className='relative'>
                         <React.Fragment key={"left"}>
-                            <Button onClick={toggleDrawer("left", true)}><ReorderIcon sx={{ color: "#282828" }} /></Button>
+                            <Button onClick={toggleDrawer("left", true)}><ReorderIcon sx={{ color: "#282828" }} />
+                            </Button>
                             <SwipeableDrawer
                                 anchor={"left"}
                                 open={state["left"]}
