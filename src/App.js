@@ -20,7 +20,6 @@ function App() {
             <Route path={"/reports"} element={auth ? <Reports/> : <Navigate to='/login'/>}></Route>
             <Route path={"/verify/:token"} element={<VerifyRegister/>}></Route>
             <Route path={"/search"} element={auth ? <PageSearch/> : <Navigate to='/'/>}></Route>
-
             <Route path={"*"} element={auth ? <Navigate to='/login'/>: <Navigate to='/'/>}/>
         </Routes>
     );
