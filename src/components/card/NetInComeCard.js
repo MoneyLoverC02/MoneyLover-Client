@@ -1,16 +1,38 @@
 import { Card, Slide } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import numeral from 'numeral';
 import StackedBarChart from "../chart/BarChart";
 import { convertDate } from "../datePick/datePick";
+import TransByDateModal from "../modals/TransByDateModal";
+
+function getDataOneDate(data, date) {
+    return data.filter(item => item.date === date);
+}
 
 export default function NetInComeCard({ balance, dayArr, isOpen, onClose }) {
+    const [openTransModal, setOpenTransModal] = useState(false);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const dataByDate = useSelector(state => state.report.dataByDate);
+    const [dateSelect, setDateSelect] = useState(dataByDate[0]?.date);
+    const [dataOneDate, setDataOneDate] = useState(getDataOneDate(dataByDate, dateSelect))
+
+    useEffect(() => {
+        let data = getDataOneDate(dataByDate, dateSelect);
+        setDataOneDate(data);
+    }, [dateSelect])
+
     const handleCloseSlide = () => {
         onClose();
+    }
+    const handleOpenTrans = (date) => {
+        setOpenTransModal(true)
+        setDateSelect(date)
+    }
+
+    const handleCloseTrans = () => {
+        setOpenTransModal(false)
     }
 
     return (
@@ -44,7 +66,7 @@ export default function NetInComeCard({ balance, dayArr, isOpen, onClose }) {
                     <div className="pb-6 text-sm font-medium mt-2 text-textgray">
                         {dataByDate?.length > 0 && dataByDate.map(item => {
                             return (
-                                <div className="hover:bg-lightlime cursor-pointer">
+                                <div onClick={() => handleOpenTrans(item.date)}  className="hover:bg-lightlime cursor-pointer">
                                     <div className="flex justify-between mx-12 border-b px-4">
                                         <span className="mt-2">{convertDate(item?.date).dayOfWeek}, {convertDate(item?.date).month} {convertDate(item?.date).year}</span>
                                         <div className="flex justify-around items-center w-14 p-2 px-4 gap-2">
@@ -72,6 +94,7 @@ export default function NetInComeCard({ balance, dayArr, isOpen, onClose }) {
 
                     </div>
                 </Card>
+                <TransByDateModal onOpen={openTransModal} onClose={handleCloseTrans} data={dataOneDate}/>
             </div>
         </Slide>
     );

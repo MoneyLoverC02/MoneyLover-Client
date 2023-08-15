@@ -14,6 +14,7 @@ import UpdateModal from '../modals/UpdateModal';
 import NestedModal from '../modals/NestedModal';
 import {useNavigate} from 'react-router-dom';
 import TranferModal from '../modals/TranferModal';
+import ShareWallet from "../modals/ShareWallet";
 
 export default function CardWallet() {
     const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export default function CardWallet() {
     const [openFormCreate, setOpenFormCreate] = React.useState(false);
     const [openFormUpdate, setOpenFormUpdate] = React.useState(false);
     const [openFormTranfer, setOpenFormTranfer] = React.useState(false);
+    const [openShareWallet, setOpenShareWallet] = React.useState(false);
     // const user = useSelector(state => state.auth.login.currentUser);
     const allWallet = useSelector(state => state.wallet.allWallet);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
@@ -50,6 +52,13 @@ export default function CardWallet() {
         handleCloseFormCreate();
         setChecked(true);
     }
+    const handleOpenShare = ()=>{
+        setOpenShareWallet(true)
+    }
+    const handleCloseShare = ()=>{
+        setOpenShareWallet(false)
+    }
+
     const handleOpenFormUpdate = () => {
         setOpenFormUpdate(true);
     }
@@ -199,7 +208,7 @@ export default function CardWallet() {
                                                     <b>TRANFERMONEY</b>
                                                 </Grid>
                                             </Button>
-                                            <Button fullWidth sx={{borderTop: "1px solid #ececec", color: "green"}}>
+                                            <Button fullWidth sx={{borderTop: "1px solid #ececec", color: "green"}} onClick={handleOpenShare}>
                                                 <Grid item xs={12}>
                                                     <b>SHARE WALLET</b>
                                                 </Grid>
@@ -231,6 +240,7 @@ export default function CardWallet() {
                                      onSubmit={handleSubmitFormCreate}/>
                         <TranferModal isOpen={openFormTranfer} onClose={handleCloseFormTranfer}
                                       onSubmit={handleSubmitFormTranfer}/>
+                        <ShareWallet isOpen={openShareWallet} onClose={handleCloseShare}/>
                     </Box>
                 </Container>
         </Slide>

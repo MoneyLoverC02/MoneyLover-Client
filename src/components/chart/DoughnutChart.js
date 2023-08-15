@@ -82,13 +82,11 @@ const colors = [
 // ];
 
 export default function DoughnutChart({ data }) {
-
     const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, value, index }) => {
         const RADIAN = Math.PI / 180;
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5 + 35;
         const x = cx + radius * Math.cos(-midAngle * RADIAN);
         const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
         return (
             <>
                 <image
@@ -119,7 +117,7 @@ export default function DoughnutChart({ data }) {
                 // stroke="#1a2728"
                 // strokeWidth={2}
                 >
-                    {data.map((entry, index) => (
+                    {data && data.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={colors[index]} stroke="none" />
                     ))}
                 </Pie>

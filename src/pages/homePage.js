@@ -16,7 +16,7 @@ export default function HomePage() {
             <NavBar onClickAddBtn={handleOpenModal} />
             <div>
                 <Sidebar />
-                    <TransactionCard openModal = {isModalVisible} closeModal={handleCloseModal}/>
+                   <div> <TransactionCard openModal = {isModalVisible} closeModal={handleCloseModal}/></div>
             </div>
         </>
     )

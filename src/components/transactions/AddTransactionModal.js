@@ -24,7 +24,7 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
     const [isValid, setIsValid] = React.useState(true);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const [categorySelect, setCategorySelect] = React.useState(null);
-    const [dataInput, setDataInput] = React.useState({money: 0, note: ''});
+    const [dataInput, setDataInput] = React.useState({money: null, note: ''});
     const [dateInput, setDateInput] = React.useState(formatDate(new Date()));
     const [checkMoney, setCheckMoney] = React.useState(true);
     const dispatch = useDispatch();

@@ -7,8 +7,7 @@ const initialState = {
     dataBarChart: {dataIncome: [], dataExpense: []},
     balance: null,
     dataCalculated: null,
-    dataByDate: null
-
+    dataByDate: [],
 }
 
 export const reportSlice = createSlice({
