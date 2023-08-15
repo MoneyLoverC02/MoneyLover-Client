@@ -29,6 +29,16 @@ function convertDateFormat(inputDate) {
     return newDate;
 }
 
+//chuyển từ yyyy-mm-dd -> dd/mm/yyyy 
+export function convertDateFormatNew(inputDate) {
+    const parts = inputDate.split('-');
+    const year = parts[0];
+    const month = parts[1];
+    const day = parts[2];
+    const newDate = `${day}/${month}/${year}`;
+    return newDate;
+}
+
 //lấy tất cả ngày( hoặc tháng) từ ngày bắt đầu đến kết thúc:
 function getAllDayOrMonth(firstDay, lastDay) {
     const startDate = convertFormatDate(firstDay);
@@ -202,7 +212,6 @@ export default function ReportsCard() {
             let balance = viewBalance(transactionList, transactionListBefore);
             let dataCalculated = calculatorAmountByCategory(transactionList);
             let dataByDate = (getTransByDate(transactionList));
-            console.log(dataCalculated);
             setBalance(balance);
             setDayArr(days);
             dispatch(getDataBarChart(data));
