@@ -45,6 +45,9 @@ export default function CardWallet() {
             dispatch(setWalletSelect(res.data.wallet));
             setAllUsersOfTheWallet(res.data.allUsersOfTheWallet)
             setChecked(true);
+            console.log('====================================');
+            console.log(walletSelect.walletRoles);
+            console.log('====================================');
         });
     };
 
@@ -99,7 +102,9 @@ export default function CardWallet() {
         handleCloseFormTranfer();
         setChecked(true);
     }
+    const handleLeave = () => {
 
+    }
 
     return (<div>
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
@@ -179,19 +184,25 @@ export default function CardWallet() {
                                             onClick={handleCloseSlide}><ClearIcon
                                                 sx={{ float: "left" }} /></Button>
                                             <b style={{ marginLeft: "30px" }}>Wallet details</b>
-                                            {walletSelect?.walletRoles && walletSelect?.walletRoles[0].archived === false ? (
-                                                <Stack direction="row" sx={{ float: "right" }} spacing={2}>
-                                                    <ModalDeleteWallets sx={{ height: "402px" }}
-                                                        idWallet={walletSelect.id}
-                                                        onClose={handleCloseSlide} />
-                                                    <Button onClick={handleOpenFormUpdate}
-                                                        color='success'>EDIT</Button>
-                                                </Stack>) : (<Stack direction="row" sx={{ float: "right" }}
-                                                    spacing={2}><ModalDeleteWallets
+                                            <Stack direction="row" sx={{ float: "right" }}
+                                                spacing={2}>
+                                                {walletSelect?.walletRoles && walletSelect?.walletRoles[0].role === 'owner' ?
+                                                    <ModalDeleteWallets
                                                         sx={{ height: "402px" }}
                                                         idWallet={walletSelect?.id}
-                                                        onClose={handleCloseSlide} />
-                                                </Stack>)}
+                                                        onClose={handleCloseSlide}
+                                                    />
+                                                    :
+                                                    <Button onClick={handleLeave}
+                                                        color='error'>Leave</Button>
+                                                }
+                                                {walletSelect?.walletRoles && walletSelect?.walletRoles[0].archived === false && walletSelect?.walletRoles[0].role !== 'viewer' ?
+                                                    <Button onClick={handleOpenFormUpdate}
+                                                        color='success'>EDIT</Button>
+                                                    :
+                                                    null
+                                                }
+                                            </Stack>
                                         </div>
                                     </Box>
                                     <div
@@ -244,47 +255,74 @@ export default function CardWallet() {
 
                                         </div>
                                     </div>
-                                    {walletSelect?.walletRoles && walletSelect?.walletRoles[0].archived === false ? (<>
-                                        <Button sx={{ borderTop: "1px solid #ececec", color: "green" }}
-                                            fullWidth
-                                            onClick={handleCheckboxChange}>
-                                            <Grid item xs={12}>
-                                                <b>Archived</b>
-                                            </Grid>
-                                        </Button>
-                                        <Button disabled={allWallet?.length <= 1} onClick={handleOpenFormTranfer}
-                                            fullWidth
-                                            sx={{ borderTop: "1px solid #ececec", color: "green" }}>
-                                            <Grid item xs={12}>
-                                                <b>TRANFERMONEY</b>
-                                            </Grid>
-                                        </Button>
-                                        <Button fullWidth sx={{ borderTop: "1px solid #ececec", color: "green" }} onClick={handleOpenShare}>
-                                            <Grid item xs={12}>
-                                                <b>SHARE WALLET</b>
-                                            </Grid>
-                                        </Button>
-                                    </>) : (
+                                    {walletSelect?.walletRoles && walletSelect?.walletRoles[0].role !== 'viewer' ?
                                         <>
-                                            <Button sx={{ borderTop: "1px solid #ececec", color: "green" }}
-                                                fullWidth
-                                                onClick={handleCheckboxChange}>
-                                                <Grid item xs={12}>
-                                                    <b>Unarchived</b>
-                                                </Grid>
-                                            </Button>
-                                            <Button fullWidth sx={{ borderTop: "1px solid #ececec", color: "green" }}>
-                                                <Grid item xs={12}>
-                                                    <b>SHARE WALLET</b>
-                                                </Grid>
-                                            </Button>
+                                            {walletSelect?.walletRoles[0].role === 'owner' ?
+                                                <>
+                                                    {walletSelect?.walletRoles[0].archived === false ? (<>
+                                                        <Button sx={{ borderTop: "1px solid #ececec", color: "green" }}
+                                                            fullWidth
+                                                            onClick={handleCheckboxChange}>
+                                                            <Grid item xs={12}>
+                                                                <b>Archived</b>
+                                                            </Grid>
+                                                        </Button>
+                                                        <Button disabled={allWallet?.length <= 1} onClick={handleOpenFormTranfer}
+                                                            fullWidth
+                                                            sx={{ borderTop: "1px solid #ececec", color: "green" }}>
+                                                            <Grid item xs={12}>
+                                                                <b>TRANFERMONEY</b>
+                                                            </Grid>
+                                                        </Button>
+                                                        <Button fullWidth sx={{ borderTop: "1px solid #ececec", color: "green" }} onClick={handleOpenShare}>
+                                                            <Grid item xs={12}>
+                                                                <b>SHARE WALLET</b>
+                                                            </Grid>
+                                                        </Button>
+                                                    </>) : (
+                                                        <>
+                                                            <Button sx={{ borderTop: "1px solid #ececec", color: "green" }}
+                                                                fullWidth
+                                                                onClick={handleCheckboxChange}>
+                                                                <Grid item xs={12}>
+                                                                    <b>Unarchived</b>
+                                                                </Grid>
+                                                            </Button>
+                                                        </>
+                                                    )}
+                                                </>
+                                                :
+                                                <>
+                                                    {walletSelect?.walletRoles[0].archived === false ?
+
+                                                        <Button sx={{ borderTop: "1px solid #ececec", color: "green" }}
+                                                            fullWidth
+                                                            onClick={handleCheckboxChange}>
+                                                            <Grid item xs={12}>
+                                                                <b>Archived</b>
+                                                            </Grid>
+                                                        </Button>
+
+                                                        :
+                                                        <Button sx={{ borderTop: "1px solid #ececec", color: "green" }}
+                                                            fullWidth
+                                                            onClick={handleCheckboxChange}>
+                                                            <Grid item xs={12}>
+                                                                <b>Unarchived</b>
+                                                            </Grid>
+                                                        </Button>
+                                                    }
+                                                </>
+                                            }
                                         </>
-                                    )}
+                                        :
+                                        null
+                                    }
+
                                 </Card>
                             </Grid>
                         </Slide>}
                     </Grid>
-
                     <UpdateModal isOpen={openFormUpdate} onClose={handleCloseFormUpdate}
                         onSubmit={handleSubmitFormUpdate} />
                     <NestedModal isOpen={openFormCreate} onClose={handleCloseFormCreate}
