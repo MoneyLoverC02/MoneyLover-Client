@@ -14,6 +14,7 @@ import { convertDate } from '../datePick/datePick';
 import ModalDeleteTrans from './ModalDeleteTrans';
 import UpdateTransactionModal from './UpdateTransactionModal';
 import { calculatorAmountByCategory } from '../card/ReportsCard';
+import numeral from 'numeral';
 
 export default function TransactionCard({ openModal, closeModal }) {
     const dispatch = useDispatch();
@@ -26,27 +27,27 @@ export default function TransactionCard({ openModal, closeModal }) {
     const [calculate, setCalculate] = useState({ totalInflow: 0, totalOutflow: 0 });
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const scrollStopper = document.querySelector('.scroll-stopper');
-        const navbarHeight = 111;
-        const stopPosition = navbarHeight;
+    // useEffect(() => {
+    //     const scrollStopper = document.querySelector('.scroll-stopper');
+    //     const navbarHeight = 111;
+    //     const stopPosition = navbarHeight;
 
-        const handleScroll = () => {
-            const scrollTop = window.scrollY;
-            if (scrollTop <= stopPosition) {
-                scrollStopper.style.top = `${stopPosition  - scrollTop}px `;
-            } else {
-                scrollStopper.style.top = '65px';
-            }
+    //     const handleScroll = () => {
+    //         const scrollTop = window.scrollY;
+    //         if (scrollTop <= stopPosition) {
+    //             scrollStopper.style.top = `${stopPosition  - scrollTop}px `;
+    //         } else {
+    //             scrollStopper.style.top = '65px';
+    //         }
 
-        };
+    //     };
 
-        window.addEventListener('scroll', handleScroll);
+    //     window.addEventListener('scroll', handleScroll);
 
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
+    //     return () => {
+    //         window.removeEventListener('scroll', handleScroll);
+    //     };
+    // }, []);
 
     useEffect(() => {
         let totalInflow = 0;
@@ -117,7 +118,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                 <>
                                     <div className="min-w-[350px] md:w-[600px] min-h-[300px] bg-zinc-100 rounded-md bg overflow-hidden">
                                         <div className="pt-4 bg-white">
-                                            <div className="h-[48px] w-[600px] fomt-normal border-b flex justify-center fixed scroll-stopper" style={{ backgroundColor: "white" }} >
+                                            <div className="h-[48px] w-[600px] fomt-normal border-b flex justify-center "  >
                                                 <button className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">Last Month</button>
                                                 <button className="w-full py-[15px] uppercase leading-4 text-sm font-semibold border-b-4 border-lightgreen text-lightgreen">This Month</button>
                                                 <button className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">Future</button>
@@ -129,18 +130,18 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                             <div className='flex justify-between px-4 py-2 '>
                                                                 <span>Inflow</span>
                                                                 <span className='text-sky-500'>
-                                                                    +{walletSelect?.currency.sign} {calculate.totalInflow}
+                                                                    +{walletSelect?.currency.sign} {numeral(calculate.totalInflow).format(0,0)}
                                                                 </span>
                                                             </div>
                                                             <div className='flex justify-between px-4 py-2'>
                                                                 <span>Outflow</span>
                                                                 <span className='text-red-500'>
-                                                                    -{walletSelect?.currency.sign} {calculate.totalOutflow}
+                                                                    -{walletSelect?.currency.sign} {numeral(calculate.totalOutflow).format(0,0)}
                                                                 </span>
                                                             </div>
                                                             <div className='flex justify-end px-4 py-2'>
                                                                 <span className='border-t-2 pl-4 py-2'>
-                                                                    {walletSelect?.currency.sign} {calculate.totalInflow - calculate.totalOutflow}
+                                                                    {walletSelect?.currency.sign} {numeral(calculate.totalInflow - calculate.totalOutflow).format(0,0)}
 
                                                                 </span>
                                                             </div>
@@ -174,7 +175,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                         <div className='text-xs text-zinc-400 font-normal'>{transactionsInCategory.length} Transactions</div>
                                                                     </span>
                                                                 </div>
-                                                                <span><p className='mt-3'>{transactionsInCategory[0].category.type === "expense" ? '-' : '+'}{walletSelect?.currency.sign} {totalAmount}</p></span>
+                                                                <span><p className='mt-3'>{transactionsInCategory[0].category.type === "expense" ? '-' : '+'}{walletSelect?.currency.sign} {numeral(totalAmount).format(0,0)}</p></span>
                                                             </div>
                                                         );
                                                         return (
@@ -192,9 +193,9 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                             </div>
                                                                             <span>
                                                                                 {item.category.type === "expense" ?
-                                                                                    <p className='mt-3 text-red-500'>-{walletSelect?.currency.sign} {item?.amount}</p>
+                                                                                    <p className='mt-3 text-red-500'>-{walletSelect?.currency.sign} {numeral(item?.amount).format(0,0)}</p>
                                                                                     :
-                                                                                    <p className='mt-3 text-sky-500'>+{walletSelect?.currency.sign} {item?.amount}</p>
+                                                                                    <p className='mt-3 text-sky-500'>+{walletSelect?.currency.sign} {numeral(item?.amount).format(0,0)}</p>
                                                                                 }
                                                                             </span>
                                                                         </div>
@@ -259,7 +260,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                             <div className='font-normal text-2xl'>{transactionSelect?.category.name}</div>
                                             <div className='text-sm font-medium min-h-[20px]'>{transactionSelect?.note ? transactionSelect?.note : 'note'} </div>
                                             <div className='text-xs py-2 border-b min-w-[200px]'>{transactionSelect?.date} </div>
-                                            <div className='pt-2'>{transactionSelect?.category.type === "expense" ? <span className='text-4xl text-red-500 font-medium'>-{walletSelect?.currency.sign} {transactionSelect?.amount}</span> : <span className='text-4xl text-sky-500 font-medium'>+{walletSelect?.currency.sign} {transactionSelect?.amount}</span>}  </div>
+                                            <div className='pt-2'>{transactionSelect?.category.type === "expense" ? <span className='text-4xl text-red-500 font-medium'>-{walletSelect?.currency.sign} {numeral(transactionSelect?.amount).format(0,0)}</span> : <span className='text-4xl text-sky-500 font-medium'>+{walletSelect?.currency.sign} {transactionSelect?.amount}</span>}  </div>
                                         </div>
                                     </div>
                                 </Card>

@@ -30,7 +30,10 @@ export default function WalletSelectModal({walletDesSelect}) {
         setOpen(false);
     };
     const handleSelectWallet = (id) => {
-        let wallet = allWallet.find(item => item.id === id);
+        let wallet = allWallet.find(item => (item.id === id && item.walletRoles.role !== 'viewer'));
+        console.log('====================================');
+        console.log(wallet);
+        console.log('====================================');
         if (wallet) {
             setDestinationWalletSelect(wallet);
             walletDesSelect(wallet);
