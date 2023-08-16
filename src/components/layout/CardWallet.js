@@ -4,15 +4,16 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
     AppBar, Box, Card, Container, Grid, IconButton, Slide, Stack, Toolbar, Typography
 } from "@mui/material";
-import {useDispatch, useSelector} from 'react-redux';
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import ClearIcon from "@mui/icons-material/Clear";
 import ModalDeleteWallets from './ModalDeleteWallets';
-import {WalletService} from '../../services/wallet.service';
-import {setWalletSelect} from '../../redux/walletSlice';
+import { WalletService } from '../../services/wallet.service';
+import { setWalletSelect } from '../../redux/walletSlice';
 import UpdateModal from '../modals/UpdateModal';
 import NestedModal from '../modals/NestedModal';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import TranferModal from '../modals/TranferModal';
 import ShareWallet from "../modals/ShareWallet";
 import numeral from 'numeral';
@@ -25,20 +26,26 @@ export default function CardWallet() {
     const [openFormUpdate, setOpenFormUpdate] = React.useState(false);
     const [openFormTranfer, setOpenFormTranfer] = React.useState(false);
     const [openShareWallet, setOpenShareWallet] = React.useState(false);
-    const [responseMessage, setResponseMessage] =  React.useState();
-    // const user = useSelector(state => state.auth.login.currentUser);
+    const [responseMessage, setResponseMessage] = React.useState();
+    const [allUsersOfTheWallet, setAllUsersOfTheWallet] = React.useState([]);
+    const [dataSocket, setDataSocket] = React.useState({});
+    // const messageUser = useState([])
+    const user = useSelector(state => state.auth.login.currentUser);
     const allWallet = useSelector(state => state.wallet.allWallet);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const socket = useSelector(state => state.wallet.socket);
 
+    socket.on('forwardResponseMessage', async (data) => {
+        const { response, senderEmail, walletID } = data;
+        setDataSocket(data);
+
+    });
+
     const handleOpenSlide = (idWallet) => {
         WalletService.getInfoWallet(idWallet).then(res => {
             dispatch(setWalletSelect(res.data.wallet));
+            setAllUsersOfTheWallet(res.data.allUsersOfTheWallet)
             setChecked(true);
-        });
-        socket.on('forwardResponseMessage', async (data) => {
-            const {response, senderEmail, walletID} = data;
-
         });
     };
 
@@ -59,10 +66,10 @@ export default function CardWallet() {
         handleCloseFormCreate();
         setChecked(true);
     }
-    const handleOpenShare = ()=>{
+    const handleOpenShare = () => {
         setOpenShareWallet(true)
     }
-    const handleCloseShare = ()=>{
+    const handleCloseShare = () => {
         setOpenShareWallet(false)
     }
 
@@ -78,7 +85,7 @@ export default function CardWallet() {
     }
     const handleCheckboxChange = () => {
         let token = localStorage.getItem('token');
-        WalletService.archivedWallet( walletSelect?.id, token).then(() => {
+        WalletService.archivedWallet(walletSelect?.id, token).then(() => {
             handleOpenSlide(walletSelect?.id)
         })
     };
@@ -94,10 +101,11 @@ export default function CardWallet() {
         setChecked(true);
     }
 
+
     return (<div>
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
             <div>
-                <AppBar sx={{position: 'relative', backgroundColor: "white", color: "black"}}>
+                <AppBar sx={{ position: 'relative', backgroundColor: "white", color: "black" }}>
                     <Toolbar>
                         <IconButton
                             edge="start"
@@ -105,13 +113,13 @@ export default function CardWallet() {
                             onClick={handleClose}
                             aria-label="close"
                         >
-                            <ArrowBackIcon/>
+                            <ArrowBackIcon />
                         </IconButton>
-                        <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
+                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                             My Wallets
                         </Typography>
-                        <Button onClick={handleOpenFormCreate} variant="contained" sx={{backgroundColor: "#1aa333"}}
-                                disableElevation>
+                        <Button onClick={handleOpenFormCreate} variant="contained" sx={{ backgroundColor: "#1aa333" }}
+                            disableElevation>
                             <b>ADD WALLET</b>
                         </Button>
                     </Toolbar>
@@ -120,36 +128,36 @@ export default function CardWallet() {
         </Slide>
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
             <Container>
-                <Box sx={{margin: " 50px auto"}}>
+                <Box sx={{ margin: " 50px auto" }}>
                     <Grid container justifyContent="center" spacing={2}>
                         <Grid item xs={4}>
-                            <Card sx={{maxWidth: 578}} variant="outlined">
+                            <Card sx={{ maxWidth: 578 }} variant="outlined">
                                 <Box sx={{
                                     position: 'relative',
                                     backgroundColor: "#f4f4f4",
                                     color: "black",
                                     height: "40px",
                                 }}>
-                                    <p style={{padding: "5px 10px"}}>Excluded from Total</p>
+                                    <p style={{ padding: "5px 10px" }}>Excluded from Total</p>
                                 </Box>
                                 <>
                                     {allWallet?.length > 0 && allWallet?.map(wallet => (
                                         <div key={wallet.id}>
                                             <Button onClick={() => handleOpenSlide(wallet.id)} variant="outlined"
-                                                    fullWidth color="success"
-                                                    sx={{color: "black", justifyContent: "left", textAlign: "left"}}>
+                                                fullWidth color="success"
+                                                sx={{ color: "black", justifyContent: "left", textAlign: "left" }}>
                                                 <div>
                                                     <img src={wallet.icon.icon}
-                                                         style={{
-                                                             width: "40px",
-                                                             height: "40px",
-                                                             margin: "15px",
-                                                             float: "left"
-                                                         }} alt=""/>
-                                                    <div style={{float: "left", margin: "15px"}}>
-                                                        <span className='lowercase'>{wallet.name}</span><br/>
+                                                        style={{
+                                                            width: "40px",
+                                                            height: "40px",
+                                                            margin: "15px",
+                                                            float: "left"
+                                                        }} alt="" />
+                                                    <div style={{ float: "left", margin: "15px" }}>
+                                                        <span className='lowercase'>{wallet.name}</span><br />
                                                         <span className='lowercase'>{wallet.currency.sign} </span>
-                                                        <span>{(wallet.amountOfMoney)} </span>
+                                                        <span>{numeral(wallet.amountOfMoney).format(0.0)} </span>
                                                     </div>
                                                 </div>
                                             </Button>
@@ -168,69 +176,105 @@ export default function CardWallet() {
                                         height: "50px",
                                         borderBottom: "1px solid #ececec"
                                     }}>
-                                        <div style={{padding: "5px 10px",}}><Button sx={{color: "black"}}
-                                                                                    onClick={handleCloseSlide}><ClearIcon
-                                            sx={{float: "left"}}/></Button>
-                                            <b style={{marginLeft: "30px"}}>Wallet details</b>
+                                        <div style={{ padding: "5px 10px", }}><Button sx={{ color: "black" }}
+                                            onClick={handleCloseSlide}><ClearIcon
+                                                sx={{ float: "left" }} /></Button>
+                                            <b style={{ marginLeft: "30px" }}>Wallet details</b>
                                             {walletSelect?.walletRoles && walletSelect?.walletRoles[0].archived === false ? (
-                                                <Stack direction="row" sx={{float: "right"}} spacing={2}>
-                                                    <ModalDeleteWallets sx={{height: "402px"}}
-                                                                        idWallet={walletSelect.id}
-                                                                        onClose={handleCloseSlide}/>
+                                                <Stack direction="row" sx={{ float: "right" }} spacing={2}>
+                                                    <ModalDeleteWallets sx={{ height: "402px" }}
+                                                        idWallet={walletSelect.id}
+                                                        onClose={handleCloseSlide} />
                                                     <Button onClick={handleOpenFormUpdate}
-                                                            color='success'>EDIT</Button>
-                                                </Stack>) : (<Stack direction="row" sx={{float: "right"}}
-                                                                    spacing={2}><ModalDeleteWallets
-                                                sx={{height: "402px"}}
-                                                idWallet={walletSelect?.id}
-                                                onClose={handleCloseSlide}/>
-                                            </Stack>)}
+                                                        color='success'>EDIT</Button>
+                                                </Stack>) : (<Stack direction="row" sx={{ float: "right" }}
+                                                    spacing={2}><ModalDeleteWallets
+                                                        sx={{ height: "402px" }}
+                                                        idWallet={walletSelect?.id}
+                                                        onClose={handleCloseSlide} />
+                                                </Stack>)}
                                         </div>
                                     </Box>
                                     <div
-                                        style={{color: "black", justifyContent: "left", textAlign: "left"}}>
+                                        style={{ color: "black", justifyContent: "left", textAlign: "left" }}>
                                         <div>
                                             <img src={walletSelect?.icon.icon}
-                                                 style={{
-                                                     width: "40px", height: "40px", margin: "15px", float: "left"
-                                                 }} alt=""/>
-                                            <div style={{textAlign: "left", margin: "15px"}}>
-                                                <span className='lowercase'>{walletSelect?.name}</span><br/>
+                                                style={{
+                                                    width: "40px", height: "40px", margin: "15px", float: "left"
+                                                }} alt="" />
+                                            <div style={{ textAlign: "left", margin: "15px" }}>
+                                                <span className='lowercase'>{walletSelect?.name}</span><br />
                                                 <span className='lowercase'>{walletSelect?.currency.sign} </span>
-                                                <span>{walletSelect?.amountOfMoney} </span>
+                                                <span>{numeral(walletSelect?.amountOfMoney).format(0, 0)} </span>
                                             </div>
                                         </div>
                                     </div>
+                                    <div className='border-t px-16 pt-2 pb-4'>
+                                        <p className='pb-2 font-medium text-graynew'>User Account</p>
+                                        <div className=''>
+                                            {allUsersOfTheWallet?.length > 0 && allUsersOfTheWallet.map(item => (
+                                                <div className='flex gap-3 py-2'>
+                                                    <img className='w-12 h-12' src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=" alt="ảnh" />
+                                                    <div>
+                                                        <div className='flex gap-3 mb-1'>
+                                                            <span className='font-semibold'>{item.email}</span>
+                                                            <span className={` text-white text-xs px-1 font-semibold rounded-sm mt-1 ${item.role === 'owner' ? 'bg-orange-400' : 'bg-lightgreen'}`}>{item.role}</span>
+                                                        </div>
+                                                        <p className='text-xs text-graynew'>{item.email}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+
+                                            {/* 
+                                                <>
+                                                    {messageUser?.walletInfo.id === walletSelect?.id ?
+                                                        <div className='flex gap-3 py-2'>
+                                                            <img className='w-12 h-12' src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=" alt="ảnh" />
+                                                            <div>
+                                                                <div className='flex gap-3 mb-1'>
+                                                                    <span className='font-semibold'>{messageUser.receivedEmail}</span>
+                                                                    <span className={` text-white text-xs px-1 font-semibold rounded-sm mt-1 bg-graynew `}>Waiting...</span>
+                                                                </div>
+                                                                <p className='text-xs text-graynew'>{messageUser.receivedEmail}</p>
+                                                            </div>
+                                                        </div>
+                                                        :
+                                                        null
+                                                }
+                                                </> */}
+
+                                        </div>
+                                    </div>
                                     {walletSelect?.walletRoles && walletSelect?.walletRoles[0].archived === false ? (<>
-                                        <Button sx={{borderTop: "1px solid #ececec", color: "green"}}
-                                                fullWidth
-                                                onClick={handleCheckboxChange}>
+                                        <Button sx={{ borderTop: "1px solid #ececec", color: "green" }}
+                                            fullWidth
+                                            onClick={handleCheckboxChange}>
                                             <Grid item xs={12}>
                                                 <b>Archived</b>
                                             </Grid>
                                         </Button>
                                         <Button disabled={allWallet?.length <= 1} onClick={handleOpenFormTranfer}
-                                                fullWidth
-                                                sx={{borderTop: "1px solid #ececec", color: "green"}}>
+                                            fullWidth
+                                            sx={{ borderTop: "1px solid #ececec", color: "green" }}>
                                             <Grid item xs={12}>
                                                 <b>TRANFERMONEY</b>
                                             </Grid>
                                         </Button>
-                                        <Button fullWidth sx={{borderTop: "1px solid #ececec", color: "green"}} onClick={handleOpenShare}>
+                                        <Button fullWidth sx={{ borderTop: "1px solid #ececec", color: "green" }} onClick={handleOpenShare}>
                                             <Grid item xs={12}>
                                                 <b>SHARE WALLET</b>
                                             </Grid>
                                         </Button>
                                     </>) : (
                                         <>
-                                            <Button sx={{borderTop: "1px solid #ececec", color: "green"}}
-                                                    fullWidth
-                                                    onClick={handleCheckboxChange}>
+                                            <Button sx={{ borderTop: "1px solid #ececec", color: "green" }}
+                                                fullWidth
+                                                onClick={handleCheckboxChange}>
                                                 <Grid item xs={12}>
                                                     <b>Unarchived</b>
                                                 </Grid>
                                             </Button>
-                                            <Button fullWidth sx={{borderTop: "1px solid #ececec", color: "green"}}>
+                                            <Button fullWidth sx={{ borderTop: "1px solid #ececec", color: "green" }}>
                                                 <Grid item xs={12}>
                                                     <b>SHARE WALLET</b>
                                                 </Grid>
@@ -243,12 +287,12 @@ export default function CardWallet() {
                     </Grid>
 
                     <UpdateModal isOpen={openFormUpdate} onClose={handleCloseFormUpdate}
-                                 onSubmit={handleSubmitFormUpdate}/>
+                        onSubmit={handleSubmitFormUpdate} />
                     <NestedModal isOpen={openFormCreate} onClose={handleCloseFormCreate}
-                                 onSubmit={handleSubmitFormCreate}/>
+                        onSubmit={handleSubmitFormCreate} />
                     <TranferModal isOpen={openFormTranfer} onClose={handleCloseFormTranfer}
-                                  onSubmit={handleSubmitFormTranfer}/>
-                    <ShareWallet isOpen={openShareWallet} onClose={handleCloseShare}/>
+                        onSubmit={handleSubmitFormTranfer} />
+                    <ShareWallet isOpen={openShareWallet} onClose={handleCloseShare} />
                 </Box>
             </Container>
         </Slide>

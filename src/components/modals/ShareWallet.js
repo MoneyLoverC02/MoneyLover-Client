@@ -5,8 +5,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
+import { getMessage } from "../../redux/walletSlice";
 
 const style = {
     position: 'absolute',
@@ -25,6 +26,7 @@ export default function ShareWallet({isOpen, onClose}) {
     const socket = useSelector(state => state.wallet.socket);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const user = useSelector(state => state.auth.login.currentUser);
+    const dispatch = useDispatch();
 
     const [dataInput, setDataInput] = useState()
 
@@ -41,8 +43,11 @@ export default function ShareWallet({isOpen, onClose}) {
         let walletInfo = walletSelect;
         let receiverEmail = dataInput?.email;
         let message = dataInput?.note;
+        // localStorage.setItem(`sendMessage_${user.id}`, {senderEmail, receiverEmail, message, walletInfo, permission})
         onClose();
         socket?.emit('sendMessage', {senderEmail, receiverEmail, message, walletInfo, permission});
+
+        const newSendMessage = {id: Date.now(), senderEmail, receiverEmail, message, walletInfo, permission};
     }
 
     return (
