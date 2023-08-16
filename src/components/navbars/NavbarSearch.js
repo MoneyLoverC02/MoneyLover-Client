@@ -1,22 +1,16 @@
 import {AppBar, IconButton, Slide, Toolbar, Typography} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import Button from "@mui/material/Button";
 import * as React from "react";
 import {Link} from "react-router-dom";
-import WalletSelectModal from "../modals/WalletSelectModal";
 import {setWalletSelect} from "../../redux/walletSlice";
 import WalletSelectTransactionModal from "../transactions/WalletSelectTransaction";
 import {useDispatch, useSelector} from "react-redux";
 import CategorySelectModal from "../transactions/CategorySelectModal";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import {useEffect, useState} from "react";
 import SelectTimeRangeModal from "../modals/SelectTimeRangeModal";
-import FilterMoney from "../layout/search/FilterMoney";
-import Slider from "../layout/search/Slider";
-import {calculatorAmountByCategory, getTransByDate} from "../card/ReportsCard";
 import {TransactionService} from "../../services/transaction.service";
-import {getDataBarChart, setDataByDate, setDataCalculated} from "../../redux/reportSlice";
 import {getListTransactionSearch} from "../../redux/searchSlice";
+import {Range} from "react-range";
 
 export default function NavbarSearch() {
     const dispatch = useDispatch();
@@ -25,6 +19,10 @@ export default function NavbarSearch() {
     const dateSelect = useSelector(state => state.report.dateSelect);
     const [dataInput, setDataInput] = React.useState({note: ''});
     const walletSelect = useSelector(state => state.wallet.walletSelect);
+    const allTransaction = useSelector(state => state.transaction.allTransaction);
+    const [minObject,setMinObject] = useState(allTransaction[0]?.amount||0)
+    const [maxObject,setMaxObject] = useState(allTransaction[0]?.amount||100)
+    const [values, setValues] = useState([minObject, maxObject]);
 
     function convertDateFormat(inputDate) {
         const parts = inputDate.split('/');
@@ -35,16 +33,39 @@ export default function NavbarSearch() {
         return newDate;
     }
 
+    useEffect(() => {
+        allTransaction?.forEach((item) => {
+            if (item.amount < minObject) {
+                setMinObject(item.amount)
+            }
+            if (item.amount > maxObject) {
+                setMaxObject(item.amount)
+            }
+        })
+        setValues([minObject, maxObject])
+
+    }, [walletSelect, allTransaction]);
+    useEffect(() => {
+
+    }, [minObject, maxObject]);
+    if (minObject === maxObject) {
+        let max = minObject + 100
+        setMaxObject(max)
+    }
+    console.log("maxObject",maxObject)
+    console.log("minObject",minObject)
+    const handleChange = (newValues) => {
+        setValues(newValues);
+    };
 
     useEffect(() => {
         let firstDay = convertDateFormat(dateSelect?.firstDay);
         let lastDay = convertDateFormat(dateSelect?.lastDay);
-        TransactionService.searchTransactionsByTimeRangeAndCategory(walletSelect?.id, firstDay, lastDay,categorySelect?.id).then(res => {
+        TransactionService.searchTransactionsByTimeRangeAndCategory(walletSelect?.id, firstDay, lastDay,categorySelect?.id,values[0],values[1]).then(res => {
             let transactionList = res.data.transactionList;
-            console.log(transactionList)
             dispatch(getListTransactionSearch(transactionList))
         }).catch(err => console.log(err.message))
-    }, [dateSelect, walletSelect,categorySelect]);
+    }, [dateSelect, walletSelect,categorySelect,values]);
 
 
 
@@ -52,6 +73,7 @@ export default function NavbarSearch() {
 
     const handleSelectWallet = (wallet) => {
         dispatch(setWalletSelect(wallet));
+
     }
     const handleSelectCategory = (category) => {
         setCategorySelect(category)
@@ -67,6 +89,7 @@ export default function NavbarSearch() {
         setDataInput(data);
         // handleCheckValid(e);
     }
+
 
     return (<div className="navbarSearch">
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
@@ -127,8 +150,45 @@ export default function NavbarSearch() {
                         </div>
                     </div>
                     <div className=" mx-20 my-5 grid grid-cols-2 gap-2">
-                        {/*<FilterMoney/>*/}
-                        <Slider/>
+                        <div style={{margin: '20px'}}>
+                            <h2>Slider Example</h2>
+                            <Range
+                                values={values}
+                                step={1}
+                                min={minObject}
+                                max={maxObject}
+                                onChange={handleChange}
+                                renderTrack={({props, children}) => (
+                                    <div
+                                        {...props}
+                                        style={{
+                                            ...props.style,
+                                            height: '4px',
+                                            width: '100%',
+                                            backgroundColor: '#666666'
+                                        }}
+                                    >
+                                        {children}
+                                    </div>
+                                )}
+                                renderThumb={({props}) => (
+                                    <div
+                                        {...props}
+                                        style={{
+                                            ...props.style,
+                                            height: '20px',
+                                            width: '20px',
+                                            backgroundColor: '#e4e4e4',
+                                            borderRadius: '50%'
+                                        }}
+                                    />
+                                )}
+                            />
+                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                <span>{values[0]}</span>
+                                <span>{values[1]}</span>
+                            </div>
+                        </div>
                     </div>
 
                 </div>

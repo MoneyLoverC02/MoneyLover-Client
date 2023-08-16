@@ -20,6 +20,7 @@ export default function NetInComeCard({ balance, dayArr, isOpen, onClose }) {
 
     useEffect(() => {
         let data = getDataOneDate(dataByDate, dateSelect);
+        console.log(data);
         setDataOneDate(data);
     }, [dateSelect])
 
