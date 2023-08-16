@@ -33,11 +33,14 @@ export default function MyAccount() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const socket = useSelector(state => state.wallet.socket);
     const handleSignOut = () => {
-        localStorage.clear();
+        localStorage.removeItem('token');
         dispatch(logout());
         dispatch(walletLogout());
         navigate('/login');
+        socket.emit('logout');
+        socket.disconnect();
     }
 
     return (

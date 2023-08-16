@@ -24,15 +24,21 @@ export default function CardWallet() {
     const [openFormUpdate, setOpenFormUpdate] = React.useState(false);
     const [openFormTranfer, setOpenFormTranfer] = React.useState(false);
     const [openShareWallet, setOpenShareWallet] = React.useState(false);
+    const [responseMessage, setResponseMessage] =  React.useState();
     // const user = useSelector(state => state.auth.login.currentUser);
     const allWallet = useSelector(state => state.wallet.allWallet);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
+    const socket = useSelector(state => state.wallet.socket);
 
     const handleOpenSlide = (idWallet) => {
         WalletService.getInfoWallet(idWallet).then(res => {
             dispatch(setWalletSelect(res.data.wallet));
             setChecked(true);
-        })
+        });
+        socket.on('forwardResponseMessage', async (data) => {
+            const {response, senderEmail, walletID} = data;
+
+        });
     };
 
     const handleCloseSlide = () => {
@@ -70,8 +76,9 @@ export default function CardWallet() {
         setChecked(true);
     }
     const handleCheckboxChange = () => {
-        WalletService.archivedWallet(walletSelect.id).then(()=>{
-            handleOpenSlide(walletSelect.id)
+        let token = localStorage.getItem('token');
+        WalletService.archivedWallet( walletSelect?.id, token).then(() => {
+            handleOpenSlide(walletSelect?.id)
         })
     };
 
@@ -111,138 +118,138 @@ export default function CardWallet() {
             </div>
         </Slide>
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
-                <Container>
-                    <Box sx={{margin: " 50px auto"}}>
-                        <Grid container justifyContent="center" spacing={2}>
-                            <Grid item xs={4}>
-                                <Card sx={{maxWidth: 578}} variant="outlined">
+            <Container>
+                <Box sx={{margin: " 50px auto"}}>
+                    <Grid container justifyContent="center" spacing={2}>
+                        <Grid item xs={4}>
+                            <Card sx={{maxWidth: 578}} variant="outlined">
+                                <Box sx={{
+                                    position: 'relative',
+                                    backgroundColor: "#f4f4f4",
+                                    color: "black",
+                                    height: "40px",
+                                }}>
+                                    <p style={{padding: "5px 10px"}}>Excluded from Total</p>
+                                </Box>
+                                <>
+                                    {allWallet?.length > 0 && allWallet?.map(wallet => (
+                                        <div key={wallet.id}>
+                                            <Button onClick={() => handleOpenSlide(wallet.id)} variant="outlined"
+                                                    fullWidth color="success"
+                                                    sx={{color: "black", justifyContent: "left", textAlign: "left"}}>
+                                                <div>
+                                                    <img src={wallet.icon.icon}
+                                                         style={{
+                                                             width: "40px",
+                                                             height: "40px",
+                                                             margin: "15px",
+                                                             float: "left"
+                                                         }} alt=""/>
+                                                    <div style={{float: "left", margin: "15px"}}>
+                                                        <span className='lowercase'>{wallet.name}</span><br/>
+                                                        <span className='lowercase'>{wallet.currency.sign} </span>
+                                                        <span>{(wallet.amountOfMoney)} </span>
+                                                    </div>
+                                                </div>
+                                            </Button>
+                                        </div>
+                                    ))}
+                                </>
+                            </Card>
+                        </Grid>
+                        {walletSelect && checked && <Slide direction="left" in={checked} mountOnEnter unmountOnExit>
+
+                            < Grid item xs={8}>
+                                <Card variant="outlined">
                                     <Box sx={{
                                         position: 'relative',
-                                        backgroundColor: "#f4f4f4",
                                         color: "black",
-                                        height: "40px",
+                                        height: "50px",
+                                        borderBottom: "1px solid #ececec"
                                     }}>
-                                        <p style={{padding: "5px 10px"}}>Excluded from Total</p>
+                                        <div style={{padding: "5px 10px",}}><Button sx={{color: "black"}}
+                                                                                    onClick={handleCloseSlide}><ClearIcon
+                                            sx={{float: "left"}}/></Button>
+                                            <b style={{marginLeft: "30px"}}>Wallet details</b>
+                                            {walletSelect?.walletRoles && walletSelect?.walletRoles[0].archived === false ? (
+                                                <Stack direction="row" sx={{float: "right"}} spacing={2}>
+                                                    <ModalDeleteWallets sx={{height: "402px"}}
+                                                                        idWallet={walletSelect.id}
+                                                                        onClose={handleCloseSlide}/>
+                                                    <Button onClick={handleOpenFormUpdate}
+                                                            color='success'>EDIT</Button>
+                                                </Stack>) : (<Stack direction="row" sx={{float: "right"}}
+                                                                    spacing={2}><ModalDeleteWallets
+                                                sx={{height: "402px"}}
+                                                idWallet={walletSelect?.id}
+                                                onClose={handleCloseSlide}/>
+                                            </Stack>)}
+                                        </div>
                                     </Box>
-                                    <>
-                                        {allWallet?.length > 0 && allWallet?.map(wallet => (
-                                            <div key={wallet.id}>
-                                                <Button onClick={() => handleOpenSlide(wallet.id)} variant="outlined"
-                                                        fullWidth color="success"
-                                                        sx={{color: "black", justifyContent: "left", textAlign: "left"}}>
-                                                    <div>
-                                                        <img src={wallet.icon.icon}
-                                                             style={{
-                                                                 width: "40px",
-                                                                 height: "40px",
-                                                                 margin: "15px",
-                                                                 float: "left"
-                                                             }} alt=""/>
-                                                        <div style={{float: "left", margin: "15px"}}>
-                                                            <span className='lowercase'>{wallet.name}</span><br/>
-                                                            <span className='lowercase'>{wallet.currency.sign} </span>
-                                                            <span>{(wallet.amountOfMoney)} </span>
-                                                        </div>
-                                                    </div>
-                                                </Button>
-                                            </div>
-                                            ))}
-                                    </>
-                                </Card>
-                            </Grid>
-                            {walletSelect && checked && <Slide direction="left" in={checked} mountOnEnter unmountOnExit>
-
-                                < Grid item xs={8}>
-                                    <Card variant="outlined">
-                                        <Box sx={{
-                                            position: 'relative',
-                                            color: "black",
-                                            height: "50px",
-                                            borderBottom: "1px solid #ececec"
-                                        }}>
-                                            <div style={{padding: "5px 10px",}}><Button sx={{color: "black"}}
-                                                                                        onClick={handleCloseSlide}><ClearIcon
-                                                sx={{float: "left"}}/></Button>
-                                                <b style={{marginLeft: "30px"}}>Wallet details</b>
-                                                {walletSelect?.walletRoles && walletSelect?.walletRoles[0].archived === false ? (
-                                                    <Stack direction="row" sx={{float: "right"}} spacing={2}>
-                                                        <ModalDeleteWallets sx={{height: "402px"}}
-                                                                            idWallet={walletSelect.id}
-                                                                            onClose={handleCloseSlide}/>
-                                                        <Button onClick={handleOpenFormUpdate}
-                                                                color='success'>EDIT</Button>
-                                                    </Stack>) : (<Stack direction="row" sx={{float: "right"}}
-                                                                        spacing={2}><ModalDeleteWallets
-                                                    sx={{height: "402px"}}
-                                                    idWallet={walletSelect?.id}
-                                                    onClose={handleCloseSlide}/>
-                                                </Stack>)}
-                                            </div>
-                                        </Box>
-                                        <div
-                                             style={{color: "black", justifyContent: "left", textAlign: "left"}}>
-                                            <div>
-                                                <img src={walletSelect?.icon.icon}
-                                                     style={{
-                                                         width: "40px", height: "40px", margin: "15px", float: "left"
-                                                     }} alt=""/>
-                                                <div style={{textAlign: "left", margin: "15px"}}>
-                                                    <span className='lowercase'>{walletSelect?.name}</span><br/>
-                                                    <span className='lowercase'>{walletSelect?.currency.sign} </span>
-                                                    <span>{walletSelect?.amountOfMoney} </span>
-                                                </div>
+                                    <div
+                                        style={{color: "black", justifyContent: "left", textAlign: "left"}}>
+                                        <div>
+                                            <img src={walletSelect?.icon.icon}
+                                                 style={{
+                                                     width: "40px", height: "40px", margin: "15px", float: "left"
+                                                 }} alt=""/>
+                                            <div style={{textAlign: "left", margin: "15px"}}>
+                                                <span className='lowercase'>{walletSelect?.name}</span><br/>
+                                                <span className='lowercase'>{walletSelect?.currency.sign} </span>
+                                                <span>{walletSelect?.amountOfMoney} </span>
                                             </div>
                                         </div>
-                                        {walletSelect?.walletRoles && walletSelect?.walletRoles[0].archived === false ? (<>
+                                    </div>
+                                    {walletSelect?.walletRoles && walletSelect?.walletRoles[0].archived === false ? (<>
+                                        <Button sx={{borderTop: "1px solid #ececec", color: "green"}}
+                                                fullWidth
+                                                onClick={handleCheckboxChange}>
+                                            <Grid item xs={12}>
+                                                <b>Archived</b>
+                                            </Grid>
+                                        </Button>
+                                        <Button disabled={allWallet?.length <= 1} onClick={handleOpenFormTranfer}
+                                                fullWidth
+                                                sx={{borderTop: "1px solid #ececec", color: "green"}}>
+                                            <Grid item xs={12}>
+                                                <b>TRANFERMONEY</b>
+                                            </Grid>
+                                        </Button>
+                                        <Button fullWidth sx={{borderTop: "1px solid #ececec", color: "green"}} onClick={handleOpenShare}>
+                                            <Grid item xs={12}>
+                                                <b>SHARE WALLET</b>
+                                            </Grid>
+                                        </Button>
+                                    </>) : (
+                                        <>
                                             <Button sx={{borderTop: "1px solid #ececec", color: "green"}}
                                                     fullWidth
                                                     onClick={handleCheckboxChange}>
                                                 <Grid item xs={12}>
-                                                    <b>Archived</b>
+                                                    <b>Unarchived</b>
                                                 </Grid>
                                             </Button>
-                                            <Button disabled={allWallet?.length <= 1} onClick={handleOpenFormTranfer}
-                                                    fullWidth
-                                                    sx={{borderTop: "1px solid #ececec", color: "green"}}>
-                                                <Grid item xs={12}>
-                                                    <b>TRANFERMONEY</b>
-                                                </Grid>
-                                            </Button>
-                                            <Button fullWidth sx={{borderTop: "1px solid #ececec", color: "green"}} onClick={handleOpenShare}>
+                                            <Button fullWidth sx={{borderTop: "1px solid #ececec", color: "green"}}>
                                                 <Grid item xs={12}>
                                                     <b>SHARE WALLET</b>
                                                 </Grid>
                                             </Button>
-                                        </>) : (
-                                            <>
-                                                <Button sx={{borderTop: "1px solid #ececec", color: "green"}}
-                                                        fullWidth
-                                                        onClick={handleCheckboxChange}>
-                                                    <Grid item xs={12}>
-                                                        <b>Unarchived</b>
-                                                    </Grid>
-                                                </Button>
-                                                <Button fullWidth sx={{borderTop: "1px solid #ececec", color: "green"}}>
-                                                    <Grid item xs={12}>
-                                                        <b>SHARE WALLET</b>
-                                                    </Grid>
-                                                </Button>
-                                            </>
-                                        )}
-                                    </Card>
-                                </Grid>
-                            </Slide>}
-                        </Grid>
+                                        </>
+                                    )}
+                                </Card>
+                            </Grid>
+                        </Slide>}
+                    </Grid>
 
-                        <UpdateModal isOpen={openFormUpdate} onClose={handleCloseFormUpdate}
-                                     onSubmit={handleSubmitFormUpdate}/>
-                        <NestedModal isOpen={openFormCreate} onClose={handleCloseFormCreate}
-                                     onSubmit={handleSubmitFormCreate}/>
-                        <TranferModal isOpen={openFormTranfer} onClose={handleCloseFormTranfer}
-                                      onSubmit={handleSubmitFormTranfer}/>
-                        <ShareWallet isOpen={openShareWallet} onClose={handleCloseShare}/>
-                    </Box>
-                </Container>
+                    <UpdateModal isOpen={openFormUpdate} onClose={handleCloseFormUpdate}
+                                 onSubmit={handleSubmitFormUpdate}/>
+                    <NestedModal isOpen={openFormCreate} onClose={handleCloseFormCreate}
+                                 onSubmit={handleSubmitFormCreate}/>
+                    <TranferModal isOpen={openFormTranfer} onClose={handleCloseFormTranfer}
+                                  onSubmit={handleSubmitFormTranfer}/>
+                    <ShareWallet isOpen={openShareWallet} onClose={handleCloseShare}/>
+                </Box>
+            </Container>
         </Slide>
     </div>);
 }
