@@ -9,21 +9,23 @@ const Slider = () => {
     const [maxObject,setMaxObject] = useState(allTransaction[0]?.amount||100)
     const [values, setValues] = useState([minObject, maxObject]);
     useEffect(() => {
-        allTransaction?.forEach((item,index) =>{
+        setMaxObject(allTransaction[0].amount)
+        allTransaction?.forEach((item) =>{
             if (item.amount<minObject){
                 setMinObject(item.amount)
             }
             if (item.amount>maxObject){
                 setMaxObject(item.amount)
             }
-
         })
+        setValues([minObject , maxObject])
 
-    }, [walletSelect]);
+    }, [walletSelect, allTransaction]);
     if (minObject === maxObject){
         let max =minObject+100
         setMaxObject(max)
     }
+
     const handleChange = (newValues) => {
         setValues(newValues);
     };

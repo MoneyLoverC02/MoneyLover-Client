@@ -23,12 +23,14 @@ export default function SearchCard({openModal, closeModal}) {
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const allCategory = useSelector(state => state.transaction.allCategory)
     const [calculate, setCalculate] = useState({totalInflow: 0, totalOutflow: 0});
+    const searchTransaction = useSelector(state => state.search.listTransactionSearch)
     const navigate = useNavigate();
+
 
     useEffect(() => {
         let totalInflow = 0;
         let totalOutflow = 0
-        allTransaction.forEach(item => {
+        searchTransaction.forEach(item => {
             if (item.category.type === 'expense') {
                 totalOutflow += item.amount
             } else {
@@ -36,7 +38,7 @@ export default function SearchCard({openModal, closeModal}) {
             }
         })
         setCalculate({totalInflow, totalOutflow});
-    }, [allTransaction])
+    }, [searchTransaction])
 
     useEffect(() => {
         TransactionService.getAllCategory().then(res => {
@@ -88,17 +90,17 @@ export default function SearchCard({openModal, closeModal}) {
         <NavbarSearch/>
         <Sidebar/>
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
-            <div className='ml-[92px] px-4 mt-[200px]'>
+            <div className='ml-[92px] px-4 py-10 mt-[200px]'>
                 <div className='flex justify-center gap-4'>
                     <div className={`component`}>
-                        {allTransaction?.length > 0 ? (<>
+                        {searchTransaction?.length > 0 ? (<>
                             <div
                                 className="min-w-[350px] md:w-[600px] min-h-[300px] bg-zinc-100 rounded-md bg overflow-hidden">
                                 <div className="pt-4 bg-white">
                                     <div className="bg-zinc-100 mt-[10px] text-center">
                                         <div>
                                             {allCategory?.length > 0 && allCategory.map(category => {
-                                                const transactionsInCategory = allTransaction?.filter(item => item.category.id === category.id);
+                                                const transactionsInCategory = searchTransaction?.filter(item => item.category.id === category.id);
                                                 if (transactionsInCategory.length === 0) {
                                                     return null;
                                                 }
@@ -172,7 +174,7 @@ export default function SearchCard({openModal, closeModal}) {
                         </div>)}
                     </div>
 
-                    {(transactionSelect && checked && allTransaction?.length > 0) ? <div className=''>
+                    {(transactionSelect && checked && searchTransaction?.length > 0) ? <div className=''>
                         <Slide direction="left" in={checked} mountOnEnter unmountOnExit>
                             <Card variant="outlined" className='md:w-[750px] h-[250px]'>
                                 <div className='flex text-center justify-between mx-3 my-4'>
