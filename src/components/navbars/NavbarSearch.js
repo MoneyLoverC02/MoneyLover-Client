@@ -52,6 +52,7 @@ export default function NavbarSearch() {
 
     const handleSelectWallet = (wallet) => {
         dispatch(setWalletSelect(wallet));
+
     }
     const handleSelectCategory = (category) => {
         setCategorySelect(category)
