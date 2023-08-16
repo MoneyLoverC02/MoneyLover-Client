@@ -7,7 +7,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import ClearIcon from "@mui/icons-material/Clear";
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { TransactionService } from '../../services/transaction.service';
 import { getAllCategory, getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
 import { convertDate } from '../datePick/datePick';
@@ -183,7 +183,8 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                 <div className='mb-8'>
                                                                     {categoryInfo}
                                                                     {transactionsInCategory.map(item => (
-                                                                        <div key={item.id} onClick={() => handleOpenSlide(walletSelect?.id, item.id)} className='flex justify-between px-4 py-2 border-t hover:bg-lime-50 cursor-pointer'>
+                                                                        <a href="#">
+                                                                            <div key={item.id} onClick={() => handleOpenSlide(walletSelect?.id, item.id)} className='flex justify-between px-4 py-2 border-t hover:bg-lime-50 cursor-pointer'>
                                                                             <div className='flex justify-start'>
                                                                                 <span className='w-10 h-10 mr-4 text-3xl font-light text-black'>{convertDate(item?.date).day}</span>
                                                                                 <span className='text-start'>
@@ -199,6 +200,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                                 }
                                                                             </span>
                                                                         </div>
+                                                                        </a>
                                                                     ))}
                                                                 </div>
                                                             </div>
