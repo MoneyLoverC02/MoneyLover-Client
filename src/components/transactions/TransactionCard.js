@@ -51,7 +51,7 @@ export default function TransactionCard({ openModal, closeModal }) {
 
     useEffect(() => {
         let totalInflow = 0;
-        let  totalOutflow = 0
+        let totalOutflow = 0
         allTransaction?.forEach(item => {
             if (item.category.type === 'expense') {
                 totalOutflow += item.amount
@@ -59,7 +59,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                 totalInflow += item.amount
             }
         })
-        setCalculate({totalInflow, totalOutflow});
+        setCalculate({ totalInflow, totalOutflow });
     }, [allTransaction])
 
     useEffect(() => {
@@ -130,18 +130,18 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                             <div className='flex justify-between px-4 py-2 '>
                                                                 <span>Inflow</span>
                                                                 <span className='text-sky-500'>
-                                                                    +{walletSelect?.currency.sign} {numeral(calculate.totalInflow).format(0,0)}
+                                                                    +{walletSelect?.currency.sign} {numeral(calculate.totalInflow).format(0, 0)}
                                                                 </span>
                                                             </div>
                                                             <div className='flex justify-between px-4 py-2'>
                                                                 <span>Outflow</span>
                                                                 <span className='text-red-500'>
-                                                                    -{walletSelect?.currency.sign} {numeral(calculate.totalOutflow).format(0,0)}
+                                                                    -{walletSelect?.currency.sign} {numeral(calculate.totalOutflow).format(0, 0)}
                                                                 </span>
                                                             </div>
                                                             <div className='flex justify-end px-4 py-2'>
                                                                 <span className='border-t-2 pl-4 py-2'>
-                                                                    {walletSelect?.currency.sign} {numeral(calculate.totalInflow - calculate.totalOutflow).format(0,0)}
+                                                                    {walletSelect?.currency.sign} {numeral(calculate.totalInflow - calculate.totalOutflow).format(0, 0)}
 
                                                                 </span>
                                                             </div>
@@ -157,7 +157,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                         if (category.type === 'income') {
                                                             allDataCalculated.listIncome.forEach(item => {
                                                                 if (category.name === item.categoryName) totalAmount = item.totalAmount
-                                                            }) 
+                                                            })
                                                         } else {
                                                             allDataCalculated.listExpense.forEach(item => {
                                                                 if (category.name === item.categoryName) totalAmount = item.totalAmount
@@ -175,7 +175,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                         <div className='text-xs text-zinc-400 font-normal'>{transactionsInCategory.length} Transactions</div>
                                                                     </span>
                                                                 </div>
-                                                                <span><p className='mt-3'>{transactionsInCategory[0].category.type === "expense" ? '-' : '+'}{walletSelect?.currency.sign} {numeral(totalAmount).format(0,0)}</p></span>
+                                                                <span><p className='mt-3'>{transactionsInCategory[0].category.type === "expense" ? '-' : '+'}{walletSelect?.currency.sign} {numeral(totalAmount).format(0, 0)}</p></span>
                                                             </div>
                                                         );
                                                         return (
@@ -188,14 +188,14 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                                 <span className='w-10 h-10 mr-4 text-3xl font-light text-black'>{convertDate(item?.date).day}</span>
                                                                                 <span className='text-start'>
                                                                                     <div>{convertDate(item?.date).dayOfWeek}, {convertDate(item?.date).month} {convertDate(item?.date).year}</div>
-                                                                                    <div className='text-xs text-zinc-400 font-normal'>{item?.amount}</div>
+                                                                                    <div className='text-xs text-zinc-400 font-normal mt-1'>{item?.walletRole.user.email}</div>
                                                                                 </span>
                                                                             </div>
                                                                             <span>
                                                                                 {item.category.type === "expense" ?
-                                                                                    <p className='mt-3 text-red-500'>-{walletSelect?.currency.sign} {numeral(item?.amount).format(0,0)}</p>
+                                                                                    <p className='mt-3 text-red-500'>-{walletSelect?.currency.sign} {numeral(item?.amount).format(0, 0)}</p>
                                                                                     :
-                                                                                    <p className='mt-3 text-sky-500'>+{walletSelect?.currency.sign} {numeral(item?.amount).format(0,0)}</p>
+                                                                                    <p className='mt-3 text-sky-500'>+{walletSelect?.currency.sign} {numeral(item?.amount).format(0, 0)}</p>
                                                                                 }
                                                                             </span>
                                                                         </div>
@@ -234,8 +234,8 @@ export default function TransactionCard({ openModal, closeModal }) {
                     {(transactionSelect && checked && allTransaction?.length > 0) ?
                         <div className=''>
                             <Slide direction="left" in={checked} mountOnEnter unmountOnExit>
-                                <Card variant="outlined" className='md:w-[750px] h-[250px]'>
-                                    <div className='flex text-center justify-between mx-3 my-4'>
+                                <Card variant="outlined" className='md:w-[750px] min-h-[250px]'>
+                                    <div className='flex text-center justify-between mx-3 py-2 border-b'>
                                         <div className='text-center'>
                                             <Button sx={{ color: "black" }}
                                                 onClick={handleCloseSlide}><ClearIcon
@@ -249,20 +249,34 @@ export default function TransactionCard({ openModal, closeModal }) {
                                             <Button onClick={handleOpenFormUpdate} color='success'>EDIT</Button>
                                         </Stack>
                                     </div>
-                                    <div className='text-center flex pb-4'>
-                                        <div className='pl-2 mt-3'>
+                                    <div className='text-center flex'>
+                                        <div className='pl-4 mt-3'>
                                             <img src={transactionSelect?.category.icon}
                                                 style={{
-                                                    width: "60px", height: "60px", margin: "15px", float: "left"
+                                                    width: "50px", height: "50px", margin: "15px", float: "left"
                                                 }} alt="" />
                                         </div>
                                         <div style={{ textAlign: "left", margin: "15px" }}>
                                             <div className='font-normal text-2xl'>{transactionSelect?.category.name}</div>
-                                            <div className='text-sm font-medium min-h-[20px]'>{transactionSelect?.note ? transactionSelect?.note : 'note'} </div>
+                                            <div className='text-sm font-medium min-h-[20px]'>{transactionSelect?.walletRole.wallet.name} </div>
                                             <div className='text-xs py-2 border-b min-w-[200px]'>{transactionSelect?.date} </div>
-                                            <div className='pt-2'>{transactionSelect?.category.type === "expense" ? <span className='text-4xl text-red-500 font-medium'>-{walletSelect?.currency.sign} {numeral(transactionSelect?.amount).format(0,0)}</span> : <span className='text-4xl text-sky-500 font-medium'>+{walletSelect?.currency.sign} {transactionSelect?.amount}</span>}  </div>
+                                            <div className='text-xs pt-2'>{transactionSelect?.note} </div>
+                                            <div className='pt-2'>{transactionSelect?.category.type === "expense" ? <span className='text-4xl text-red-500 font-medium'>-{numeral(transactionSelect?.amount).format(0, 0)} {walletSelect?.currency.sign}</span> : <span className='text-4xl text-sky-500 font-medium'>+{numeral(transactionSelect?.amount).format(0,0)}{walletSelect?.currency.sign}</span>}  </div>
                                         </div>
                                     </div>
+                                    <div className='px-10'>
+                                        <div className='flex text-center gap-10 my-4'>
+                                            <img src="https://static.moneylover.me/img/icon/icon.png" className='w-8 h-8'
+                                                alt="" />
+                                            <div className='border-t w-full text-start py-2'>
+                                                <span className='font-semibold text-sm'>
+                                                    {transactionSelect.walletRole.user.email}
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
                                 </Card>
                             </Slide>
                         </div>
