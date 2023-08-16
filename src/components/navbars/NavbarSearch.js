@@ -61,7 +61,7 @@ export default function NavbarSearch() {
     useEffect(() => {
         let firstDay = convertDateFormat(dateSelect?.firstDay);
         let lastDay = convertDateFormat(dateSelect?.lastDay);
-        TransactionService.searchTransactionsByTimeRangeAndCategory(walletSelect?.id, firstDay, lastDay,categorySelect?.id,0,200).then(res => {
+        TransactionService.searchTransactionsByTimeRangeAndCategory(walletSelect?.id, firstDay, lastDay,categorySelect?.id,values[0],values[1]).then(res => {
             let transactionList = res.data.transactionList;
             dispatch(getListTransactionSearch(transactionList))
         }).catch(err => console.log(err.message))
