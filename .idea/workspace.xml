@@ -5,14 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="23215b9d-d7e7-4a00-8020-7ad437a86f27" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/card/AcceptCard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/layout/Notifycation.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/modals/ShareWallet.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/SelectWallets.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/SelectWallets.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/transactions/TransactionCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/transactions/TransactionCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layout/CardWallet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/CardWallet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layout/MyAccount.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/MyAccount.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layout/Sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Sidebar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/LoginOrRegister.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/LoginOrRegister.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/homePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/homePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/walletSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/walletSlice.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -20,9 +37,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2TPaPBuJFEbJQobkFxMIQREFRiF" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -33,8 +50,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "dev",
-    "last_opened_file_path": "F:/Money_Lover/money_lover_fe",
+    "git-widget-placeholder": "share__wallet",
+    "last_opened_file_path": "F:/Money_Lover/MoneyLover_BE",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -73,7 +90,17 @@
       <workItem from="1691026144411" duration="111000" />
       <workItem from="1691672667775" duration="99000" />
       <workItem from="1691677299099" duration="509000" />
-      <workItem from="1691737423639" duration="1507000" />
+      <workItem from="1691737423639" duration="1719000" />
+      <workItem from="1691810259986" duration="605000" />
+      <workItem from="1691811389430" duration="183000" />
+      <workItem from="1691814018630" duration="126000" />
+      <workItem from="1691944272896" duration="9344000" />
+      <workItem from="1691978871151" duration="12155000" />
+      <workItem from="1692052447691" duration="54000" />
+      <workItem from="1692060627790" duration="3160000" />
+      <workItem from="1692065288510" duration="10635000" />
+      <workItem from="1692077766581" duration="387000" />
+      <workItem from="1692081662096" duration="39000" />
     </task>
     <servers />
   </component>

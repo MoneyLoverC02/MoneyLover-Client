@@ -8,8 +8,10 @@ import MyWallets from "./MyWallets";
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import TollIcon from '@mui/icons-material/Toll';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import Slide from "@mui/material/Slide";
+import Notifycation from "./Notifycation";
+import {useEffect, useState} from "react";
 
 export default function Sidebar() {
     const user = useSelector(state => state.auth.login.currentUser)
@@ -17,12 +19,23 @@ export default function Sidebar() {
         left: false,
     });
 
+    const [messageCount, setMessageCount] = useState(0);
+
+    useEffect(() => {
+        const savedMessagesJSON = localStorage.getItem(`${user.id}_receivedMessages`);
+        const savedMessages = savedMessagesJSON ? JSON.parse(savedMessagesJSON) : [];
+        setMessageCount(savedMessages.length);
+    }, [messageCount]);
+    console.log(messageCount);
+    console.log("ccccccccccccccccccc");
+
     const toggleDrawer = (anchor, open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
         setState({ ...state, [anchor]: open });
     };
+
     const list = (anchor) => (
 
         <div style={{ width: "364px" }}>
@@ -31,6 +44,7 @@ export default function Sidebar() {
                 <h4>{user.email}</h4>
             </div>
             <hr />
+            {messageCount>0 && <Notifycation numOfMessage={messageCount}/> }
             <MyAccount />
             <MyWallets />
 
@@ -41,7 +55,13 @@ export default function Sidebar() {
                 <div className="sidebar">
                     <div>
                         <React.Fragment key={"left"}>
-                            <Button onClick={toggleDrawer("left", true)}><ReorderIcon sx={{ color: "#282828" }} /></Button>
+                            <Button onClick={toggleDrawer("left", true)}><ReorderIcon sx={{ color: "#282828" }} />
+                                { messageCount>0 &&
+                                <>
+                                    <span className="w-2 h-2 bg-red-500 rounded-xl absolute  mb-3 ml-4"></span>
+                                </>
+                            }
+                            </Button>
                             <SwipeableDrawer
                                 anchor={"left"}
                                 open={state["left"]}
