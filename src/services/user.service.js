@@ -11,7 +11,6 @@ export class UserService {
         return await axios.post('http://localhost:4000/api/register', data);
     }
     static async deleteUser(accessToken) {
-        let token = localStorage.getItem('token');
         return await axios.delete(`http://localhost:4000/api/users`,
             {
                 headers: {
@@ -30,5 +29,9 @@ export class UserService {
     }
     static async verifyEmail(tokenVerifyEmail) {
         return await axios.get(`http://localhost:4000/api/verify/${tokenVerifyEmail}`)
+    }
+
+    static async resetPassword(data){
+        return await axios.post(`http://localhost:4000/api/reset-password`, data)
     }
 }
