@@ -29,7 +29,6 @@ export default function CardWallet() {
     const [responseMessage, setResponseMessage] = React.useState();
     const [allUsersOfTheWallet, setAllUsersOfTheWallet] = React.useState([]);
     const [dataSocket, setDataSocket] = React.useState({});
-    // const messageUser = useState([])
     const user = useSelector(state => state.auth.login.currentUser);
     const allWallet = useSelector(state => state.wallet.allWallet);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
@@ -87,8 +86,8 @@ export default function CardWallet() {
         setChecked(true);
     }
     const handleCheckboxChange = () => {
-        let token = localStorage.getItem('token');
-        WalletService.archivedWallet(walletSelect?.id, token).then(() => {
+        console.log(walletSelect.id)
+        WalletService.archivedWallet(walletSelect.id).then(() => {
             handleOpenSlide(walletSelect?.id)
         })
     };

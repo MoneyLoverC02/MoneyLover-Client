@@ -52,8 +52,6 @@ export default function NavbarSearch() {
         let max = minObject + 100
         setMaxObject(max)
     }
-    console.log("maxObject",maxObject)
-    console.log("minObject",minObject)
     const handleChange = (newValues) => {
         setValues(newValues);
     };
