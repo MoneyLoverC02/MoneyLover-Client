@@ -26,8 +26,6 @@ export default function Sidebar() {
         const savedMessages = savedMessagesJSON ? JSON.parse(savedMessagesJSON) : [];
         setMessageCount(savedMessages.length);
     }, [messageCount]);
-    console.log(messageCount);
-    console.log("ccccccccccccccccccc");
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -71,6 +69,7 @@ export default function Sidebar() {
                                 {list("left")}
                             </SwipeableDrawer>
                         </React.Fragment>
+
                         <div className="iconSideBar">
                             <Button><AccountBalanceWalletIcon className="colorIcon" /></Button>
                             <span className="colorIcon">Trasactions</span>
