@@ -32,7 +32,8 @@ export default function TransByDateModal({ onOpen, onClose, data }) {
                 aria-labelledby="child-modal-title"
                 aria-describedby="child-modal-description"
             >
-                <Box sx={{ ...style, width: 496, minHeight: 500, backgroundColor: '#f4f4f4', overflow: "hidden" }}>
+                {data?.length > 0 ? 
+                    <Box sx={{ ...style, width: 496, minHeight: 500, backgroundColor: '#f4f4f4', overflow: "hidden" }}>
                     <div className='flex justify-start items-center bg-white border-b-2'>
                         <span onClick={handleClose} className='mt-1 w-12 h-12 flex justify-center items-center cursor-pointer'>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
@@ -86,6 +87,9 @@ export default function TransByDateModal({ onOpen, onClose, data }) {
                         </div>
                     </div>
                 </Box>
+                : 
+                <p>No data</p>
+                }
             </Modal>
         </div>
     );

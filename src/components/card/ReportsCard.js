@@ -210,7 +210,6 @@ export default function ReportsCard() {
         let lastDay = convertDateFormat(dateSelect?.lastDay);
         TransactionService.getTransactionsByTimeRange(walletSelect?.id, firstDay, lastDay).then(res => {
             let transactionList = res.data.transactionList;
-            console.log(transactionList);
             let transactionListBefore = res.data.transactionListBefore;
             let days = getAllDayOrMonth(dateSelect?.firstDay, dateSelect?.lastDay);
             let data = getDataBar(days, transactionList);
@@ -295,7 +294,7 @@ export default function ReportsCard() {
                                         </div>
                                     </div>
                                 </button>
-                                <button onClick={handleOpenExpenseCard} className="hover:bg-lightlime w-full z-5">
+                                <button  onClick={handleOpenExpenseCard} className="hover:bg-lightlime w-full z-5">
                                     <div className="py-2">
                                         <p className="text-graynew">Expense</p>
                                         <p className="text-md text-red-500">{numeral(balance?.totalExpense).format('0,0')} {walletSelect?.currency.sign}</p>
