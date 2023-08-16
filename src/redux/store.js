@@ -3,6 +3,7 @@ import authReducer from "./authSlice";
 import walletReducer from "./walletSlice";
 import transactionReducer from "./transactionSlice";
 import reportReducer from "./reportSlice";
+import searchReducer from "./searchSlice";
 import {
     persistStore,
     persistReducer,
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
     auth: authReducer,
     wallet: walletReducer,
     transaction: transactionReducer,
-    report: reportReducer
+    report: reportReducer,
+    search: searchReducer
 });
 
 

@@ -14,8 +14,7 @@ export default function PageSearch() {
 
     return (
         <>
-            <NavbarSearch/>
-            <Sidebar/>
+
             <SearchCard openModal = {isModalVisible} closeModal={handleCloseModal}/>
         </>
     )

@@ -9,10 +9,14 @@ import WalletSelectTransactionModal from "../transactions/WalletSelectTransactio
 import {useDispatch, useSelector} from "react-redux";
 import CategorySelectModal from "../transactions/CategorySelectModal";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import SelectTimeRangeModal from "../modals/SelectTimeRangeModal";
 import FilterMoney from "../layout/search/FilterMoney";
-import Slider from "../layout/search/DemoSlider";
+import Slider from "../layout/search/Slider";
+import {calculatorAmountByCategory, getTransByDate} from "../card/ReportsCard";
+import {TransactionService} from "../../services/transaction.service";
+import {getDataBarChart, setDataByDate, setDataCalculated} from "../../redux/reportSlice";
+import {getListTransactionSearch} from "../../redux/searchSlice";
 
 export default function NavbarSearch() {
     const dispatch = useDispatch();
@@ -20,6 +24,30 @@ export default function NavbarSearch() {
     const [isOpenModal, setIsOpenModal] = useState(false);
     const dateSelect = useSelector(state => state.report.dateSelect);
     const [dataInput, setDataInput] = React.useState({note: ''});
+    const walletSelect = useSelector(state => state.wallet.walletSelect);
+
+    function convertDateFormat(inputDate) {
+        const parts = inputDate.split('/');
+        const day = parts[0];
+        const month = parts[1];
+        const year = parts[2];
+        const newDate = `${year}-${month}-${day}`;
+        return newDate;
+    }
+
+
+    useEffect(() => {
+        let firstDay = convertDateFormat(dateSelect?.firstDay);
+        let lastDay = convertDateFormat(dateSelect?.lastDay);
+        TransactionService.searchTransactionsByTimeRangeAndCategory(walletSelect?.id, firstDay, lastDay,categorySelect?.id).then(res => {
+            let transactionList = res.data.transactionList;
+            console.log(transactionList)
+            dispatch(getListTransactionSearch(transactionList))
+        }).catch(err => console.log(err.message))
+    }, [dateSelect, walletSelect,categorySelect]);
+
+
+
 
 
     const handleSelectWallet = (wallet) => {
@@ -65,7 +93,7 @@ export default function NavbarSearch() {
                         </div>
                         <div
                             className='w-[300px] mr-4 py-1 pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500 hover:cursor-pointer'>
-                            <CategorySelectModal selectCategory={handleSelectCategory}/>
+                            <CategorySelectModal checkAllCategory={true} selectCategory={handleSelectCategory}/>
                         </div>
                         <button onClick={handleOpenTimeRangeModal}>
                             <div
