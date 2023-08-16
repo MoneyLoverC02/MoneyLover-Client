@@ -8,7 +8,9 @@ module.exports = {
         lightgreen: '#2db84c',
         normalgreen:'#00bc2a',
         lightblue: '#3F51B5',
-        lightlime: 'eff9f1'
+        lightlime: '#eff9f1',
+        graynew: '#757575',
+        textgray: "#454846"
       }
     },
     plugins: [],

@@ -12,6 +12,16 @@
   right: 0px;
   border-bottom:1px solid rgb(201, 201, 201, 1) ;
 }
+.navbarSearch{
+  margin-left: 92px;
+  border-bottom:1px solid rgb(201, 201, 201, 1) ;
+  z-index: 10;
+  background-color: white;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  position: fixed;
+}
  .App {
   text-align: center;
 }
@@ -134,3 +144,9 @@
 .move-left {
   transform: translateX(-390px);
 }
+
+
+
+
+
+

@@ -50,7 +50,7 @@ const authSlice = createSlice({
 })
 
 export const {
-    loginStart,
+    loginStart ,
     loginFailed,
     loginSuccess,
     registerStart,

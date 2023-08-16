@@ -93,8 +93,9 @@ export default function LoginOrRegister({props}) {
                 //Register
                 dispatch(registerStart());
                 UserService.createUser(values).then((res) => {
-                    let newUser = res.data.newUser;
-                    if (newUser && res.data.message === "Creat user success!") {
+                    console.log(res.data)
+                    // let newUser = res.data.newUser;
+                    if (res.data.newUser.verifyEmailToken) {
                         dispatch(registerSuccess())
                         setIsLogin(true);
                         navigate("/login");

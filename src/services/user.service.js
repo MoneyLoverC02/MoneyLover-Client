@@ -10,12 +10,12 @@ export class UserService {
     static async createUser(data) {
         return await axios.post('http://localhost:4000/api/register', data);
     }
-    static async deleteUser() {
+    static async deleteUser(accessToken) {
         let token = localStorage.getItem('token');
         return await axios.delete(`http://localhost:4000/api/users`,
             {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${accessToken}`
                 }
             })
     }
@@ -27,5 +27,8 @@ export class UserService {
                     'Authorization': `Bearer ${token}`
                 }
             })
+    }
+    static async verifyEmail(tokenVerifyEmail) {
+        return await axios.get(`http://localhost:4000/api/verify/${tokenVerifyEmail}`)
     }
 }

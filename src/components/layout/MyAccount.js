@@ -46,7 +46,7 @@ export default function MyAccount() {
     return (
         <div>
             <Button onClick={handleOpen}>
-                <div style={{width: "364px", color: "#747474"}}>
+                <div style={{width: "364px", color: "#747474"}} className='pr-4'>
                     <div style={{float: "left", marginRight: "40px"}}>
                         <PersonIcon sx={{fontSize: "40px", marginLeft: "20px"}}/>
                     </div>
