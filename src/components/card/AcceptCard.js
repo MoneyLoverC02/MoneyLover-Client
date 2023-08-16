@@ -2,14 +2,10 @@ import {Button, Card, Slide} from "@mui/material";
 import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {WalletService} from "../../services/wallet.service";
-import {date, number} from "yup";
-import SelectWallets from "../layout/SelectWallets";
-import ModalSearch from "../modals/ModalSearch";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import Typography from "@mui/material/Typography";
 import {useNavigate} from "react-router-dom";
 
 const style = {
