@@ -42,8 +42,8 @@ export default function LoginOrRegister({props}) {
                 dispatch(loginStart())
                 UserService.checkUserLogin(values).then(res => {
                         let userLogin = res.data.user;
-                        const userID = userLogin.id;
-                        const email = userLogin.email;
+                        const userID = userLogin?.id;
+                        const email = userLogin?.email;
                         if (userLogin && res.data.message === 'Login success!') {
                             const token = res.data.token;
                             localStorage.setItem('token', token);
@@ -94,8 +94,8 @@ export default function LoginOrRegister({props}) {
                 dispatch(registerStart());
                 UserService.createUser(values).then((res) => {
                     console.log(res.data)
-                    // let newUser = res.data.newUser;
-                    if (res.data.newUser.verifyEmailToken) {
+                    let newUser = res.data.newUser;
+                    if (newUser && res.data.newUser.verifyEmailToken) {
                         dispatch(registerSuccess())
                         setIsLogin(true);
                         navigate("/login");
