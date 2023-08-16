@@ -8,10 +8,11 @@ import MyWallets from "./MyWallets";
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import TollIcon from '@mui/icons-material/Toll';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import Slide from "@mui/material/Slide";
 import Notifycation from "./Notifycation";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 
 export default function Sidebar() {
     const user = useSelector(state => state.auth.login.currentUser)
@@ -44,7 +45,7 @@ export default function Sidebar() {
                 <h4>{user.email}</h4>
             </div>
             <hr />
-            {messageCount>0 && <Notifycation numOfMessage={messageCount}/> }
+            {messageCount > 0 && <Notifycation numOfMessage={messageCount} />}
             <MyAccount />
             <MyWallets />
 
@@ -56,11 +57,11 @@ export default function Sidebar() {
                     <div>
                         <React.Fragment key={"left"}>
                             <Button onClick={toggleDrawer("left", true)}><ReorderIcon sx={{ color: "#282828" }} />
-                                { messageCount>0 &&
-                                <>
-                                    <span className="w-2 h-2 bg-red-500 rounded-xl absolute  mb-3 ml-4"></span>
-                                </>
-                            }
+                                {messageCount > 0 &&
+                                    <>
+                                        <span className="w-2 h-2 bg-red-500 rounded-xl absolute  mb-3 ml-4"></span>
+                                    </>
+                                }
                             </Button>
                             <SwipeableDrawer
                                 anchor={"left"}
@@ -71,14 +72,18 @@ export default function Sidebar() {
                                 {list("left")}
                             </SwipeableDrawer>
                         </React.Fragment>
-                        <div className="iconSideBar">
-                            <Button><AccountBalanceWalletIcon className="colorIcon" /></Button>
-                            <span className="colorIcon">Trasactions</span>
-                        </div>
-                        <div className="iconSideBar">
-                            <Button><AnalyticsIcon className="colorIcon" /></Button>
-                            <span className="colorIcon">Report</span>
-                        </div>
+                        <Link to={'/'}>
+                            <div className="iconSideBar">
+                                <Button><AccountBalanceWalletIcon className="colorIcon" /></Button>
+                                <span className="colorIcon">Trasactions</span>
+                            </div>
+                        </Link>
+                        <Link to={'/reports'}>
+                            <div className="iconSideBar">
+                                <Button><AnalyticsIcon className="colorIcon" /></Button>
+                                <span className="colorIcon">Report</span>
+                            </div>
+                        </Link>
                         <div className="iconSideBar">
                             <Button><TollIcon className="colorIcon" /></Button>
                             <span className="colorIcon">Budget</span>
