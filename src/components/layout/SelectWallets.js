@@ -15,6 +15,7 @@ import {blue} from '@mui/material/colors';
 import {useDispatch, useSelector} from 'react-redux';
 import {setWalletSelect} from '../../redux/walletSlice';
 import {useEffect, useState} from "react";
+import numeral from 'numeral';
 
 function SimpleDialog(props) {
     const {onClose, selectedValue, open} = props;
@@ -60,7 +61,7 @@ function SimpleDialog(props) {
                         secondary={
                             <React.Fragment>
                                 <Typography variant="body2" color="text.secondary">
-                                    {totalMoney}
+                                    {numeral(totalMoney).format(0,0)} {walletSelect?.currency.sign}
                                 </Typography>
                             </React.Fragment>
                         }
@@ -80,7 +81,7 @@ function SimpleDialog(props) {
                         secondary={
                             <React.Fragment>
                                 <Typography variant="body2" color="text.secondary">
-                                    {wallet.amountOfMoney} {wallet.currency.sign}
+                                    {numeral(wallet.amountOfMoney).format(0,0)} {wallet.currency.sign}
                                 </Typography>
                             </React.Fragment>
                         }
@@ -117,7 +118,7 @@ export default function SelectWallets() {
                 {walletSelect?.name}
             </Button>
             <Typography variant="subtitle1" component="div">
-                {walletSelect?.amountOfMoney > 0 ? "+" : null} {walletSelect?.amountOfMoney} {walletSelect?.currency.sign}
+                {walletSelect?.amountOfMoney > 0 ? "+" : null} {numeral(walletSelect?.amountOfMoney).format(0,0)} {walletSelect?.currency.sign}
             </Typography>
             <SimpleDialog
                 selectedValue={walletSelect?.name}

@@ -14,6 +14,7 @@ import { convertDate } from '../datePick/datePick';
 import ModalDeleteTrans from './ModalDeleteTrans';
 import UpdateTransactionModal from './UpdateTransactionModal';
 import { calculatorAmountByCategory } from '../card/ReportsCard';
+import numeral from 'numeral';
 
 export default function TransactionCard({ openModal, closeModal }) {
     const dispatch = useDispatch();
@@ -174,7 +175,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                         <div className='text-xs text-zinc-400 font-normal'>{transactionsInCategory.length} Transactions</div>
                                                                     </span>
                                                                 </div>
-                                                                <span><p className='mt-3'>{transactionsInCategory[0].category.type === "expense" ? '-' : '+'}{walletSelect?.currency.sign} {totalAmount}</p></span>
+                                                                <span><p className='mt-3'>{transactionsInCategory[0].category.type === "expense" ? '-' : '+'}{walletSelect?.currency.sign} {numeral(totalAmount).format(0,0)}</p></span>
                                                             </div>
                                                         );
                                                         return (
@@ -192,9 +193,9 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                             </div>
                                                                             <span>
                                                                                 {item.category.type === "expense" ?
-                                                                                    <p className='mt-3 text-red-500'>-{walletSelect?.currency.sign} {item?.amount}</p>
+                                                                                    <p className='mt-3 text-red-500'>-{walletSelect?.currency.sign} {numeral(item?.amount).format(0,0)}</p>
                                                                                     :
-                                                                                    <p className='mt-3 text-sky-500'>+{walletSelect?.currency.sign} {item?.amount}</p>
+                                                                                    <p className='mt-3 text-sky-500'>+{walletSelect?.currency.sign} {numeral(item?.amount).format(0,0)}</p>
                                                                                 }
                                                                             </span>
                                                                         </div>
@@ -259,7 +260,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                             <div className='font-normal text-2xl'>{transactionSelect?.category.name}</div>
                                             <div className='text-sm font-medium min-h-[20px]'>{transactionSelect?.note ? transactionSelect?.note : 'note'} </div>
                                             <div className='text-xs py-2 border-b min-w-[200px]'>{transactionSelect?.date} </div>
-                                            <div className='pt-2'>{transactionSelect?.category.type === "expense" ? <span className='text-4xl text-red-500 font-medium'>-{walletSelect?.currency.sign} {transactionSelect?.amount}</span> : <span className='text-4xl text-sky-500 font-medium'>+{walletSelect?.currency.sign} {transactionSelect?.amount}</span>}  </div>
+                                            <div className='pt-2'>{transactionSelect?.category.type === "expense" ? <span className='text-4xl text-red-500 font-medium'>-{walletSelect?.currency.sign} {numeral(transactionSelect?.amount).format(0,0)}</span> : <span className='text-4xl text-sky-500 font-medium'>+{walletSelect?.currency.sign} {transactionSelect?.amount}</span>}  </div>
                                         </div>
                                     </div>
                                 </Card>

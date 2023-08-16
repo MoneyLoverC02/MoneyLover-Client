@@ -15,6 +15,7 @@ import NestedModal from '../modals/NestedModal';
 import {useNavigate} from 'react-router-dom';
 import TranferModal from '../modals/TranferModal';
 import ShareWallet from "../modals/ShareWallet";
+import numeral from 'numeral';
 
 export default function CardWallet() {
     const dispatch = useDispatch();
@@ -141,7 +142,7 @@ export default function CardWallet() {
                                                         <div style={{float: "left", margin: "15px"}}>
                                                             <span className='lowercase'>{wallet.name}</span><br/>
                                                             <span className='lowercase'>{wallet.currency.sign} </span>
-                                                            <span>{(wallet.amountOfMoney)} </span>
+                                                            <span>{numeral(wallet.amountOfMoney).format(0,0)} </span>
                                                         </div>
                                                     </div>
                                                 </Button>
@@ -189,7 +190,7 @@ export default function CardWallet() {
                                                 <div style={{textAlign: "left", margin: "15px"}}>
                                                     <span className='lowercase'>{walletSelect?.name}</span><br/>
                                                     <span className='lowercase'>{walletSelect?.currency.sign} </span>
-                                                    <span>{walletSelect?.amountOfMoney} </span>
+                                                    <span>{numeral(walletSelect?.amountOfMoney).format(0.0)} </span>
                                                 </div>
                                             </div>
                                         </div>

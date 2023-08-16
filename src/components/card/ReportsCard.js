@@ -210,6 +210,7 @@ export default function ReportsCard() {
         let lastDay = convertDateFormat(dateSelect?.lastDay);
         TransactionService.getTransactionsByTimeRange(walletSelect?.id, firstDay, lastDay).then(res => {
             let transactionList = res.data.transactionList;
+            console.log(transactionList);
             let transactionListBefore = res.data.transactionListBefore;
             let days = getAllDayOrMonth(dateSelect?.firstDay, dateSelect?.lastDay);
             let data = getDataBar(days, transactionList);
@@ -221,7 +222,7 @@ export default function ReportsCard() {
             dispatch(getDataBarChart(data));
             dispatch(setDataByDate(dataByDate))
             dispatch(setDataCalculated(dataCalculated));
-        }).catch(err => console.log(err.message))
+        }).catch(err => console.log(err.message));
     }, [dateSelect, walletSelect]);
 
     const handleOpenNetInCard = () => {
