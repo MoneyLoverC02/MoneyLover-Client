@@ -27,8 +27,6 @@ export default function Sidebar() {
         const savedMessages = savedMessagesJSON ? JSON.parse(savedMessagesJSON) : [];
         setMessageCount(savedMessages.length);
     }, [messageCount]);
-    console.log(messageCount);
-    console.log("ccccccccccccccccccc");
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

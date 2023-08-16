@@ -70,7 +70,7 @@ export class TransactionService {
         )
     }
 
-    static async searchTransactionsByTimeRangeAndCategory(walletID, startDate, endDate, categoryID) {
+    static async searchTransactionsByTimeRangeAndCategory(walletID, startDate, endDate, categoryID,startMoney, endMoney) {
         let token = localStorage.getItem('token');
         return await axios.get(`http://localhost:4000/api/users/wallets/${walletID}/search`,
             {
@@ -80,9 +80,12 @@ export class TransactionService {
                 params: {
                     startDate: startDate,
                     endDate: endDate,
-                    categoryID: categoryID
+                    categoryID: categoryID,
+                    startMoney: startMoney,
+                    endMoney: endMoney,
                 }
             }
         )
     }
+
 }
