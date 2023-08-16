@@ -8,6 +8,8 @@ import { parseDate } from "../datePick/datePick";
 import numeral from 'numeral';
 import DoughnutChart from "../chart/DoughnutChart";
 import NetInComeCard from "./NetInComeCard";
+import InComeCard from "./InComeCard";
+import ExpenseCard from "./ExpenseCard";
 
 
 //chuyển từ dd/mm/yyyy -> date object
@@ -195,6 +197,8 @@ export function getTransByDate(transactions) {
 
 export default function ReportsCard() {
     const [openNetInCome, setOpenNetInCome] = useState(false);
+    const [openInCome, setOpenInCome] = useState(false);
+    const [openExpense, setOpenExpense] = useState(false);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const dateSelect = useSelector(state => state.report.dateSelect);
     const dataCalculated = useSelector(state => state.report.dataCalculated);
@@ -217,14 +221,32 @@ export default function ReportsCard() {
             dispatch(getDataBarChart(data));
             dispatch(setDataByDate(dataByDate))
             dispatch(setDataCalculated(dataCalculated));
-        }).catch(err => console.log(err.message))
+        }).catch(err => console.log(err.message));
     }, [dateSelect, walletSelect]);
 
     const handleOpenNetInCard = () => {
-        setOpenNetInCome(true)
+        setOpenNetInCome(true);
+        setOpenInCome(false);
+        setOpenExpense(false);
     }
     const handleCloseNetInCard = () => {
-        setOpenNetInCome(false)
+        setOpenNetInCome(false);
+    }
+    const handleOpenInCard = () => {
+        setOpenInCome(true);
+        setOpenNetInCome(false);
+        setOpenExpense(false);
+    }
+    const handleCloseInCard = () => {
+        setOpenInCome(false);
+    }
+    const handleOpenExpenseCard = () => {
+        setOpenExpense(true);
+        setOpenNetInCome(false);
+        setOpenInCome(false);
+    }
+    const handleCloseExpenseCard = () => {
+        setOpenExpense(false);
     }
 
     return (
@@ -261,7 +283,7 @@ export default function ReportsCard() {
                                 </button>
                             </div>
                             <div className="grid grid-cols-2">
-                                <button className="hover:bg-lightlime w-full z-5">
+                                <button onClick={handleOpenInCard} className="hover:bg-lightlime w-full z-5">
                                     <div className="py-2">
                                         <p className="text-graynew">Income</p>
                                         <p className="text-md text-sky-500">+{numeral(balance?.totalIncome).format('0,0')} {walletSelect?.currency.sign}</p>
@@ -272,7 +294,7 @@ export default function ReportsCard() {
                                         </div>
                                     </div>
                                 </button>
-                                <button className="hover:bg-lightlime w-full z-5">
+                                <button  onClick={handleOpenExpenseCard} className="hover:bg-lightlime w-full z-5">
                                     <div className="py-2">
                                         <p className="text-graynew">Expense</p>
                                         <p className="text-md text-red-500">{numeral(balance?.totalExpense).format('0,0')} {walletSelect?.currency.sign}</p>
@@ -322,6 +344,8 @@ export default function ReportsCard() {
                         </div>
                     </div>
                     {openNetInCome && <NetInComeCard balance={balance} dayArr={dayArr} isOpen={openNetInCome} onClose={handleCloseNetInCard} />}
+                    {openInCome && <InComeCard balance={balance} isOpen={openInCome} onClose={handleCloseInCard} />}
+                    {openExpense && <ExpenseCard balance={balance} isOpen={openExpense} onClose={handleCloseExpenseCard} />}
                 </div>
             </div>
         </Slide>

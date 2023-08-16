@@ -10,8 +10,9 @@ import AnalyticsIcon from '@mui/icons-material/Analytics';
 import TollIcon from '@mui/icons-material/Toll';
 import { useSelector } from 'react-redux';
 import Slide from "@mui/material/Slide";
-import {Link} from "react-router-dom";
-import Notifycation from './Notifycation';
+import Notifycation from "./Notifycation";
+import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 
 export default function Sidebar() {
     const user = useSelector(state => state.auth.login.currentUser)
@@ -19,6 +20,13 @@ export default function Sidebar() {
         left: false,
     });
 
+    const [messageCount, setMessageCount] = useState(0);
+
+    useEffect(() => {
+        const savedMessagesJSON = localStorage.getItem(`${user.id}_receivedMessages`);
+        const savedMessages = savedMessagesJSON ? JSON.parse(savedMessagesJSON) : [];
+        setMessageCount(savedMessages.length);
+    }, [messageCount]);
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -26,6 +34,7 @@ export default function Sidebar() {
         }
         setState({ ...state, [anchor]: open });
     };
+
     const list = (anchor) => (
 
         <div style={{ width: "364px" }}>
@@ -34,6 +43,7 @@ export default function Sidebar() {
                 <h4>{user.email}</h4>
             </div>
             <hr />
+            {messageCount > 0 && <Notifycation numOfMessage={messageCount} />}
             <MyAccount />
             <MyWallets />
 
@@ -42,9 +52,14 @@ export default function Sidebar() {
         <div className='h-[66px]'>
             <Slide direction="right" in={true} mountOnEnter unmountOnExit>
                 <div className="sidebar">
-                    <div className='relative'>
+                    <div>
                         <React.Fragment key={"left"}>
                             <Button onClick={toggleDrawer("left", true)}><ReorderIcon sx={{ color: "#282828" }} />
+                                {messageCount > 0 &&
+                                    <>
+                                        <span className="w-2 h-2 bg-red-500 rounded-xl absolute  mb-3 ml-4"></span>
+                                    </>
+                                }
                             </Button>
                             <SwipeableDrawer
                                 anchor={"left"}
@@ -55,14 +70,18 @@ export default function Sidebar() {
                                 {list("left")}
                             </SwipeableDrawer>
                         </React.Fragment>
-                        <div className="iconSideBar">
-                            <Link to="/"><Button><AccountBalanceWalletIcon className="colorIcon" /></Button>
-                                <span className="colorIcon">Trasactions</span></Link>
-                        </div>
-                        <div className="iconSideBar">
-                            <Link to="/reports"><Button><AnalyticsIcon className="colorIcon" /></Button>
-                                <span className="colorIcon">Report</span></Link>
-                        </div>
+                        <Link to={'/'}>
+                            <div className="iconSideBar">
+                                <Button><AccountBalanceWalletIcon className="colorIcon" /></Button>
+                                <span className="colorIcon">Trasactions</span>
+                            </div>
+                        </Link>
+                        <Link to={'/reports'}>
+                            <div className="iconSideBar">
+                                <Button><AnalyticsIcon className="colorIcon" /></Button>
+                                <span className="colorIcon">Report</span>
+                            </div>
+                        </Link>
                         <div className="iconSideBar">
                             <Button><TollIcon className="colorIcon" /></Button>
                             <span className="colorIcon">Budget</span>
