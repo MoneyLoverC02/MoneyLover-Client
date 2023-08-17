@@ -98,4 +98,14 @@ export class WalletService {
             }
         )
     }
+    static async leaveWallet(walletRoleID, data) {
+        let token = localStorage.getItem('token');
+        return await axios.put(`http://localhost:4000/api/users/walletRoles/${walletRoleID}`, data,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+    }
 }
