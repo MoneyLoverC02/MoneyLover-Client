@@ -165,8 +165,8 @@ export default function CardWallet() {
                                                         }} alt="" />
                                                     <div style={{ float: "left", margin: "15px" }}>
                                                         <span className='lowercase'>{wallet.name}</span><br />
-                                                        <span className='lowercase'>{wallet.currency.sign} </span>
                                                         <span>{numeral(wallet.amountOfMoney).format(0.0)} </span>
+                                                        <span className='lowercase'>{wallet.currency.sign} </span>
                                                     </div>
                                                 </div>
                                             </Button>
@@ -213,14 +213,11 @@ export default function CardWallet() {
                                     <div
                                         style={{ color: "black", justifyContent: "left", textAlign: "left" }}>
                                         <div>
-                                            <img src={walletSelect?.icon.icon}
-                                                style={{
-                                                    width: "40px", height: "40px", margin: "15px", float: "left"
-                                                }} alt="" />
+                                            <img src={walletSelect?.icon.icon} className='w-12 h-12 float-left mx-4' alt="" />
                                             <div style={{ textAlign: "left", margin: "15px" }}>
                                                 <span className='lowercase'>{walletSelect?.name}</span><br />
-                                                <span className='lowercase'>{walletSelect?.currency.sign} </span>
                                                 <span>{numeral(walletSelect?.amountOfMoney).format(0, 0)} </span>
+                                                <span className='lowercase'>{walletSelect?.currency.sign} </span>
                                             </div>
                                         </div>
                                     </div>
