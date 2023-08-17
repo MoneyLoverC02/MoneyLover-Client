@@ -8,7 +8,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from "react-redux";
 import { TransactionService } from '../../services/transaction.service';
 import { getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
-import { setWalletSelect } from '../../redux/walletSlice';
+import {getAllWallet, setWalletSelect} from '../../redux/walletSlice';
+import {WalletService} from "../../services/wallet.service";
 
 export default function ModalDeleteTrans({ idWallet, onClose }) {
     const dispatch = useDispatch();
@@ -35,7 +36,11 @@ export default function ModalDeleteTrans({ idWallet, onClose }) {
                     let transactionList = res.data.transactionList;
                     dispatch(getAllTransaction(transactionList));
                     dispatch(setTransactionSelect(transactionList[0]))
+                    WalletService.getAllWallet().then(res => {
+                        dispatch(getAllWallet(res.data.walletList));
+                    })
                     onClose();
+
                 }).catch(err => console.log(err.message));
             } else {
                 alert('không có quyền xóa');
