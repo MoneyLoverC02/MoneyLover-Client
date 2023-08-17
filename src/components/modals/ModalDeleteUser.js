@@ -55,7 +55,7 @@ export default function ModalDeleteUser() {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button color="success" variant="outlined" onClick={handleClose} autoFocus>CANCEL</Button>
+                <Button color="success" variant="outlined" onClick={handleClose} autoFocus>{t("Cancel")}</Button>
                 <Button color="error" variant="contained" onClick={() => {
                     handleDeleteUser()
                 }}>
