@@ -7,7 +7,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import ClearIcon from "@mui/icons-material/Clear";
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { TransactionService } from '../../services/transaction.service';
 import { getAllCategory, getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
 import { convertDate } from '../datePick/datePick';
@@ -130,18 +130,18 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                             <div className='flex justify-between px-4 py-2 '>
                                                                 <span>Inflow</span>
                                                                 <span className='text-sky-500'>
-                                                                    +{walletSelect?.currency.sign} {numeral(calculate.totalInflow).format(0, 0)}
+                                                                    +{numeral(calculate.totalInflow).format(0, 0)} {walletSelect?.currency.sign}
                                                                 </span>
                                                             </div>
                                                             <div className='flex justify-between px-4 py-2'>
                                                                 <span>Outflow</span>
                                                                 <span className='text-red-500'>
-                                                                    -{walletSelect?.currency.sign} {numeral(calculate.totalOutflow).format(0, 0)}
+                                                                    -{numeral(calculate.totalOutflow).format(0, 0)} {walletSelect?.currency.sign}
                                                                 </span>
                                                             </div>
                                                             <div className='flex justify-end px-4 py-2'>
                                                                 <span className='border-t-2 pl-4 py-2'>
-                                                                    {walletSelect?.currency.sign} {numeral(calculate.totalInflow - calculate.totalOutflow).format(0, 0)}
+                                                                    {numeral(calculate.totalInflow - calculate.totalOutflow).format(0, 0)} {walletSelect?.currency.sign}
 
                                                                 </span>
                                                             </div>
@@ -175,7 +175,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                         <div className='text-xs text-zinc-400 font-normal'>{transactionsInCategory.length} Transactions</div>
                                                                     </span>
                                                                 </div>
-                                                                <span><p className='mt-3'>{transactionsInCategory[0].category.type === "expense" ? '-' : '+'}{walletSelect?.currency.sign} {numeral(totalAmount).format(0, 0)}</p></span>
+                                                                <span><p className='mt-3'>{transactionsInCategory[0].category.type === "expense" ? '-' : '+'}{numeral(totalAmount).format(0, 0)} {walletSelect?.currency.sign}</p></span>
                                                             </div>
                                                         );
                                                         return (
@@ -183,7 +183,8 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                 <div className='mb-8'>
                                                                     {categoryInfo}
                                                                     {transactionsInCategory.map(item => (
-                                                                        <div key={item.id} onClick={() => handleOpenSlide(walletSelect?.id, item.id)} className='flex justify-between px-4 py-2 border-t hover:bg-lime-50 cursor-pointer'>
+                                                                        <a href="#">
+                                                                            <div key={item.id} onClick={() => handleOpenSlide(walletSelect?.id, item.id)} className='flex justify-between px-4 py-2 border-t hover:bg-lime-50 cursor-pointer'>
                                                                             <div className='flex justify-start'>
                                                                                 <span className='w-10 h-10 mr-4 text-3xl font-light text-black'>{convertDate(item?.date).day}</span>
                                                                                 <span className='text-start'>
@@ -193,12 +194,13 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                             </div>
                                                                             <span>
                                                                                 {item.category.type === "expense" ?
-                                                                                    <p className='mt-3 text-red-500'>-{walletSelect?.currency.sign} {numeral(item?.amount).format(0, 0)}</p>
+                                                                                    <p className='mt-3 text-red-500'>-{numeral(item?.amount).format(0, 0)} {walletSelect?.currency.sign}</p>
                                                                                     :
-                                                                                    <p className='mt-3 text-sky-500'>+{walletSelect?.currency.sign} {numeral(item?.amount).format(0, 0)}</p>
+                                                                                    <p className='mt-3 text-sky-500'>+{numeral(item?.amount).format(0, 0)} {walletSelect?.currency.sign}</p>
                                                                                 }
                                                                             </span>
                                                                         </div>
+                                                                        </a>
                                                                     ))}
                                                                 </div>
                                                             </div>
