@@ -26,16 +26,30 @@ export default function ShareWallet({isOpen, onClose}) {
     const socket = useSelector(state => state.wallet.socket);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const user = useSelector(state => state.auth.login.currentUser);
+    const [isValid, setIsValid] = useState(false);
+    const [isMatchEmail, setIsMatchEmail] = useState(false);
 
     const [dataInput, setDataInput] = useState()
 
     const handleChange = (event) => {
         setPermission(event.target.value);
+        handleCheckValid(event);
     };
 
     const handleChangeInput = (e) => {
+        let email = '';
         let data = {...dataInput, [e.target.name]: e.target.value};
+        if (e.target.name === 'email') {
+            email = e.target.value;
+            email === user?.email ? setIsMatchEmail(true) : setIsMatchEmail(false);
+        }
         setDataInput(data)
+        handleCheckValid(e);
+    }
+    const handleCheckValid =(e) => {
+        let data = { ...dataInput, [e.target.name]: e.target.value };
+        if (permission && data.email && data.note) setIsValid(true)
+        else setIsValid(false);
     }
     const handleShare = () => {
         let senderEmail = user.email;
@@ -43,6 +57,8 @@ export default function ShareWallet({isOpen, onClose}) {
         let receiverEmail = dataInput?.email;
         let message = dataInput?.note;
         onClose();
+        setDataInput(null);
+        setPermission(null);
         socket?.emit('sendMessage', {senderEmail, receiverEmail, message, walletInfo, permission});
         // localStorage.setItem(`sendMessage_${user.id}`, {senderEmail, receiverEmail, message, walletInfo, permission})
         // const newSendMessage = {id: Date.now(), senderEmail, receiverEmail, message, walletInfo, permission};
@@ -67,7 +83,7 @@ export default function ShareWallet({isOpen, onClose}) {
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
-                                        value={permission}
+                                        defaultValue= ''
                                         label="Age"
                                         sx={{height: "63px", borderRadius: "8px"}}
                                         onChange={handleChange}
@@ -80,7 +96,7 @@ export default function ShareWallet({isOpen, onClose}) {
                             <div className='flex item-center justify-center'>
                                 <div
                                     className='mb-4 py-[5px] px-[15px] border w-full border-gray-300 rounded-lg hover:border-gray-500 hover: cursor-pointer'>
-                                    <p className='text-[12px] pb-[3px] text-slate-400'>email </p>
+                                    <p className='text-[12px] pb-[3px] text-slate-400'>Email </p>
                                     <div className='pb-1'>
                                         <input onChange={handleChangeInput}
                                                className='inputAdd w-full h-[27px] text-[17px] focus:outline-none'
@@ -89,6 +105,7 @@ export default function ShareWallet({isOpen, onClose}) {
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                         <div className='flex item-center justify-center'>
                             <div
@@ -98,11 +115,11 @@ export default function ShareWallet({isOpen, onClose}) {
                                     <input onChange={handleChangeInput}
                                            className='inputAdd w-full h-[27px] text-[17px] focus:outline-none'
                                            tabIndex="-1" type="text" name="note" value={dataInput?.note}
-                                           placeholder="node" id="note"/>
+                                           placeholder="note" id="note"/>
                                 </div>
                             </div>
                         </div>
-
+                        {isMatchEmail ? <p className="text-red-500 text-xs text-center">Email không thể là của chính bạn!</p> : null}
                         <div className='pt-[13px] pb-5 flex text-center'>
                             <input className='w-4 h-4 hover: cursor-pointer mt-1' type="checkbox" name="vehicle1"
                                    value="Bike" required/>
@@ -112,7 +129,7 @@ export default function ShareWallet({isOpen, onClose}) {
                         </div>
                     </div>
                     <div className='py-[14px] px-6 flex justify-end'>
-                        <button onClick={handleShare} type='button'
+                        <button onClick={handleShare} type='button' disabled={!isValid || isMatchEmail}
                                 className='bg-lightgreen text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400'>Save
                         </button>
                     </div>
