@@ -5,7 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {useState} from "react";
 import { getMessage } from "../../redux/walletSlice";
 
@@ -26,7 +26,6 @@ export default function ShareWallet({isOpen, onClose}) {
     const socket = useSelector(state => state.wallet.socket);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const user = useSelector(state => state.auth.login.currentUser);
-    const dispatch = useDispatch();
 
     const [dataInput, setDataInput] = useState()
 
@@ -43,11 +42,10 @@ export default function ShareWallet({isOpen, onClose}) {
         let walletInfo = walletSelect;
         let receiverEmail = dataInput?.email;
         let message = dataInput?.note;
-        // localStorage.setItem(`sendMessage_${user.id}`, {senderEmail, receiverEmail, message, walletInfo, permission})
         onClose();
         socket?.emit('sendMessage', {senderEmail, receiverEmail, message, walletInfo, permission});
-
-        const newSendMessage = {id: Date.now(), senderEmail, receiverEmail, message, walletInfo, permission};
+        // localStorage.setItem(`sendMessage_${user.id}`, {senderEmail, receiverEmail, message, walletInfo, permission})
+        // const newSendMessage = {id: Date.now(), senderEmail, receiverEmail, message, walletInfo, permission};
     }
 
     return (
@@ -74,8 +72,8 @@ export default function ShareWallet({isOpen, onClose}) {
                                         sx={{height: "63px", borderRadius: "8px"}}
                                         onChange={handleChange}
                                     >
-                                        <MenuItem value="using">using</MenuItem>
-                                        <MenuItem value="viewer">viewer</MenuItem>
+                                        <MenuItem value="using">Using</MenuItem>
+                                        <MenuItem value="viewer">Viewer</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Box>

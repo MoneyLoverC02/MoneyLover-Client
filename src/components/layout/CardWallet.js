@@ -34,20 +34,17 @@ export default function CardWallet() {
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const socket = useSelector(state => state.wallet.socket);
 
-    socket.on('forwardResponseMessage', async (data) => {
-        const { response, senderEmail, walletID } = data;
-        setDataSocket(data);
-
-    });
+    // socket.on('forwardResponseMessage', async (data) => {
+    //     const { response, senderEmail, walletID } = data;
+    //     setDataSocket(data);
+    //
+    // });
 
     const handleOpenSlide = (idWallet) => {
         WalletService.getInfoWallet(idWallet).then(res => {
             dispatch(setWalletSelect(res.data.wallet));
             setAllUsersOfTheWallet(res.data.allUsersOfTheWallet)
             setChecked(true);
-            console.log('====================================');
-            console.log(walletSelect.walletRoles);
-            console.log('====================================');
         });
     };
 
