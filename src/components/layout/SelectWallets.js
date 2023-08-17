@@ -13,30 +13,36 @@ import PersonIcon from '@mui/icons-material/Person';
 import Typography from '@mui/material/Typography';
 import {blue} from '@mui/material/colors';
 import {useDispatch, useSelector} from 'react-redux';
-import {setWalletSelect} from '../../redux/walletSlice';
+import {getAllWallet, setAllWallet, setWalletSelect} from '../../redux/walletSlice';
 import {useEffect, useState} from "react";
 import numeral from 'numeral';
+import {WalletService} from "../../services/wallet.service";
 
 function SimpleDialog(props) {
     const {onClose, selectedValue, open} = props;
-        let walletList = useSelector(state => state.wallet.allWallet);
+    let walletList = useSelector(state => state.wallet.allWallet);
     const walletSelect = useSelector(state => state.wallet.walletSelect)
     const [totalMoney, setTotalMoney] = useState(0)
     const transactionSelect = useSelector(state => state.transaction.transactionSelect);
     const allTransaction = useSelector(state => state.transaction.allTransaction);
-
+    const dispatch = useDispatch();
     useEffect(() => {
-        setWalletSelect()
-    }, [allTransaction]);
+        WalletService.getAllWallet().then(res => {
+            dispatch(getAllWallet(res.data.walletList))
+            dispatch(setWalletSelect(res.data.walletList[0]))
+        })
+    }, []);
     const handleClose = () => {
         onClose(selectedValue);
     };
     useEffect(() => {
         setTotalMoney(0)
+
+        console.log("walletList",walletList)
          walletList.forEach(wallet => {
-                setTotalMoney(prevTotal => prevTotal + wallet.amountOfMoney);
-            })
-    }, [transactionSelect, walletList,]);
+            setTotalMoney(prevTotal => prevTotal + wallet.amountOfMoney);
+        })
+    }, [transactionSelect, walletList, allTransaction]);
     const handleListItemClick = (value) => {
         if (value) {
             onClose(value);
@@ -45,14 +51,13 @@ function SimpleDialog(props) {
     };
 
 
-
     return (<Dialog onClose={handleClose} open={open}>
         <DialogTitle>Excluded from Total</DialogTitle>
-        <List sx={{ pt: 0, width:"500px" }}>
+        <List sx={{pt: 0, width: "500px"}}>
             <ListItem disableGutters>
-                <ListItemButton >
+                <ListItemButton>
                     <ListItemAvatar>
-                        <Avatar sx={{ bgcolor: blue[100], color: blue[600] } }>
+                        <Avatar sx={{bgcolor: blue[100], color: blue[600]}}>
                             <PersonIcon/>
                         </Avatar>
                     </ListItemAvatar>
@@ -61,7 +66,7 @@ function SimpleDialog(props) {
                         secondary={
                             <React.Fragment>
                                 <Typography variant="body2" color="text.secondary">
-                                    {numeral(totalMoney).format(0,0)} {walletSelect?.currency.sign}
+                                    {numeral(totalMoney).format(0, 0)} {walletSelect?.currency.sign}
                                 </Typography>
                             </React.Fragment>
                         }
@@ -70,24 +75,24 @@ function SimpleDialog(props) {
             </ListItem>
             {walletList?.length > 0 && walletList.map((wallet) => (
                 <ListItem disableGutters>
-                <ListItemButton onClick={() => handleListItemClick(wallet)} key={wallet.id}>
-                    <ListItemAvatar>
-                        <Avatar sx={{ bgcolor: blue[100], color: blue[600] } }>
-                            <img src={wallet.icon.icon} alt=""/>
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText
-                        primary={wallet.name}
-                        secondary={
-                            <React.Fragment>
-                                <Typography variant="body2" color="text.secondary">
-                                    {numeral(wallet.amountOfMoney).format(0,0)} {wallet.currency.sign}
-                                </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItemButton>
-            </ListItem>
+                    <ListItemButton onClick={() => handleListItemClick(wallet)} key={wallet.id}>
+                        <ListItemAvatar>
+                            <Avatar sx={{bgcolor: blue[100], color: blue[600]}}>
+                                <img src={wallet.icon.icon} alt=""/>
+                            </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText
+                            primary={wallet.name}
+                            secondary={
+                                <React.Fragment>
+                                    <Typography variant="body2" color="text.secondary">
+                                        {numeral(wallet.amountOfMoney).format(0, 0)} {wallet.currency.sign}
+                                    </Typography>
+                                </React.Fragment>
+                            }
+                        />
+                    </ListItemButton>
+                </ListItem>
             ))}
         </List>
     </Dialog>);
@@ -100,6 +105,7 @@ SimpleDialog.propTypes = {
 export default function SelectWallets() {
     const [open, setOpen] = React.useState(false);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
+    let walletList = useSelector(state => state.wallet.allWallet);
     const dispatch = useDispatch();
     const handleClickOpen = () => {
         setOpen(true);
@@ -109,6 +115,7 @@ export default function SelectWallets() {
         setOpen(false);
         if (typeof value === "object" && value !== null) {
             dispatch(setWalletSelect(value))
+            // dispatch(getAllWallet(value))
         }
     };
 
@@ -118,7 +125,7 @@ export default function SelectWallets() {
                 {walletSelect?.name}
             </Button>
             <Typography variant="subtitle1" component="div">
-                {walletSelect?.amountOfMoney > 0 ? "+" : null} {numeral(walletSelect?.amountOfMoney).format(0,0)} {walletSelect?.currency.sign}
+                {walletSelect?.amountOfMoney > 0 ? "+" : null} {numeral(walletSelect?.amountOfMoney).format(0, 0)} {walletSelect?.currency.sign}
             </Typography>
             <SimpleDialog
                 selectedValue={walletSelect?.name}
