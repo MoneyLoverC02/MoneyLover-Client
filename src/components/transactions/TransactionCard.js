@@ -267,8 +267,8 @@ export default function TransactionCard({ openModal, closeModal }) {
                                         </div>
                                     </div>
                                     <div className='px-10'>
-                                        <div className='flex text-center gap-10 my-4'>
-                                            <img src="https://static.moneylover.me/img/icon/icon.png" className='w-8 h-8'
+                                        <div className='flex text-center gap-8 my-4'>
+                                            <img src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=" className='w-10 h-10'
                                                 alt="" />
                                             <div className='border-t w-full text-start py-2'>
                                                 <span className='font-semibold text-sm'>
