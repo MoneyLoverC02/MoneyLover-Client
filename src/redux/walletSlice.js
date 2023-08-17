@@ -38,6 +38,6 @@ export const walletSlice = createSlice({
     }
 })
 
-export const { getIcon, getCurrencies, setWalletSelect, getAllWallet, setSocket, getMessage, walletLogout } = walletSlice.actions;
+export const { getIcon, getCurrencies, setWalletSelect, getAllWallet, setSocket, getMessage, walletLogout,setAllWallet } = walletSlice.actions;
 export default walletSlice.reducer;
 
