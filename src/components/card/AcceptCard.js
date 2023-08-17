@@ -97,7 +97,7 @@ export default function AcceptCard() {
                         >
                             <ArrowBackIcon />
                         </IconButton>
-                        Awaiting shared wallet
+                        <p className="font-semibold text-lg ml-3">Awaiting shared wallet</p>
                     </Toolbar>
                 </AppBar>
             </Slide>
@@ -142,7 +142,7 @@ export default function AcceptCard() {
                     ))
                 )
                 :
-                (<div>No shared wallet invitations</div>)}
+                (<div className="mt-20 text-center text-lg">No shared wallet invitations</div>)}
         </div>
     )
 }
