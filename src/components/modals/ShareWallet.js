@@ -74,8 +74,8 @@ export default function ShareWallet({isOpen, onClose}) {
                                         sx={{height: "63px", borderRadius: "8px"}}
                                         onChange={handleChange}
                                     >
-                                        <MenuItem value="Using">using</MenuItem>
-                                        <MenuItem value="Viewer">viewer</MenuItem>
+                                        <MenuItem value="using">using</MenuItem>
+                                        <MenuItem value="viewer">viewer</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Box>
