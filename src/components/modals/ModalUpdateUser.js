@@ -11,6 +11,7 @@ import * as Yup from 'yup';
 import {UserService} from "../../services/user.service";
 import {logout} from "../../redux/authSlice";
 import {useNavigate} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 const style = {
     position: 'absolute',
@@ -33,6 +34,7 @@ export default function ModalUpdateUser() {
     const [showPassword, setShowPassword] = React.useState(false);
     const [showNewPassword, setShowNewPassword] = React.useState(false);
     const [showNewConfirmedPassword, setShowNewConfirmedPassword] = React.useState(false);
+    const {t}=useTranslation()
 
     const user = useSelector(state => state.auth.login.currentUser);
     const handleClickOpen = () => {
@@ -82,7 +84,7 @@ export default function ModalUpdateUser() {
     return (
         <div>
             <Button variant="outlined" startIcon={<Edit />} onClick={handleClickOpen}>
-                Edit password
+                {t("Edit password")}
             </Button>
             <Modal
                 open={open}
@@ -93,7 +95,7 @@ export default function ModalUpdateUser() {
                 <Box sx={style}>
                     <div>
                         <Button sx={{color: "black"}} onClick={handleClose}><ClearIcon sx={{float: "left"}}/></Button>
-                        <b style={{marginLeft: "60px"}}>My Account</b>
+                        <b style={{marginLeft: "60px"}}>{t("My Account")}</b>
                     </div>
                     <br/>
                     <hr/>
@@ -108,7 +110,7 @@ export default function ModalUpdateUser() {
                             required
                             fullWidth
                             id="currentPassword"
-                            label="Your password"
+                            label={t("Your password")}
                             type={showPassword ? 'text' : 'password'}
                             name="currentPassword"
                             autoComplete="currentPassword"
@@ -133,7 +135,7 @@ export default function ModalUpdateUser() {
                             required
                             fullWidth
                             name="newPassword"
-                            label="New Password"
+                            label={t("New Password")}
                             type={showNewPassword ? 'text' : 'password'}
                             id="newPassword"
                             value={formUpdate.values.newPassword}
@@ -156,7 +158,7 @@ export default function ModalUpdateUser() {
                             required
                             fullWidth
                             name="newPasswordConfirmed"
-                            label="Confirm New Password"
+                            label={t("Confirm New Password")}
                             type={showNewConfirmedPassword ? 'text' : 'password'}
                             id="newPasswordConfirmed"
                             value={formUpdate.values.newPasswordConfirmed}
@@ -180,7 +182,7 @@ export default function ModalUpdateUser() {
                             variant="contained"
                             sx={{mt: 3, mb: 2}}
                         >
-                            Change
+                            {t("Change")}
                         </Button>
                     </Box>
                 </Box>

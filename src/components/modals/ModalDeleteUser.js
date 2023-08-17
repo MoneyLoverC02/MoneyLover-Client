@@ -11,8 +11,10 @@ import {UserService} from "../../services/user.service";
 import {logout} from "../../redux/authSlice";
 import {useNavigate} from "react-router-dom";
 import { walletLogout } from '../../redux/walletSlice';
+import {useTranslation} from "react-i18next";
 
 export default function ModalDeleteUser() {
+    const {t}=useTranslation()
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
@@ -36,7 +38,7 @@ export default function ModalDeleteUser() {
     return (
         <div>
         <Button variant="outlined" color="error" startIcon={<DeleteIcon/>} onClick={handleClickOpen}>
-            Delete
+            {t("DELETE")}
         </Button>
         <Dialog
             open={open}
@@ -57,7 +59,7 @@ export default function ModalDeleteUser() {
                 <Button color="error" variant="contained" onClick={() => {
                     handleDeleteUser()
                 }}>
-                    DELETE
+                    {t("DELETE")}
                 </Button>
             </DialogActions>
         </Dialog>

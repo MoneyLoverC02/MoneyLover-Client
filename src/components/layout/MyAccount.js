@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import ModalDeleteUser from "../modals/ModalDeleteUser";
 import ModalUpdateUser from '../modals/ModalUpdateUser';
 import { walletLogout } from '../../redux/walletSlice';
+import {useTranslation} from "react-i18next";
 
 const style = {
     position: 'absolute',
@@ -27,6 +28,7 @@ const style = {
 };
 
 export default function MyAccount() {
+    const {t}=useTranslation()
     const dispatch = useDispatch();
     const navigate =useNavigate()
     const user = useSelector(state => state.auth.login.currentUser)
@@ -51,7 +53,7 @@ export default function MyAccount() {
                         <PersonIcon sx={{fontSize: "40px", marginLeft: "20px"}}/>
                     </div>
                     <div style={{paddingTop: "9px", textAlign: "left"}}>
-                        My Account
+                        {t("My Account")}
                         <ArrowForwardIosIcon sx={{fontSize: "14px", float: "right", marginRight: "10px"}}/>
                     </div>
                     <hr/>
@@ -67,9 +69,9 @@ export default function MyAccount() {
                     <div>
                         <Button sx={{color: "black"}} onClick={handleClose}><ClearIcon sx={{float: "left"}}/></Button>
                         <Stack direction="row" sx={{float: "right"}} spacing={2}>
-                            <Button onClick={handleSignOut} color="success"><b>SIGN OUT</b></Button>
+                            <Button onClick={handleSignOut} color="success"><b>{t("SIGN OUT")}</b></Button>
                         </Stack>
-                        <b style={{marginLeft: "30px"}}>My Account</b>
+                        <b style={{marginLeft: "30px"}}>{t("My Account")}</b>
                     </div>
                     <br/>
                     <hr/>
