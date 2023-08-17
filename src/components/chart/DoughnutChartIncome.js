@@ -2,8 +2,8 @@ import React from "react";
 import { PieChart, Pie, Cell } from "recharts";
 
 const colors = [
-    '#335C5C', '#45D6AB', '#2CC6EA', '#EFF04A', '#E06D50', '#DFAF7F', '#EFF9F1', '#2F8D85', '#bd8452', '#2CC6D5', '#1A2728',
-    '#335C5C', '#45D6AB', '#2CC6EA', '#EFF04A', '#E06D50', '#DFAF7F', '#EFF9F1', '#2F8D85', '#bd8452', '#2CC6D5', '#1A2728'
+    '#335C5C', '#45D6AB', '#2CC6EA', '#EFF04A', '#E06D50', '#DFAF7F', '#FF2C2C', '#2F8D85', '#bd8452', '#2CC6D5', '#1A2728',
+    '#335C5C', '#45D6AB', '#2CC6EA', '#EFF04A', '#E06D50', '#DFAF7F', '#FF2C2C', '#2F8D85', '#bd8452', '#2CC6D5', '#1A2728'
 ];
 
 export default function DoughnutChartIncome({ data }) {

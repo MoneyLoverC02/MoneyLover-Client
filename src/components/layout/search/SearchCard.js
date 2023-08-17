@@ -13,6 +13,7 @@ import {TransactionService} from "../../../services/transaction.service";
 import {getAllCategory, getAllTransaction, setTransactionSelect} from "../../../redux/transactionSlice";
 import NavbarSearch from "../../navbars/NavbarSearch";
 import Sidebar from "../Sidebar";
+import numeral from "numeral";
 
 export default function SearchCard({openModal, closeModal}) {
     const dispatch = useDispatch();
@@ -116,7 +117,7 @@ export default function SearchCard({openModal, closeModal}) {
                                                                     </span>
                                                     </div>
                                                     <span><p
-                                                        className='mt-3'>{transactionsInCategory[0].category.type === "expense" ? '-' : '+'}{walletSelect?.currency.sign} {transactionsInCategory[0]?.amount}</p></span>
+                                                        className='mt-3'>{transactionsInCategory[0].category.type === "expense" ? '-' : '+'}{numeral(transactionsInCategory[0]?.amount).format(0,0)} {walletSelect?.currency.sign}</p></span>
                                                 </div>);
                                                 return (<div key={category.id} id='expense-trans'
                                                              className='bg-white text-zinc-600 text-sm font-medium'>
@@ -131,13 +132,13 @@ export default function SearchCard({openModal, closeModal}) {
                                                                 <span className='text-start'>
                                                                                     <div>{convertDate(item?.date).dayOfWeek}, {convertDate(item?.date).month} {convertDate(item?.date).year}</div>
                                                                                     <div
-                                                                                        className='text-xs text-zinc-400 font-normal'>{item?.amount}</div>
+                                                                                        className='text-xs text-zinc-400 font-normal'>{numeral(item?.amount).format(0,0)} {walletSelect?.currency.sign}</div>
                                                                                 </span>
                                                             </div>
                                                             <span>
                                                                                 {item.category.type === "expense" ?
-                                                                                    <p className='mt-3 text-red-500'>-{walletSelect?.currency.sign} {item?.amount}</p> :
-                                                                                    <p className='mt-3 text-sky-500'>+{walletSelect?.currency.sign} {item?.amount}</p>}
+                                                                                    <p className='mt-3 text-red-500'>-{numeral(item?.amount).format(0,0)} {walletSelect?.currency.sign}</p> :
+                                                                                    <p className='mt-3 text-sky-500'>+{numeral(item?.amount).format(0,0)} {walletSelect?.currency.sign}</p>}
                                                                             </span>
                                                         </div>))}
                                                     </div>
@@ -207,9 +208,9 @@ export default function SearchCard({openModal, closeModal}) {
                                         <div
                                             className='text-xs py-2 border-b min-w-[200px]'>{transactionSelect?.date} </div>
                                         <div className='pt-2'>{transactionSelect?.category.type === "expense" ? <span
-                                                className='text-4xl text-red-500 font-medium'>-{walletSelect?.currency.sign} {transactionSelect?.amount}</span> :
+                                                className='text-4xl text-red-500 font-medium'>-{numeral(transactionSelect?.amount).format(0,0)} {walletSelect?.currency.sign}</span> :
                                             <span
-                                                className='text-4xl text-sky-500 font-medium'>+{walletSelect?.currency.sign} {transactionSelect?.amount}</span>}  </div>
+                                                className='text-4xl text-sky-500 font-medium'>+{numeral(transactionSelect?.amount).format(0,0)} {walletSelect?.currency.sign}</span>}  </div>
                                     </div>
                                 </div>
                             </Card>
