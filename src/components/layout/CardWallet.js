@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import ClearIcon from "@mui/icons-material/Clear";
 import ModalDeleteWallets from './ModalDeleteWallets';
 import { WalletService } from '../../services/wallet.service';
-import { setWalletSelect } from '../../redux/walletSlice';
+import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
 import UpdateModal from '../modals/UpdateModal';
 import NestedModal from '../modals/NestedModal';
 import { useNavigate } from 'react-router-dom';
@@ -100,7 +100,15 @@ export default function CardWallet() {
         setChecked(true);
     }
     const handleLeave = () => {
-
+        WalletService.leaveWallet(walletSelect?.walletRoles[0].id, '').then(res => {
+            if (res.data.message === 'Leave wallet success!') {
+                WalletService.getAllWallet().then(res => {
+                    dispatch(getAllWallet(res.data.walletList))
+                })
+            }
+            setChecked(false);
+        }).catch(err => console.log(err.message));
+        
     }
 
     return (<div>
@@ -157,8 +165,8 @@ export default function CardWallet() {
                                                         }} alt="" />
                                                     <div style={{ float: "left", margin: "15px" }}>
                                                         <span className='lowercase'>{wallet.name}</span><br />
-                                                        <span className='lowercase'>{wallet.currency.sign} </span>
                                                         <span>{numeral(wallet.amountOfMoney).format(0.0)} </span>
+                                                        <span className='lowercase'>{wallet.currency.sign} </span>
                                                     </div>
                                                 </div>
                                             </Button>
@@ -205,14 +213,11 @@ export default function CardWallet() {
                                     <div
                                         style={{ color: "black", justifyContent: "left", textAlign: "left" }}>
                                         <div>
-                                            <img src={walletSelect?.icon.icon}
-                                                style={{
-                                                    width: "40px", height: "40px", margin: "15px", float: "left"
-                                                }} alt="" />
+                                            <img src={walletSelect?.icon.icon} className='w-12 h-12 float-left mx-4' alt="" />
                                             <div style={{ textAlign: "left", margin: "15px" }}>
                                                 <span className='lowercase'>{walletSelect?.name}</span><br />
-                                                <span className='lowercase'>{walletSelect?.currency.sign} </span>
                                                 <span>{numeral(walletSelect?.amountOfMoney).format(0, 0)} </span>
+                                                <span className='lowercase'>{walletSelect?.currency.sign} </span>
                                             </div>
                                         </div>
                                     </div>
@@ -225,7 +230,7 @@ export default function CardWallet() {
                                                     <div>
                                                         <div className='flex gap-3 mb-1'>
                                                             <span className='font-semibold'>{item.email}</span>
-                                                            <span className={` text-white text-xs px-1 font-semibold rounded-sm mt-1 ${item.role === 'owner' ? 'bg-orange-400' : 'bg-lightgreen'}`}>{item.role}</span>
+                                                            <span className={` text-white text-xs px-1 font-semibold rounded-sm mt-1 ${item.role === 'owner' ? 'bg-orange-400' : `${item.role === 'using' ? 'bg-lightgreen': 'bg-purple-400'}`}`}>{item.role}</span>
                                                         </div>
                                                         <p className='text-xs text-graynew'>{item.email}</p>
                                                     </div>
