@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Box, Modal } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { setWalletSelect } from '../../redux/walletSlice';
+import {getAllWallet, setWalletSelect} from '../../redux/walletSlice';
 import CategorySelectModal from './CategorySelectModal';
 import DatePickerComponent from '../datePick/datePick';
 import { TransactionService } from '../../services/transaction.service';
 import { getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
 import WalletSelectTransactionUpdateModal from './WalletTransUpdate';
+import {WalletService} from "../../services/wallet.service";
 
 const style = {
     position: 'absolute',
@@ -64,6 +65,9 @@ export default function UpdateTransactionModal({ isOpen, onClose, onSubmit }) {
                 TransactionService.getAllTransactionOfWallet(walletSelect?.id).then(res => {
                     let transactionList = res.data.transactionList;
                     dispatch(getAllTransaction(transactionList));
+                    WalletService.getAllWallet().then(res => {
+                        dispatch(getAllWallet(res.data.walletList));
+                    })
                     // setDataInput({ money: 0, note: '' });
                     // setDateTras(formatDate(new Date()));
                     // setIsValid(false);
