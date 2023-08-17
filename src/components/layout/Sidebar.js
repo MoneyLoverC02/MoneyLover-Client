@@ -21,12 +21,18 @@ export default function Sidebar() {
     });
 
     const [messageCount, setMessageCount] = useState(0);
+    const [message, setMessage] = useState();
+    const socket = useSelector(state => state.wallet.socket);
 
     useEffect(() => {
+        socket?.on('forwardMessage', async (data) => {
+            setMessage(data);
+            setMessageCount(savedMessages.length);
+        });
         const savedMessagesJSON = localStorage.getItem(`${user.id}_receivedMessages`);
         const savedMessages = savedMessagesJSON ? JSON.parse(savedMessagesJSON) : [];
         setMessageCount(savedMessages.length);
-    }, [messageCount]);
+    }, [message]);
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
