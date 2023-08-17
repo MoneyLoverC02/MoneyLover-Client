@@ -47,11 +47,9 @@ export default function LoginOrRegister({props}) {
                         if (userLogin && res.data.message === 'Login success!') {
                             const token = res.data.token;
                             localStorage.setItem('token', token);
-
                             localStorage.setItem('user', email);
                             const socket = io.connect('http://localhost:4000');
                             socket.emit('login', email);
-
                             socket.on('forwardMessage', async (data) => {
                                 console.log(data);
                                 console.log("----------------------")
