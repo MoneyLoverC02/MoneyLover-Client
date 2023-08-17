@@ -17,8 +17,10 @@ import { useNavigate } from 'react-router-dom';
 import TranferModal from '../modals/TranferModal';
 import ShareWallet from "../modals/ShareWallet";
 import numeral from 'numeral';
+import {useTranslation} from "react-i18next";
 
 export default function CardWallet() {
+    const {t}=useTranslation()
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [checked, setChecked] = React.useState(false);
@@ -125,11 +127,11 @@ export default function CardWallet() {
                             <ArrowBackIcon />
                         </IconButton>
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            My Wallets
+                            {t("My Wallets")}
                         </Typography>
                         <Button onClick={handleOpenFormCreate} variant="contained" sx={{ backgroundColor: "#1aa333" }}
                             disableElevation>
-                            <b>ADD WALLET</b>
+                            <b>{t("ADD WALLET")}</b>
                         </Button>
                     </Toolbar>
                 </AppBar>
@@ -147,7 +149,7 @@ export default function CardWallet() {
                                     color: "black",
                                     height: "40px",
                                 }}>
-                                    <p style={{ padding: "5px 10px" }}>Excluded from Total</p>
+                                    <p style={{ padding: "5px 10px" }}>{t("excludedFromTotal")}</p>
                                 </Box>
                                 <>
                                     {allWallet?.length > 0 && allWallet?.map(wallet => (
@@ -188,7 +190,7 @@ export default function CardWallet() {
                                         <div style={{ padding: "5px 10px", }}><Button sx={{ color: "black" }}
                                             onClick={handleCloseSlide}><ClearIcon
                                                 sx={{ float: "left" }} /></Button>
-                                            <b style={{ marginLeft: "30px" }}>Wallet details</b>
+                                            <b style={{ marginLeft: "30px" }}>{t("walletDetails")}</b>
                                             <Stack direction="row" sx={{ float: "right" }}
                                                 spacing={2}>
                                                 {walletSelect?.walletRoles && walletSelect?.walletRoles[0].role === 'owner' ?
@@ -199,11 +201,11 @@ export default function CardWallet() {
                                                     />
                                                     :
                                                     <Button onClick={handleLeave}
-                                                        color='error'>Leave</Button>
+                                                        color='error'>{t("leave")}</Button>
                                                 }
                                                 {walletSelect?.walletRoles && walletSelect?.walletRoles[0].archived === false && walletSelect?.walletRoles[0].role !== 'viewer' ?
                                                     <Button onClick={handleOpenFormUpdate}
-                                                        color='success'>EDIT</Button>
+                                                        color='success'>{t("edit")}</Button>
                                                     :
                                                     null
                                                 }
@@ -222,7 +224,7 @@ export default function CardWallet() {
                                         </div>
                                     </div>
                                     <div className='border-t px-16 pt-2 pb-4'>
-                                        <p className='pb-2 font-medium text-graynew'>User Account</p>
+                                        <p className='pb-2 font-medium text-graynew'>{t("User Account")}</p>
                                         <div className=''>
                                             {allUsersOfTheWallet?.length > 0 && allUsersOfTheWallet.map(item => (
                                                 <div className='flex gap-3 py-2'>
@@ -266,19 +268,19 @@ export default function CardWallet() {
                                                             fullWidth
                                                             onClick={handleCheckboxChange}>
                                                             <Grid item xs={12}>
-                                                                <b>Archived</b>
+                                                                <b>{t("archived")}</b>
                                                             </Grid>
                                                         </Button>
                                                         <Button disabled={allWallet?.length <= 1} onClick={handleOpenFormTranfer}
                                                             fullWidth
                                                             sx={{ borderTop: "1px solid #ececec", color: "green" }}>
                                                             <Grid item xs={12}>
-                                                                <b>TRANFERMONEY</b>
+                                                                <b>{t("transferMoney")}</b>
                                                             </Grid>
                                                         </Button>
                                                         <Button fullWidth sx={{ borderTop: "1px solid #ececec", color: "green" }} onClick={handleOpenShare}>
                                                             <Grid item xs={12}>
-                                                                <b>SHARE WALLET</b>
+                                                                <b>{t("shareWallet")}</b>
                                                             </Grid>
                                                         </Button>
                                                     </>) : (
@@ -287,7 +289,7 @@ export default function CardWallet() {
                                                                 fullWidth
                                                                 onClick={handleCheckboxChange}>
                                                                 <Grid item xs={12}>
-                                                                    <b>Unarchived</b>
+                                                                    <b>{t("unarchived")}</b>
                                                                 </Grid>
                                                             </Button>
                                                         </>
