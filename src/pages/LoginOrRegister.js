@@ -14,9 +14,7 @@ import {
 } from "../redux/authSlice";
 import {WalletService} from "../services/wallet.service";
 import {getAllWallet, getMessage, setSocket, setWalletSelect} from "../redux/walletSlice";
-import io from 'socket.io-client';
 import * as React from "react";
-import {number} from "yup";
 
 
 export const validateInput = Yup.object({
@@ -42,33 +40,11 @@ export default function LoginOrRegister({props}) {
                 dispatch(loginStart())
                 UserService.checkUserLogin(values).then(res => {
                         let userLogin = res.data.user;
-                        const userID = userLogin?.id;
                         const email = userLogin?.email;
                         if (userLogin && res.data.message === 'Login success!') {
                             const token = res.data.token;
                             localStorage.setItem('token', token);
                             localStorage.setItem('user', email);
-                            const socket = io.connect('http://localhost:4000');
-                            socket.emit('login', email);
-                            socket.on('forwardMessage', async (data) => {
-                                console.log(data);
-                                console.log("----------------------")
-                                const {senderEmail, message, walletInfo, permission} = data;
-                                // Lấy danh sách tin nhắn từ localStorage (nếu có)
-                                const savedMessagesJSON = localStorage.getItem(`${userID}_receivedMessages`);
-                                const savedMessages = savedMessagesJSON ? JSON.parse(savedMessagesJSON) : [];
-                                console.log(savedMessages);
-                                console.log("++++++++++++++++++")
-                                // Thêm tin nhắn mới vào danh sách và cập nhật localStorage
-                                const newMessage = { id: Date.now(), senderEmail, message, walletInfo, permission};
-                                const updatedMessages = [...savedMessages, newMessage];
-                                localStorage.setItem(`${userID}_receivedMessages`, JSON.stringify(updatedMessages));
-                                console.log(updatedMessages);
-                                console.log("////////////////////");
-                            });
-
-                            dispatch(setSocket(socket));
-
                             dispatch(loginSuccess(userLogin));
                             WalletService.getAllWallet(token).then(res => {
                                 let walletList = res.data.walletList;

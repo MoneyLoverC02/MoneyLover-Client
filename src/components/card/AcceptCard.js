@@ -30,8 +30,8 @@ export default function AcceptCard() {
         const savedMessages = savedMessagesJSON ? JSON.parse(savedMessagesJSON) : [];
         setReceivedMessages(savedMessages);
     }, []);
-    console.log(receivedMessages);
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaa");
+    // console.log(receivedMessages);
+    // console.log("aaaaaaaaaaaaaaaaaaaaaaaa");
 
     const handleReject = (messageId) => {
         // Tải danh sách tin nhắn hiện tại từ localStorage

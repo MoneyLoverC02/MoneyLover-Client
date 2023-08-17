@@ -5,19 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="23215b9d-d7e7-4a00-8020-7ad437a86f27" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/card/AcceptCard.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/layout/Notifycation.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/modals/ShareWallet.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/CardWallet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/CardWallet.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/MyAccount.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/MyAccount.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/Sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/Sidebar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/LoginOrRegister.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/LoginOrRegister.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/homePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/homePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/walletSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/walletSlice.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,6 +89,8 @@
       <workItem from="1692065288510" duration="10635000" />
       <workItem from="1692077766581" duration="387000" />
       <workItem from="1692081662096" duration="39000" />
+      <workItem from="1692081716520" duration="21768000" />
+      <workItem from="1692198271708" duration="131000" />
     </task>
     <servers />
   </component>
