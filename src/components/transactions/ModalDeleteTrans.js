@@ -62,7 +62,7 @@ export default function ModalDeleteTrans({ idWallet, onClose }) {
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                {t("Are you sure you want to delete this wallet?")}
+                {t("Are you sure want to delete this Transaction?")}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">

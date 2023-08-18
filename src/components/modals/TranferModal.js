@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { WalletService } from '../../services/wallet.service';
 import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
 import WalletSelectModal from './WalletSelectModal';
+import CurrencyInput from 'react-currency-input-field';
 
 const style = {
     position: 'absolute',
@@ -21,31 +22,32 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
     const [isValid, setIsValid] = React.useState(true);
     const [walletReceived, setWalletReceived] = React.useState(null);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
-    const [moneyInput, setMoneyInput] = React.useState(0);
+    const [moneyInput, setMoneyInput] = React.useState(null);
     const [checkMoney, setCheckMoney] = React.useState(true);
     const dispatch = useDispatch();
 
-    React.useEffect(() => {
-        WalletService.getAllWallet().then(res => {
-            dispatch(getAllWallet(res.data.walletList));
-        })
-    }, [])
+    // React.useEffect(() => {
+    //     WalletService.getAllWallet().then(res => {
+    //         dispatch(getAllWallet(res.data.walletList));
+    //     })
+    // }, [])
 
     const handleSelectWallet = (wallet) => {
         setWalletReceived(wallet);
     }
 
-    const handleChange = (e) => {
-        let data = e.target.value;
-        data > walletSelect?.amountOfMoney ? setCheckMoney(false) : setCheckMoney(true);
-        setMoneyInput(data);
-        handleCheckValid(e);
+    const handleChangeAmount = (value, name) => {
+        if (name === 'money') {
+            setMoneyInput(value);
+            (value > 1000000000) ? setCheckMoney(false) : setCheckMoney(true);
+        }
     }
-    const handleCheckValid = (e) => {
-        let money = e.target.value;
-        if (money > 0) setIsValid(true)
+
+    React.useEffect(() => {
+        if (moneyInput > 0) setIsValid(true)
         else setIsValid(false);
-    }
+    }, [moneyInput])
+
     const handleSubmit = () => {
         let walletIDReceived = walletReceived.id;
         let money = +moneyInput;
@@ -90,7 +92,17 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
                             <div className='w-44 py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
                                 <p className='text-[12px] pb-[3px] text-slate-400'>Amount Of Money</p>
                                 <div className='pb-1'>
-                                    <input onChange={handleChange} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="number" placeholder='0' name="money" value={moneyInput} required />
+                                    {/* <input onChange={handleChangeAmount} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="number" placeholder='0' name="money" value={moneyInput} required /> */}
+                                    <CurrencyInput className='inputAdd w-full h-[26px] text-[17px] focus:outline-none'
+                                        suffix={' ' + walletSelect?.currency.sign}
+                                        id="input-money-tranfer"
+                                        name="money"
+                                        value={moneyInput}
+                                        placeholder="0"
+                                        decimalsLimit={2}
+                                        onValueChange={(value, name) => handleChangeAmount(value, name)}
+                                        allowNegativeValue={false}
+                                    />
                                 </div>
                             </div>
                         </div>

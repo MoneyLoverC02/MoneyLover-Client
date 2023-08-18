@@ -11,6 +11,7 @@ import SelectTimeRangeModal from "../modals/SelectTimeRangeModal";
 import {TransactionService} from "../../services/transaction.service";
 import {getListTransactionSearch} from "../../redux/searchSlice";
 import {Range} from "react-range";
+import {useTranslation} from "react-i18next";
 
 export default function NavbarSearch() {
     const dispatch = useDispatch();
@@ -87,6 +88,7 @@ export default function NavbarSearch() {
         setDataInput(data);
         // handleCheckValid(e);
     }
+    const {t}=useTranslation()
 
 
     return (<div className="navbarSearch">
@@ -103,7 +105,7 @@ export default function NavbarSearch() {
                         </IconButton>
                     </Link>
                     <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
-                        Search for transaction
+                        {t("Search for transaction")}
                     </Typography>
                 </Toolbar>
                 <div>
@@ -119,7 +121,7 @@ export default function NavbarSearch() {
                         <button onClick={handleOpenTimeRangeModal}>
                             <div
                                 className='w-[300px] py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
-                                <p className='text-[12px] pb-[3px] text-slate-400 text-start'>Date</p>
+                                <p className='text-[12px] pb-[3px] text-slate-400 text-start'>{t("Date")}</p>
                                 <div className='wrap-text-icon'>
                                     <div className='flex justify-center items-center'>
                                         <span
@@ -139,17 +141,17 @@ export default function NavbarSearch() {
                         </button>
                         <div
                             className='w-[300px] py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
-                            <p className='text-[12px] pb-[3px] text-slate-400'>Note</p>
+                            <p className='text-[12px] pb-[3px] text-slate-400'>{t("Note")}</p>
                             <div className='pb-1'>
                                 <input onChange={handleChangeAdd}
                                        className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1"
-                                       type="text" placeholder='Note' name="note" value={dataInput.note}/>
+                                       type="text" placeholder={t('Note')} name="note" value={dataInput.note}/>
                             </div>
                         </div>
                     </div>
                     <div className=" mx-20 my-5 grid grid-cols-2 gap-2">
                         <div style={{margin: '20px'}}>
-                            <h2>Slider Example</h2>
+                            <h2>{t('Amount')}</h2>
                             <Range
                                 values={values}
                                 step={1}
