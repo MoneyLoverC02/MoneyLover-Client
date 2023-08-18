@@ -39,8 +39,6 @@ function SimpleDialog(props) {
     };
     useEffect(() => {
         setTotalMoney(0)
-
-        console.log("walletList",walletList)
          walletList.forEach(wallet => {
             setTotalMoney(prevTotal => prevTotal + wallet.amountOfMoney);
         })

@@ -19,9 +19,15 @@ export default function WalletSelectTransactionModal({walletTransSelect}) {
     const {t}=useTranslation()
 
     const [open, setOpen] = React.useState(false);
+    const [allWalletCanTrans, setAllWalletCanTrans] = React.useState([]);
     const allWallet = useSelector(state => state.wallet.allWallet);
-    const walletTransactionSelect = useSelector(state => state.wallet.walletSelect);
+    const [walletTransactionSelect, setWalletTransactionSelect] = React.useState();
     const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        let wallets = allWallet.filter(item => (item.walletRoles[0].role === 'using' || item.walletRoles[0].role === 'owner') && !item.walletRoles[0].archived);
+        setAllWalletCanTrans(wallets)
+    }, [allWallet]);
 
     const handleOpen = () => {
         setOpen(true);
@@ -30,13 +36,15 @@ export default function WalletSelectTransactionModal({walletTransSelect}) {
         setOpen(false);
     };
     const handleSelectWallet = (id) => {
-        let wallet = allWallet?.find(item => item.id === id);
+        let wallet = allWalletCanTrans?.find(item => item.id === id);
         if (wallet) {
+            setWalletTransactionSelect(wallet);
             dispatch(setWalletSelect(wallet))
             walletTransSelect(wallet);
             setOpen(false);
         }
     }
+
     return (
         <React.Fragment>
             <button onClick={handleOpen}>
@@ -78,7 +86,7 @@ export default function WalletSelectTransactionModal({walletTransSelect}) {
                         <span className='tracking-wide font-medium text-[20px] ml-4'>{t("Destination Wallet")}</span>
                     </div>
                     <div className='grid grid-cols-1 scroll-smooth mt-2'>
-                        {allWallet?.map(wallet => (
+                        {allWalletCanTrans?.length > 0 && allWalletCanTrans?.map(wallet => (
                             <div key={wallet.id} className='flex justify-start items-center p-2 cursor-pointer hover:bg-lime-50 pl-6' onClick={() => handleSelectWallet(wallet.id)}>
                                 <img id={wallet.id} src={wallet.icon.icon} className='object-cover w-8 h-8' alt="" />
                                 <div className='flex-col items-center ml-5'>
