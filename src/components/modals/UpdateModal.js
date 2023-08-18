@@ -5,6 +5,7 @@ import IconModal from './IconModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletService } from '../../services/wallet.service';
 import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
+import {formatDate} from "../datePick/datePick";
 
 const style = {
     position: 'absolute',
@@ -68,8 +69,9 @@ export default function UpdateModal({ isOpen, onClose, onSubmit }) {
         let iconID = iconSelect?.id;
         let currencyID = currencySelect?.id;
         let amountOfMoney = dataInput.amountOfMoney;
-        WalletService.updateWallet(walletSelect?.id, { name, iconID, currencyID, amountOfMoney }).then((res) => {
-            let updatedWallet = res.data.updatedWallet[0];
+        let date = formatDate(new Date())
+        WalletService.updateWallet(walletSelect?.id, { name, iconID, currencyID, amountOfMoney, date }).then((res) => {
+            let updatedWallet = res.data.updatedWallet;
             dispatch(setWalletSelect(updatedWallet));
             WalletService.getAllWallet().then(res => {
                 let walletList = res.data.walletList;

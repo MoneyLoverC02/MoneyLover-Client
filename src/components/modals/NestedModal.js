@@ -5,6 +5,7 @@ import IconModal from './IconModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletService } from '../../services/wallet.service';
 import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
+import {formatDate} from "../datePick/datePick";
 
 const style = {
   position: 'absolute',
@@ -58,21 +59,16 @@ export default function NestedModal({isOpen, onClose, onSubmit}) {
     let iconID = iconSelect.id;
     let currencyID = currencySelect?.id;
     let amountOfMoney = dataInput.amountOfMoney;
-    WalletService.createWallet({ name, iconID, currencyID, amountOfMoney }).then((res) => {
+    let date = formatDate(new Date())
+    WalletService.createWallet({ name, iconID, currencyID, amountOfMoney, date }).then((res) => {
       let wallet = res.data.newWallet;
-      WalletService.createDetailWallet({walletID: wallet.id }).then((res) => {
-        let walletDetail = res.data.newWallet;
-        let walletRoles = [];
-        walletRoles.push({id:walletDetail.id, role: walletDetail.role, archived: walletDetail.archived});
-        wallet = {...wallet, walletRoles};
-        dispatch(getAllWallet([...allWallet, wallet]));
-        dispatch(setWalletSelect(wallet));
-        setDataInput({ name: '', amountOfMoney: null });
-        setIconSelect({id: 1, icon: 'https://static.moneylover.me/img/icon/icon.png'});
-        setCurrencySelect(null);
-        setIsValid(false)
-        onSubmit();
-      }).catch(err => console.log(err.message));
+      dispatch(getAllWallet([...allWallet, wallet]));
+      dispatch(setWalletSelect(wallet));
+      setDataInput({ name: '', amountOfMoney: null });
+      setIconSelect({id: 1, icon: 'https://static.moneylover.me/img/icon/icon.png'});
+      setCurrencySelect(null);
+      setIsValid(false)
+      onSubmit();
     }).catch(err => console.log(err.message));
   }
 
