@@ -13,8 +13,10 @@ import Slide from "@mui/material/Slide";
 import Notifycation from "./Notifycation";
 import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
+import {useTranslation} from "react-i18next";
 
 export default function Sidebar() {
+    const {t}=useTranslation()
     const user = useSelector(state => state.auth.login.currentUser)
     const [state, setState] = React.useState({
         left: false,
@@ -79,18 +81,18 @@ export default function Sidebar() {
                         <Link to={'/'}>
                             <div className="iconSideBar">
                                 <Button><AccountBalanceWalletIcon className="colorIcon" /></Button>
-                                <span className="colorIcon">Trasactions</span>
+                                <span className="colorIcon">{t('Trasactions')}</span>
                             </div>
                         </Link>
                         <Link to={'/reports'}>
                             <div className="iconSideBar">
                                 <Button><AnalyticsIcon className="colorIcon" /></Button>
-                                <span className="colorIcon">Report</span>
+                                <span className="colorIcon">{t("Report")}</span>
                             </div>
                         </Link>
                         <div className="iconSideBar">
                             <Button><TollIcon className="colorIcon" /></Button>
-                            <span className="colorIcon">Budget</span>
+                            <span className="colorIcon">{t('Budget')}</span>
                         </div>
                         <hr style={{
                             margin: "10px -10px",

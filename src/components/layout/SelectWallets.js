@@ -17,8 +17,10 @@ import {getAllWallet, setAllWallet, setWalletSelect} from '../../redux/walletSli
 import {useEffect, useState} from "react";
 import numeral from 'numeral';
 import {WalletService} from "../../services/wallet.service";
+import {useTranslation} from "react-i18next";
 
 function SimpleDialog(props) {
+    const {t}=useTranslation()
     const {onClose, selectedValue, open} = props;
     let walletList = useSelector(state => state.wallet.allWallet);
     const walletSelect = useSelector(state => state.wallet.walletSelect)
@@ -52,7 +54,7 @@ function SimpleDialog(props) {
 
 
     return (<Dialog onClose={handleClose} open={open}>
-        <DialogTitle>Excluded from Total</DialogTitle>
+        <DialogTitle>{t("select Wallet")}</DialogTitle>
         <List sx={{pt: 0, width: "500px"}}>
             <ListItem disableGutters>
                 <ListItemButton>
@@ -62,7 +64,7 @@ function SimpleDialog(props) {
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText
-                        primary="Total monney"
+                        primary={t("Total monney")}
                         secondary={
                             <React.Fragment>
                                 <Typography variant="body2" color="text.secondary">
@@ -103,6 +105,7 @@ SimpleDialog.propTypes = {
 };
 
 export default function SelectWallets() {
+    const {t}=useTranslation()
     const [open, setOpen] = React.useState(false);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     let walletList = useSelector(state => state.wallet.allWallet);

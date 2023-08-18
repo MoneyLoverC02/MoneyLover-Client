@@ -8,8 +8,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { WalletService } from "../../services/wallet.service";
 import { useDispatch } from "react-redux";
 import { getAllWallet, setWalletSelect} from "../../redux/walletSlice";
+import {useTranslation} from "react-i18next";
 
 export default function ModalDeleteWallets({ idWallet, onClose }) {
+    const {t}=useTranslation()
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
 
@@ -34,7 +36,7 @@ export default function ModalDeleteWallets({ idWallet, onClose }) {
 
     return (<div>
         <Button color="error" onClick={handleClickOpen}>
-            delete
+            {t("DELETE")}
         </Button>
         <Dialog
             open={open}
@@ -51,11 +53,11 @@ export default function ModalDeleteWallets({ idWallet, onClose }) {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button color="success" variant="outlined" onClick={handleClose} autoFocus>CANCEL</Button>
+                <Button color="success" variant="outlined" onClick={handleClose} autoFocus>{t("Cancel")}</Button>
                 <Button color="error" variant="contained" onClick={() => {
                     handleDelete()
                 }}>
-                    DELETE
+                    {t("DELETE")}
                 </Button>
             </DialogActions>
         </Dialog>

@@ -144,6 +144,27 @@
 .move-left {
   transform: translateX(-390px);
 }
+select {
+  font-size: 16px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  color: #333;
+  outline: none;
+  width: 56px;
+  transition: border-color 0.2s;
+}
+
+select:hover {
+  border-color: #666;
+}
+
+/* Áp dụng cho tùy chọn trong phần tử select */
+select option {
+  background-color: white;
+  color: #333;
+}
 
 
 

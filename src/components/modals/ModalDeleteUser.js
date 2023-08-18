@@ -11,8 +11,10 @@ import {UserService} from "../../services/user.service";
 import {logout} from "../../redux/authSlice";
 import {useNavigate} from "react-router-dom";
 import { walletLogout } from '../../redux/walletSlice';
+import {useTranslation} from "react-i18next";
 
 export default function ModalDeleteUser() {
+    const {t}=useTranslation()
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
@@ -36,7 +38,7 @@ export default function ModalDeleteUser() {
     return (
         <div>
         <Button variant="outlined" color="error" startIcon={<DeleteIcon/>} onClick={handleClickOpen}>
-            Delete
+            {t("DELETE")}
         </Button>
         <Dialog
             open={open}
@@ -45,19 +47,19 @@ export default function ModalDeleteUser() {
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                {"Bạn có chắc muốn xóa tài khoản này?"}
+                {t("Are you sure you want to delete this account?")}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    Xóa không lấy lại được đâu ^^.
+                    {t("Delete can't get it back ^^")}.
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button color="success" variant="outlined" onClick={handleClose} autoFocus>CANCEL</Button>
+                <Button color="success" variant="outlined" onClick={handleClose} autoFocus>{t("Cancel")}</Button>
                 <Button color="error" variant="contained" onClick={() => {
                     handleDeleteUser()
                 }}>
-                    DELETE
+                    {t("DELETE")}
                 </Button>
             </DialogActions>
         </Dialog>

@@ -62,7 +62,7 @@ function App() {
             <Route path={"/search"} element={auth ? <PageSearch/> : <Navigate to='/'/>}></Route>
             <Route path={"/awaiting-shared"} element={auth ? <AcceptCard/> : <Navigate to='/'/>}></Route>
 
-            <Route path={"*"} element={auth ? <Navigate to='/login'/>: <Navigate to='/'/>}/>
+            <Route path={"*"} element={!auth ? <Navigate to='/login'/>: <Navigate to='/'/>}/>
         </Routes>
     );
 }
