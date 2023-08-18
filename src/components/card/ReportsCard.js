@@ -216,6 +216,7 @@ export default function ReportsCard() {
             let balance = viewBalance(transactionList, transactionListBefore);
             let dataCalculated = calculatorAmountByCategory(transactionList);
             let dataByDate = (getTransByDate(transactionList));
+            console.log(dataByDate)
             setBalance(balance);
             setDayArr(days);
             dispatch(getDataBarChart(data));

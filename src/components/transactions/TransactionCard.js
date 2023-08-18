@@ -108,6 +108,10 @@ export default function TransactionCard({ openModal, closeModal }) {
     const handleViewReport = () => {
         navigate('/reports')
     }
+    const handleSendReport = () =>{
+
+    }
+
     return (
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
             <div className='ml-[92px] px-4 mt-10'>
@@ -147,6 +151,9 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                             </div>
                                                             <button onClick={handleViewReport} className='px-4 py-3 uppercase text-center text-lightgreen hover:cursor-pointer'>
                                                                 view report for this period
+                                                            </button>
+                                                            <button onClick={handleSendReport} className='px-4 py-3 uppercase text-center text-blue-400 hover:cursor-pointer'>
+                                                                Send Report to Your Email
                                                             </button>
                                                         </div>
                                                     </div>
