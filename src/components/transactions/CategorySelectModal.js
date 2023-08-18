@@ -3,6 +3,7 @@ import {Box, Modal} from '@mui/material';
 import {useDispatch, useSelector} from 'react-redux';
 import {TransactionService} from '../../services/transaction.service';
 import {getAllCategory} from '../../redux/transactionSlice';
+import {useTranslation} from "react-i18next";
 
 const style = {
     position: 'absolute',
@@ -16,6 +17,7 @@ const style = {
 };
 
 export default function CategorySelectModal({selectCategory, categoryBefore, checkAllCategory}) {
+    const {t}=useTranslation()
     const [open, setOpen] = React.useState(false);
     const allCategory = useSelector(state => state.transaction.allCategory);
     const [allIncome, setAllIncome] = React.useState([]);
@@ -64,7 +66,7 @@ export default function CategorySelectModal({selectCategory, categoryBefore, che
 
     return (<React.Fragment>
         <button onClick={handleOpen}>
-            <p className='text-[12px] pb-[3px] text-slate-400 text-start'>Category</p>
+            <p className='text-[12px] pb-[3px] text-slate-400 text-start'>{t("Category")}</p>
             <div className='wrap-text-icon'>
                 <div onClick={handleSelectCategory} className='flex justify-center items-center'>
                     {categorySelect && categorySelect !== 'all' ? (<>
@@ -77,12 +79,12 @@ export default function CategorySelectModal({selectCategory, categoryBefore, che
                             <>
                                 <img src='https://static.moneylover.me/img/icon/ic_category_all.png'
                                      className="w-6 h-6 object-cover mr-4 rounded-full" alt='icon-flag'/>
-                                <span className="text-input text-slate-400 ml-4">All Category</span>
+                                <span className="text-input text-slate-400 ml-4">{t("All Category")}</span>
                             </>
                             : <>
                                 <img src='https://static.moneylover.me/img/icon/icon_not_selected.png'
                                      className="w-6 h-6 object-cover mr-4 rounded-full" alt='icon-flag'/>
-                                <span className="text-input text-slate-400 ml-4">Select Category</span>
+                                <span className="text-input text-slate-400 ml-4">{t("Select Category")}</span>
                             </>
                     }</>}
 
@@ -112,7 +114,7 @@ export default function CategorySelectModal({selectCategory, categoryBefore, che
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
                             </svg>
                         </span>
-                    <span className='tracking-wide font-medium text-[20px] ml-4'>Select Category</span>
+                    <span className='tracking-wide font-medium text-[20px] ml-4'>{t("Select Category")}</span>
                     <div className='relative'>
                         <input type='search'
                                className='ml-10 px-12 py-2 border rounded-3xl bg-neutral-100 focus:outline-none'
@@ -127,21 +129,21 @@ export default function CategorySelectModal({selectCategory, categoryBefore, che
 
                 <div className=" h-[48px] fomt-normal border-b flex justify-center mx">
                     <button
-                        className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">Debt/Loan
+                        className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">{t("Debt / Loan")}
                     </button>
                     {!selectInCome ? <>
                         <button onClick={handleSelectExpense}
-                                className="w-full py-[15px] uppercase leading-4 text-sm font-semibold border-b border-lightgreen text-lightgreen">Expense
+                                className="w-full py-[15px] uppercase leading-4 text-sm font-semibold border-b border-lightgreen text-lightgreen">{t("Expense")}
                         </button>
                         <button onClick={handleSelectInCome}
-                                className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">Income
+                                className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">{t("Income")}
                         </button>
                     </> : <>
                         <button onClick={handleSelectExpense}
-                                className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">Expense
+                                className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">{t("Expense")}
                         </button>
                         <button onClick={handleSelectInCome}
-                                className="w-full py-[15px] uppercase leading-4 text-sm font-semibold border-b border-lightgreen text-lightgreen">Income
+                                className="w-full py-[15px] uppercase leading-4 text-sm font-semibold border-b border-lightgreen text-lightgreen">{t("Income")}
                         </button>
                     </>}
                 </div>
@@ -152,7 +154,7 @@ export default function CategorySelectModal({selectCategory, categoryBefore, che
                         <img id={category.id} src={category.icon} className='object-cover w-8 h-8'
                              alt=""/>
                         <div className='flex-col items-center ml-5'>
-                            <p className='text-sm font-medium'>{category.name}</p>
+                            <p className='text-sm font-medium'>{t(`${category.name}`)}</p>
                         </div>
                     </div>)) : <>
                         {checkAllCategory ? <div key={"category"}
@@ -162,7 +164,7 @@ export default function CategorySelectModal({selectCategory, categoryBefore, che
                                  src='https://static.moneylover.me/img/icon/ic_category_all.png'
                                  className='object-cover w-8 h-8' alt=""/>
                             <div className='flex-col items-center ml-5'>
-                                <p className='text-sm font-medium'>All category</p>
+                                <p className='text-sm font-medium'>{t("All category")}</p>
                             </div>
                         </div> : null}
                         {allExpense.length > 0 && allExpense.map(category => (
@@ -172,7 +174,7 @@ export default function CategorySelectModal({selectCategory, categoryBefore, che
                                 <img id={category.id} src={category.icon}
                                      className='object-cover w-8 h-8' alt=""/>
                                 <div className='flex-col items-center ml-5'>
-                                    <p className='text-sm font-medium'>{category.name}</p>
+                                    <p className='text-sm font-medium'>{t(`${category.name}`)}</p>
                                 </div>
                             </div>
 

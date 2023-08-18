@@ -47,11 +47,11 @@ export default function ModalDeleteUser() {
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                {"Bạn có chắc muốn xóa tài khoản này?"}
+                {t("Are you sure you want to delete this account?")}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    Xóa không lấy lại được đâu ^^.
+                    {t("Delete can't get it back ^^")}.
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
