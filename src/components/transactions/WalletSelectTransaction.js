@@ -21,6 +21,7 @@ export default function WalletSelectTransactionModal({walletTransSelect}) {
     const [open, setOpen] = React.useState(false);
     const [allWalletCanTrans, setAllWalletCanTrans] = React.useState([]);
     const allWallet = useSelector(state => state.wallet.allWallet);
+
     const [walletTransactionSelect, setWalletTransactionSelect] = React.useState();
     const dispatch = useDispatch();
 
