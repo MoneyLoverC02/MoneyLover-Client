@@ -28,19 +28,9 @@ export default function CardWallet() {
     const [openFormUpdate, setOpenFormUpdate] = React.useState(false);
     const [openFormTranfer, setOpenFormTranfer] = React.useState(false);
     const [openShareWallet, setOpenShareWallet] = React.useState(false);
-    const [responseMessage, setResponseMessage] = React.useState();
     const [allUsersOfTheWallet, setAllUsersOfTheWallet] = React.useState([]);
-    const [dataSocket, setDataSocket] = React.useState({});
-    const user = useSelector(state => state.auth.login.currentUser);
     const allWallet = useSelector(state => state.wallet.allWallet);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
-    const socket = useSelector(state => state.wallet.socket);
-
-    // socket.on('forwardResponseMessage', async (data) => {
-    //     const { response, senderEmail, walletID } = data;
-    //     setDataSocket(data);
-    //
-    // });
 
     const handleOpenSlide = (idWallet) => {
         WalletService.getInfoWallet(idWallet).then(res => {
@@ -85,7 +75,6 @@ export default function CardWallet() {
         setChecked(true);
     }
     const handleCheckboxChange = () => {
-        console.log(walletSelect.id)
         WalletService.archivedWallet(walletSelect.id).then(() => {
             handleOpenSlide(walletSelect?.id)
         })
@@ -227,7 +216,7 @@ export default function CardWallet() {
                                         <p className='pb-2 font-medium text-graynew'>{t("User Account")}</p>
                                         <div className=''>
                                             {allUsersOfTheWallet?.length > 0 && allUsersOfTheWallet.map(item => (
-                                                <div className='flex gap-3 py-2'>
+                                                <div key={item.id} className='flex gap-3 py-2'>
                                                     <img className='w-12 h-12' src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=" alt="ảnh" />
                                                     <div>
                                                         <div className='flex gap-3 mb-1'>
@@ -271,7 +260,7 @@ export default function CardWallet() {
                                                                 <b>{t("archived")}</b>
                                                             </Grid>
                                                         </Button>
-                                                        <Button disabled={allWallet?.length <= 1} onClick={handleOpenFormTranfer}
+                                                        <Button disabled={(walletSelect?.amountOfMoney <= 0) || (allWallet?.length <= 1)} onClick={handleOpenFormTranfer}
                                                             fullWidth
                                                             sx={{ borderTop: "1px solid #ececec", color: "green" }}>
                                                             <Grid item xs={12}>
@@ -303,7 +292,7 @@ export default function CardWallet() {
                                                             fullWidth
                                                             onClick={handleCheckboxChange}>
                                                             <Grid item xs={12}>
-                                                                <b>Archived</b>
+                                                                <b>{t("archived")}</b>
                                                             </Grid>
                                                         </Button>
 
@@ -312,7 +301,7 @@ export default function CardWallet() {
                                                             fullWidth
                                                             onClick={handleCheckboxChange}>
                                                             <Grid item xs={12}>
-                                                                <b>Unarchived</b>
+                                                                <b>{t("unarchived")}</b>
                                                             </Grid>
                                                         </Button>
                                                     }
