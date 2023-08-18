@@ -10,6 +10,7 @@ import { TransactionService } from '../../services/transaction.service';
 import { getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
 import {getAllWallet, setWalletSelect} from '../../redux/walletSlice';
 import {WalletService} from "../../services/wallet.service";
+import {useTranslation} from "react-i18next";
 
 export default function ModalDeleteTrans({ idWallet, onClose }) {
     const dispatch = useDispatch();
@@ -48,10 +49,11 @@ export default function ModalDeleteTrans({ idWallet, onClose }) {
             handleClose();
         }).catch(err => console.log(err.message));
     }
+    const {t}=useTranslation()
 
     return (<div>
         <Button color="error" onClick={handleClickOpen}>
-            delete
+            {t("DELETE")}
         </Button>
         <Dialog
             open={open}
@@ -60,19 +62,19 @@ export default function ModalDeleteTrans({ idWallet, onClose }) {
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                {"Bạn có chắc muốn xóa ví này?"}
+                {t("Are you sure you want to delete this wallet?")}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    Xóa không lấy lại được đâu.
+                    {t("Delete can't get it back ^^")}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button color="success" variant="outlined" onClick={handleClose} autoFocus>CANCEL</Button>
+                <Button color="success" variant="outlined" onClick={handleClose} autoFocus>{t("Cancel")}</Button>
                 <Button color="error" variant="contained" onClick={() => {
                     handleDelete();
                 }}>
-                    DELETE
+                    {t("DELETE")}
                 </Button>
             </DialogActions>
         </Dialog>

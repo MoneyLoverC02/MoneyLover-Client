@@ -110,7 +110,7 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
                                 <CategorySelectModal selectCategory={handleSelectCategory} />
                             </div>
                             <div className='w-44 py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
-                                <p className='text-[12px] pb-[3px] text-slate-400'>Amount Of Money</p>
+                                <p className='text-[12px] pb-[3px] text-slate-400'>{t("Amount Of Money")}</p>
                                 <div className='pb-1'>
                                     <input onChange={handleChangeAdd} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="number" placeholder='0' name="money" value={dataInput.money} required />
                                 </div>
@@ -121,9 +121,9 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
                                 <DatePickerComponent getDate={handleGetDate}/>
                             </div>
                             <div className='w-[450px] py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
-                                <p className='text-[12px] pb-[3px] text-slate-400'>Note</p>
+                                <p className='text-[12px] pb-[3px] text-slate-400'>{t("Note")}</p>
                                 <div className='pb-1'>
-                                    <input onChange={handleChangeAdd} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="text" placeholder='Note' name="note" value={dataInput.note}/>
+                                    <input onChange={handleChangeAdd} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="text" placeholder={t("Note")} name="note" value={dataInput.note}/>
                                 </div>
                             </div>
                         </div>
