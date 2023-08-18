@@ -136,7 +136,7 @@ const resources = {
                 "unarchived": "Không lưu trữ",
                 "transferMoney": "CHUYỂN TIỀN",
                 "shareWallet": "CHIA SẺ VÍ",
-                "excludedFromTotal": "Tính vào tổng",
+                "excludedFromTotal": "Danh sách ví",
                 "leave": "Rời khỏi",
                 "edit": "CHỈNH SỬA",
                 "User Account":"Tài khoản người dùng",
