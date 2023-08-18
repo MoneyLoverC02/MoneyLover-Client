@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import {useTranslation} from "react-i18next";
 
 //chuyển đối tượng date về dạng yyyy-mm-dd
 export const formatDate = (date) => {
@@ -41,7 +42,7 @@ export function parseDate(input) {
 }
 
 export default function DatePickerComponent({ getDate, dateBefore }) {
-;
+  const {t}=useTranslation()
   const [selectedDate, setSelectedDate] = useState(dateBefore ? parseDate(dateBefore) : new Date());
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -51,7 +52,7 @@ export default function DatePickerComponent({ getDate, dateBefore }) {
 
   const CustomDatePickerInput = ({ value, onClick }) => (
     <button className='relative' onClick={onClick}>
-      <p className='text-[12px] pb-[3px] text-slate-400 text-start'>Date</p>
+      <p className='text-[12px] pb-[3px] text-slate-400 text-start'>{t("Date")}</p>
       <div className='wrap-text-icon mb-1'>
         <div className='p-1 custom-date-picker'>{value}</div>
         <div className='ml-[120px] mt-2'>
