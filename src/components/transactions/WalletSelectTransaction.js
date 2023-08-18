@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Box, Modal } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setWalletSelect } from '../../redux/walletSlice';
+import {useTranslation} from "react-i18next";
 
 const style = {
     position: 'absolute',
@@ -15,6 +16,8 @@ const style = {
 };
 
 export default function WalletSelectTransactionModal({walletTransSelect}) {
+    const {t}=useTranslation()
+
     const [open, setOpen] = React.useState(false);
     const allWallet = useSelector(state => state.wallet.allWallet);
     const walletTransactionSelect = useSelector(state => state.wallet.walletSelect);
@@ -37,7 +40,7 @@ export default function WalletSelectTransactionModal({walletTransSelect}) {
     return (
         <React.Fragment>
             <button onClick={handleOpen}>
-                <p className='text-[12px] pb-[3px] text-slate-400 text-start'>Transaction Wallet</p >
+                <p className='text-[12px] pb-[3px] text-slate-400 text-start'>{t("Transaction Wallet")}</p >
                 <div className='wrap-text-icon'>
                     <div onClick={handleSelectWallet} className='flex justify-center items-center'>
                         {walletTransactionSelect ?
@@ -48,7 +51,7 @@ export default function WalletSelectTransactionModal({walletTransSelect}) {
                             ) :
                             (<>
                                 <img src='https://static.moneylover.me/img/icon/icon.png' className="w-6 h-6 object-cover mr-4 rounded-full" alt='icon-flag' />
-                                <span className="text-input text-slate-400 ml-4">Select Wallet</span>
+                                <span className="text-input text-slate-400 ml-4">{t("Select Wallet")}</span>
                             </>)
                         }
                         <div>
@@ -72,7 +75,7 @@ export default function WalletSelectTransactionModal({walletTransSelect}) {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </span>
-                        <span className='tracking-wide font-medium text-[20px] ml-4'>Destination Wallet</span>
+                        <span className='tracking-wide font-medium text-[20px] ml-4'>{t("Destination Wallet")}</span>
                     </div>
                     <div className='grid grid-cols-1 scroll-smooth mt-2'>
                         {allWallet?.map(wallet => (

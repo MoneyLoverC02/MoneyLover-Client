@@ -152,8 +152,8 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                 <div className='flex justify-start'>
                                                                     <img src={transactionsInCategory[0]?.category.icon} alt="" className='w-10 h-10 object-cover mr-4 rounded-full ' />
                                                                     <span className='text-start'>
-                                                                        <div>{transactionsInCategory[0]?.category.name}</div>
-                                                                        <div className='text-xs text-zinc-400 font-normal'>{transactionsInCategory.length} Transactions</div>
+                                                                        <div>{t(`${transactionsInCategory[0]?.category.name}`)}</div>
+                                                                        <div className='text-xs text-zinc-400 font-normal'>{transactionsInCategory.length} {t("Trasactions")}</div>
                                                                     </span>
                                                                 </div>
                                                                 <span><p className='mt-3'>{transactionsInCategory[0].category.type === "expense" ? '-' : '+'}{numeral(totalAmount).format(0, 0)} {walletSelect?.currency.sign}</p></span>
@@ -169,7 +169,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                             <div className='flex justify-start'>
                                                                                 <span className='w-10 h-10 mr-4 text-3xl font-light text-black'>{convertDate(item?.date).day}</span>
                                                                                 <span className='text-start'>
-                                                                                    <div>{convertDate(item?.date).dayOfWeek}, {convertDate(item?.date).month} {convertDate(item?.date).year}</div>
+                                                                                    <div>{t(`${convertDate(item?.date).dayOfWeek}`)}, {convertDate(item?.date).month} {convertDate(item?.date).year}</div>
                                                                                     <div className='text-xs text-zinc-400 font-normal mt-1'>{item?.walletRole.user.email}</div>
                                                                                 </span>
                                                                             </div>
@@ -206,7 +206,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                             <div>
                                                 <span id="iconRotage" className="font-semibold text-[112px] pb-5 text-center inline-block text-zinc-500">{':-)'}</span>
                                             </div>
-                                            <span className="text-2xl inline-block text-zinc-400"> No transactions</span>
+                                            <span className="text-2xl inline-block text-zinc-400"> {t("No transactions")}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -223,13 +223,13 @@ export default function TransactionCard({ openModal, closeModal }) {
                                             <Button sx={{ color: "black" }}
                                                 onClick={handleCloseSlide}><ClearIcon
                                                     sx={{ float: "left" }} /></Button>
-                                            <span className='ml-4 font-semibold text-xl h-[37px] '>Transaction details</span>
+                                            <span className='ml-4 font-semibold text-xl h-[37px] '>{t("Transaction details")}</span>
                                         </div>
                                         <Stack direction="row" sx={{ float: "right" }} spacing={2}>
                                             <ModalDeleteTrans sx={{ height: "402px" }}
                                                 idWallet={walletSelect?.id}
                                                 onClose={() => handleCloseSlide} />
-                                            <Button onClick={handleOpenFormUpdate} color='success'>EDIT</Button>
+                                            <Button onClick={handleOpenFormUpdate} color='success'>{t("edit")}</Button>
                                         </Stack>
                                     </div>
                                     <div className='text-center flex'>
@@ -240,7 +240,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                 }} alt="" />
                                         </div>
                                         <div style={{ textAlign: "left", margin: "15px" }}>
-                                            <div className='font-normal text-2xl'>{transactionSelect?.category.name}</div>
+                                            <div className='font-normal text-2xl'>{t(`${transactionSelect?.category.name}`)}</div>
                                             <div className='text-sm font-medium min-h-[20px]'>{transactionSelect?.walletRole.wallet.name} </div>
                                             <div className='text-xs py-2 border-b min-w-[200px]'>{transactionSelect?.date} </div>
                                             <div className='text-xs pt-2'>{transactionSelect?.note} </div>
