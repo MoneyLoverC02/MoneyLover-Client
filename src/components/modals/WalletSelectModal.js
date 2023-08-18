@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Box, Modal } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { WalletService } from '../../services/wallet.service';
 
 const style = {
     position: 'absolute',
@@ -13,16 +14,20 @@ const style = {
     boxShadow: 24,
 };
 
-export default function WalletSelectModal({walletDesSelect}) {
+export default function WalletSelectModal({ walletDesSelect }) {
     const [open, setOpen] = React.useState(false);
     const allWallet = useSelector(state => state.wallet.allWallet);
     const walletSelect = useSelector(state => state.wallet.walletSelect)
-    const [allDestinationWallet, setAllDestinationWallet] = React.useState(allWallet);
+    const [allDestinationWallet, setAllDestinationWallet] = React.useState([]);
     const [walletDestinationSelect, setDestinationWalletSelect] = React.useState();
     React.useEffect(() => {
-        let walletArr = allWallet?.filter(wallet => wallet.id !== walletSelect?.id)
-        setAllDestinationWallet(walletArr)
-    }, [])
+        WalletService.getAllWallet().then(res => {
+            let walletList = res.data.walletList
+            let wallets = walletList.filter(item => (item.walletRoles[0].role === 'using' || item.walletRoles[0].role === 'owner') && !item.walletRoles[0].archived && item.id !== walletSelect?.id);
+            setAllDestinationWallet(wallets)
+        })
+    }, [walletDestinationSelect, walletSelect]);
+
     const handleOpen = () => {
         setOpen(true);
     };
@@ -30,10 +35,7 @@ export default function WalletSelectModal({walletDesSelect}) {
         setOpen(false);
     };
     const handleSelectWallet = (id) => {
-        let wallet = allWallet.find(item => (item.id === id && item.walletRoles.role !== 'viewer'));
-        console.log('====================================');
-        console.log(wallet);
-        console.log('====================================');
+        let wallet = allDestinationWallet.find(item => (item.id === id));
         if (wallet) {
             setDestinationWalletSelect(wallet);
             walletDesSelect(wallet);
