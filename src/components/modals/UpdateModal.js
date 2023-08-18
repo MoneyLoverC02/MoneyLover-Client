@@ -5,6 +5,7 @@ import IconModal from './IconModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletService } from '../../services/wallet.service';
 import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
+import {useTranslation} from "react-i18next";
 
 const style = {
     position: 'absolute',
@@ -18,6 +19,7 @@ const style = {
 };
 
 export default function UpdateModal({ isOpen, onClose, onSubmit }) {
+    const {t}=useTranslation()
     const [isValid, setIsValid] = React.useState(true);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const allWallet = useSelector(state => state.wallet.allWallet);
@@ -93,7 +95,7 @@ export default function UpdateModal({ isOpen, onClose, onSubmit }) {
             >
                 <Box sx={{ ...style, width: 496 }}>
                     <div className='px-6 py-5 border-b-[1px] border-gray-300'>
-                        <p className='text-xl font-semibold'>Add a wallet first!</p>
+                        <p className='text-xl font-semibold'>{t("Edit Wallet")}</p>
                     </div>
                     <div className='p-6'>
                         <div className='flex item-center justify-center'>
@@ -101,7 +103,7 @@ export default function UpdateModal({ isOpen, onClose, onSubmit }) {
                                 <IconModal selectIcon={handleSelectIcon} iconBeforeUpdate={walletSelect?.icon} />
                             </div>
                             <div onClick={handleFocus} className='mb-4 py-[5px] px-[15px] border w-full border-gray-300 rounded-lg hover:border-gray-500 hover: cursor-pointer'>
-                                <p className='text-[12px] pb-[3px] text-slate-400'>Wallet name</p>
+                                <p className='text-[12px] pb-[3px] text-slate-400'>{t("Wallet Name")}</p>
                                 <div className='pb-1'>
                                     <input onChange={handleChange} className='inputAdd w-full h-[27px] text-[17px] focus:outline-none' tabIndex="-1" type="text" name="name" value={dataInput.name} placeholder="Your wallet name?" id="note" />
                                 </div>
@@ -112,17 +114,17 @@ export default function UpdateModal({ isOpen, onClose, onSubmit }) {
                                 <CurrencyModal selectCurrency={handleSelectCurrency} currencyBeforeUpdate={walletSelect?.currency} />
                             </div>
                             <div className='w-44 py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
-                                <p className='text-[12px] pb-[3px] text-slate-400'>Initial Balance</p>
+                                <p className='text-[12px] pb-[3px] text-slate-400'>{t("Initial Balance")}</p>
                                 <div className='pb-1'>
                                     <input onChange={handleChange} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="number" placeholder='0' name="amountOfMoney" value={dataInput.amountOfMoney} required />
                                 </div>
                             </div>
                         </div>
-                        <div className=' text-center'>{!checkName ? (<p className="text-red-500 text-sm mt-3">Tên ví đã trùng!</p>) : null}</div>
+                        <div className=' text-center'>{!checkName ? (<p className="text-red-500 text-sm mt-3">{t("Duplicate Wallet Name")}</p>) : null}</div>
                         <div className='pt-[13px] pb-5 flex text-center'>
                             <input className='w-4 h-4 hover: cursor-pointer mt-1' type="checkbox" name="vehicle1" value="Bike" required />
                             <div className='ml-3'>
-                                <p>Chấp nhận điều khoản</p>
+                                <p>{t("Accept Terms")}</p>
                             </div>
                         </div>
                     </div>

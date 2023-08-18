@@ -8,6 +8,7 @@ import { TransactionService } from '../../services/transaction.service';
 import { getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
 import WalletSelectTransactionUpdateModal from './WalletTransUpdate';
 import {WalletService} from "../../services/wallet.service";
+import {useTranslation} from "react-i18next";
 
 const style = {
     position: 'absolute',
@@ -52,6 +53,8 @@ export default function UpdateTransactionModal({ isOpen, onClose, onSubmit }) {
         if (data.money > 0 && walletSelect && categorySelect) setIsValid(true)
         else setIsValid(false);
     }
+    const {t}=useTranslation()
+
     const handleSubmit = () => {
         let { money, note } = dataInput;
         let amount = +money;
@@ -92,7 +95,7 @@ export default function UpdateTransactionModal({ isOpen, onClose, onSubmit }) {
             >
                 <Box sx={{ ...style, width: 800 }}>
                     <div className='px-6 py-5 border-b-[1px] border-gray-300'>
-                        <p className='text-xl font-semibold'>Update transaction</p>
+                        <p className='text-xl font-semibold'>{t("Update transaction")}</p>
                     </div>
                     <div className='p-6'>
                         <div className='flex items-center justify-center mb-6'>
@@ -103,7 +106,7 @@ export default function UpdateTransactionModal({ isOpen, onClose, onSubmit }) {
                                 <CategorySelectModal selectCategory={handleSelectCategory} categoryBefore={transactionSelect?.category} />
                             </div>
                             <div className='w-44 py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
-                                <p className='text-[12px] pb-[3px] text-slate-400'>Amount Of Money</p>
+                                <p className='text-[12px] pb-[3px] text-slate-400'>{t("Amount Of Money")}</p>
                                 <div className='pb-1'>
                                     <input onChange={handleChangeUpdate} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="number" placeholder='0' name="money" value={dataInput.money} required />
                                 </div>
@@ -114,22 +117,22 @@ export default function UpdateTransactionModal({ isOpen, onClose, onSubmit }) {
                                 <DatePickerComponent getDate={handleGetDate} dateBefore={transactionSelect?.date} />
                             </div>
                             <div className='w-[450px] py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
-                                <p className='text-[12px] pb-[3px] text-slate-400'>Note</p>
+                                <p className='text-[12px] pb-[3px] text-slate-400'>{t("Note")}</p>
                                 <div className='pb-1'>
-                                    <input onChange={handleChangeUpdate} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="text" placeholder='Note' name="note" value={dataInput.note} />
+                                    <input onChange={handleChangeUpdate} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="text" placeholder={t('Note')} name="note" value={dataInput.note} />
                                 </div>
                             </div>
                         </div>
                         {/* <div className=' text-center'>{!checkMoney ? (<p className="text-red-500 text-sm mt-3">Số tiền giao dịch phải nhỏ hơn số dư!</p>) : null}</div> */}
                         <div className='pt-[13px] pb-5 flex text-center ml-2 text-'>
                             <div className='ml-3 text-lightgreen underline underline-offset-2 hover:cursor-pointer'>
-                                <p>Add more details</p>
+                                <p>{t("Add more details")}</p>
                             </div>
                         </div>
                     </div>
                     <div className='py-[14px] px-6 flex justify-end'>
-                        <button type='button' onClick={handleCancel} className='bg-slate-400 text-white text-sm font-medium py-2 px-8 uppercase rounded mr-3'>Cancel</button>
-                        <button type='button' onClick={handleSubmit} className='bg-lightgreen text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400' disabled={!isValid}>Save</button>
+                        <button type='button' onClick={handleCancel} className='bg-slate-400 text-white text-sm font-medium py-2 px-8 uppercase rounded mr-3'>{t("Cancel")}</button>
+                        <button type='button' onClick={handleSubmit} className='bg-lightgreen text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400' disabled={!isValid}>{t("Save")}</button>
                     </div>
                 </Box>
             </Modal>

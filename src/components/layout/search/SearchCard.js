@@ -14,6 +14,7 @@ import {getAllCategory, getAllTransaction, setTransactionSelect} from "../../../
 import NavbarSearch from "../../navbars/NavbarSearch";
 import Sidebar from "../Sidebar";
 import numeral from "numeral";
+import {useTranslation} from "react-i18next";
 
 export default function SearchCard({openModal, closeModal}) {
     const dispatch = useDispatch();
@@ -87,6 +88,8 @@ export default function SearchCard({openModal, closeModal}) {
     const handleViewReport = () => {
         navigate('/reports')
     }
+    const {t}=useTranslation()
+
     return (<>
         <NavbarSearch/>
         <Sidebar/>
@@ -111,7 +114,7 @@ export default function SearchCard({openModal, closeModal}) {
                                                              alt=""
                                                              className='w-10 h-10 object-cover mr-4 rounded-full '/>
                                                         <span className='text-start'>
-                                                                        <div>{transactionsInCategory[0]?.category.name}</div>
+                                                                        <div>{t(`${transactionsInCategory[0]?.category.name}`)}</div>
                                                                         <div
                                                                             className='text-xs text-zinc-400 font-normal'>{transactionsInCategory.length} Transactions</div>
                                                                     </span>
@@ -130,7 +133,7 @@ export default function SearchCard({openModal, closeModal}) {
                                                                                 <span
                                                                                     className='w-10 h-10 mr-4 text-3xl font-light text-black'>{convertDate(item?.date).day}</span>
                                                                 <span className='text-start'>
-                                                                                    <div>{convertDate(item?.date).dayOfWeek}, {convertDate(item?.date).month} {convertDate(item?.date).year}</div>
+                                                                                    <div>{t(`${convertDate(item?.date).dayOfWeek}`)}, {convertDate(item?.date).month} {convertDate(item?.date).year}</div>
                                                                                     <div
                                                                                         className='text-xs text-zinc-400 font-normal'>{numeral(item?.amount).format(0,0)} {walletSelect?.currency.sign}</div>
                                                                                 </span>
@@ -184,13 +187,13 @@ export default function SearchCard({openModal, closeModal}) {
                                                 onClick={handleCloseSlide}><ClearIcon
                                             sx={{float: "left"}}/></Button>
                                         <span
-                                            className='ml-4 font-semibold text-xl h-[37px] '>Transaction details</span>
+                                            className='ml-4 font-semibold text-xl h-[37px] '>{t("Transaction details")}</span>
                                     </div>
                                     <Stack direction="row" sx={{float: "right"}} spacing={2}>
                                         <ModalDeleteTrans sx={{height: "402px"}}
                                                           idWallet={walletSelect?.id}
                                                           onClose={() => handleCloseSlide}/>
-                                        <Button onClick={handleOpenFormUpdate} color='success'>EDIT</Button>
+                                        <Button onClick={handleOpenFormUpdate} color='success'>{t("edit")}</Button>
                                     </Stack>
                                 </div>
                                 <div className='text-center flex pb-4'>
@@ -202,7 +205,7 @@ export default function SearchCard({openModal, closeModal}) {
                                     </div>
                                     <div style={{textAlign: "left", margin: "15px"}}>
                                         <div
-                                            className='font-normal text-2xl'>{transactionSelect?.category.name}</div>
+                                            className='font-normal text-2xl'>{t(`${transactionSelect?.category.name}`)}</div>
                                         <div
                                             className='text-sm font-medium min-h-[20px]'>{transactionSelect?.note ? transactionSelect?.note : 'note'} </div>
                                         <div

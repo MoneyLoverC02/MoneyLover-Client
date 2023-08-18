@@ -72,7 +72,7 @@ export default function CategorySelectModal({selectCategory, categoryBefore, che
                     {categorySelect && categorySelect !== 'all' ? (<>
                         <img src={categorySelect.icon} className="w-6 h-6 object-cover mr-4 rounded-full"
                              alt='icon-flag'/>
-                        <span className="text-input text-start">{categorySelect.name}</span>
+                        <span className="text-input text-start">{t(`${categorySelect.name}`)}</span>
                     </>) : <>
                         {
                         checkAllCategory ?
