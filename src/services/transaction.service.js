@@ -2,7 +2,13 @@ import axios from "axios";
 
 export class TransactionService {
     static async getAllCategory() {
-        return await axios.get(`http://localhost:4000/api/categories`,
+        let token = localStorage.getItem('token');
+        return await axios.get(`http://localhost:4000/api/users/categories`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
         )
     }
     static async getAllTransactionOfWallet(walletID) {
@@ -70,7 +76,7 @@ export class TransactionService {
         )
     }
 
-    static async searchTransactionsByTimeRangeAndCategory(walletID, startDate, endDate, categoryID,startMoney, endMoney) {
+    static async searchTransactionsByTimeRangeAndCategory(walletID, startDate, endDate, categoryID, startMoney, endMoney) {
         let token = localStorage.getItem('token');
         return await axios.get(`http://localhost:4000/api/users/wallets/${walletID}/search`,
             {
@@ -88,4 +94,14 @@ export class TransactionService {
         )
     }
 
+    static async createNewCategory(data) {
+        let token = localStorage.getItem('token');
+        return await axios.post(`http://localhost:4000/api/users/categories`, data,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+    }
 }
