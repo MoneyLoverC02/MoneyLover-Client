@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import numeral from 'numeral';
 import DoughnutChartExpense from "../chart/DoughnutChartExpense";
+import {useTranslation} from "react-i18next";
 
 
 export default function ExpenseCard({ balance, isOpen, onClose }) {
@@ -30,7 +31,7 @@ export default function ExpenseCard({ balance, isOpen, onClose }) {
     const handleCloseTrans = () => {
         setOpenTransModal(false)
     }
-
+    const {t}=useTranslation()
     return (
         <Slide direction="left" in={isOpen} mountOnEnter unmountOnExit>
             <div className=''>
@@ -42,7 +43,7 @@ export default function ExpenseCard({ balance, isOpen, onClose }) {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </button>
-                            <span className="font-semibold text-xl">Expense</span>
+                            <span className="font-semibold text-xl">{t("Expense")}</span>
                         </div>
                         <div className="flex gap-4 cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#757575" className="w-6 h-6">
@@ -74,7 +75,7 @@ export default function ExpenseCard({ balance, isOpen, onClose }) {
                                     <div className="flex justify-between mx-12 border-b px-4 py-2">
                                         <div className="flex items-center gap-2">
                                             <img src= {item.icon} className='w-10 h-10' alt="" />
-                                            <p>{item.categoryName}</p>
+                                            <p>{t(`${item.categoryName}`)}</p>
                                         </div>
                                         <div className="flex justify-around items-center w-14 p-2 px-4 gap-2">
                                             <div className="text-red-500 flex gap-1 justify-end">

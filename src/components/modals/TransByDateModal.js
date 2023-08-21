@@ -4,6 +4,7 @@ import numeral from 'numeral';
 import { convertDate } from '../datePick/datePick';
 import { convertDateFormatNew } from '../card/ReportsCard';
 import { useSelector } from 'react-redux';
+import {useTranslation} from "react-i18next";
 
 
 const style = {
@@ -19,6 +20,7 @@ const style = {
 
 export default function TransByDateModal({ onOpen, onClose, data }) {
     const walletSelect = useSelector(state => state.wallet.walletSelect);
+    const {t}=useTranslation()
 
     const handleClose = () => {
         onClose();
@@ -41,16 +43,16 @@ export default function TransByDateModal({ onOpen, onClose, data }) {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </span>
-                        <span className='tracking-wide font-medium text-[18px] ml-4'>{convertDate(data[0]?.date).dayOfWeek} {convertDateFormatNew(data[0]?.date)}</span>
+                        <span className='tracking-wide font-medium text-[18px] ml-4'>{t(`${convertDate(data[0]?.date).dayOfWeek}`)}  {convertDateFormatNew(data[0]?.date)}</span>
                     </div>
                     <div className='scroll-smooth'>
                         <div className='w-full py-2 text-sm font-medium text-grayne bg-white'>
                             <div className='px-4 py-2 flex justify-between'>
-                                <span>Inflow</span>
+                                <span>{t("Inflow")}</span>
                                 <span className='text-sky-500'>+{numeral(data[0]?.totalIncome).format('0,0')} {walletSelect?.currency.sign}</span>
                             </div>
                             <div className='px-4 py-2 flex justify-between'>
-                                <span>Outflow</span>
+                                <span>{t("Outflow")}</span>
                                 <span className='text-red-500'>{numeral(data[0]?.totalExpense).format('0,0')} {walletSelect?.currency.sign}</span>
                             </div>
                         </div>
@@ -60,7 +62,7 @@ export default function TransByDateModal({ onOpen, onClose, data }) {
                                     <div className='flex justify-start items-center'>
                                         <span className='mr-4 text-4xl font-normal text-black'>{convertDate(data[0]?.date).day}</span>
                                         <span className='text-start'>
-                                            <div className='text-xs font-medium text-graynew'>{convertDate(data[0]?.date).dayOfWeek}</div>
+                                            <div className='text-xs font-medium text-graynew'>{t(`${convertDate(data[0]?.date).dayOfWeek}`)}</div>
                                             <div className='text-xs text-zinc-400 font-normal'>{convertDate(data[0]?.date).month} {convertDate(data[0]?.date).year}</div>
                                         </span>
                                     </div>
@@ -75,7 +77,7 @@ export default function TransByDateModal({ onOpen, onClose, data }) {
                                         <div className='flex justify-start items-center'>
                                             <img src= {item.category.icon} className='w-10 h-10' alt="" />
                                             <span className='ml-4 mb-2 font-semibold text-sm'>
-                                                {item.category.name}
+                                               {t(`${item.category.name}`)}
                                             </span>
                                         </div>
                                         <span className={`${item.category.type === 'income'? 'text-sky-500' : 'text-red-500'}`}>

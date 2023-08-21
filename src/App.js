@@ -26,20 +26,12 @@ function App() {
             const socket = io.connect('http://localhost:4000');
             socket.emit('login', email);
             socket.on('forwardMessage', async (data) => {
-                // console.log(data);
-                // console.log("----------------------")
                 const {senderEmail, message, walletInfo, permission} = data;
-                // Lấy danh sách tin nhắn từ localStorage (nếu có)
                 const savedMessagesJSON = localStorage.getItem(`${userID}_receivedMessages`);
                 const savedMessages = savedMessagesJSON ? JSON.parse(savedMessagesJSON) : [];
-                // console.log(savedMessages);
-                // console.log("++++++++++++++++++")
-                // Thêm tin nhắn mới vào danh sách và cập nhật localStorage
                 const newMessage = { id: Date.now(), senderEmail, message, walletInfo, permission};
                 const updatedMessages = [...savedMessages, newMessage];
                 localStorage.setItem(`${userID}_receivedMessages`, JSON.stringify(updatedMessages));
-                // console.log(updatedMessages);
-                // console.log("////////////////////");
             });
             dispatch(setSocket(socket));
 

@@ -3,6 +3,7 @@ import { Box, Modal } from '@mui/material';
 import { changeDate, formatDate } from '../datePick/datePick';
 import { useDispatch } from 'react-redux';
 import { setDateSelect } from '../../redux/reportSlice';
+import {useTranslation} from "react-i18next";
 
 
 const style = {
@@ -58,6 +59,7 @@ export default function SelectTimeRangeModal({ onOpen, onClose }) {
         dispatch(setDateSelect({ firstDay, lastDay, name: option }));
         handleClose();
     }
+    const {t}=useTranslation()
 
     return (
         <div>
@@ -81,23 +83,23 @@ export default function SelectTimeRangeModal({ onOpen, onClose }) {
                     </div>
                     <div className='scroll-smooth'>
                         <button onClick={() => handleSelectTime('This month')} className='w-full text-start px-8 py-4 border-y hover:bg-lightlime'>
-                            <p>This month</p>
+                            <p>{t("This Month")}</p>
                             <p>{dataRangeThisMonth}</p>
                         </button>
                         <button onClick={() => handleSelectTime('Last month')} className='w-full text-start px-8 py-4 border-y hover:bg-lightlime'>
-                            <p>Last month</p>
+                            <p>{t("Last month")}</p>
                             <p>{dataRangeLastMonth}</p>
                         </button>
                         <button onClick={() => handleSelectTime('Last 3 months')} className='w-full text-start px-8 py-4 border-y hover:bg-lightlime'>
-                            <p>Last 3 months</p>
+                            <p>{t("Last 3 months")}</p>
                             <p>{dataRangeLast3Months}</p>
                         </button>
                         <button onClick={() => handleSelectTime('Last 6 months')} className='w-full text-start px-8 py-4 border-y hover:bg-lightlime'>
-                            <p>Last 6 months</p>
+                            <p>{t("Last 6 months")}</p>
                             <p>{dataRangeLast6Months}</p>
                         </button>
                         <button onClick={() => handleSelectTime('This year')} className='w-full text-start px-8 py-4 border-y hover:bg-lightlime'>
-                            <p>This year</p>
+                            <p>{t("This year")}</p>
                             <p>{dataRangeThisYear}</p>
                         </button>
                     </div>

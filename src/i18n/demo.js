@@ -86,6 +86,7 @@ const resources = {
             "Initial Balance": "Initial Balance",
             "Accept Terms": "Accept terms",
             "Duplicate Wallet Name": "Wallet name already exists!",
+            "Currency": "Currency",
 
         },
     },
@@ -155,7 +156,7 @@ const resources = {
                 "Rentals": "Thuê Nhà",
                 "Other Expense": "Khoản chi khác",
                 "Pets": "Thú Cưng",
-                "Other Income": "Thu Nhập Khác",
+                "Other Income": "khoản thu khác",
                 "Incoming Transfer": "Tiền Chuyển Đến",
                 "Outgoing Transfer": "Tiền Chuyển Đi",
                 "Fun Money": "Tiền Vui Chơi",
@@ -172,7 +173,22 @@ const resources = {
                 "No transactions": "Không có giao dịch",
                 "Transaction Wallet": "Ví Giao Dịch",
                 "Select Wallet": "Chọn Ví",
-                "Destination Wallet": "Chọn Ví "
+                "Destination Wallet": "Chọn Ví ",
+                "Currency": "Tiền tệ ",
+                "Select Currency": "Chọn loại tiền tệ ",
+                "Select Time Range": "Chọn khoảng thời gian",
+                "Last month": "Tháng trước",
+                "Last 3 months": "3 tháng trước",
+                "Last 6 months": "6 tháng trước",
+                "This year": "Năm nay",
+                "Opening balance": "Số dư đầu kỳ",
+                "Ending balance": "Số dư cuối kỳ",
+                "Net Income": "Thu nhập ròng",
+                "income": "Thu nhập",
+                "expense": "Chi phí",
+                "Debt": "Nợ",
+                "Loan": "Khoản vay",
+                "Other": "Khác",
             }
     }
 }
