@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from "react";
 import AddTransactionModal from "./AddTransactionModal";
 import {
-    Card, Slide, Stack
+    Card, CircularProgress, Slide, Stack
 } from "@mui/material";
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
@@ -89,6 +89,29 @@ export default function TransactionCard({ openModal, closeModal }) {
     const handleViewReport = () => {
         navigate('/reports')
     }
+    const [more , setMore] = useState(4)
+
+    const load = ()=>{
+        setMore((prevState)=>prevState+2)
+    }
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+            if (scrollTop + clientHeight +1 >= scrollHeight) {
+                setTimeout(()=>{
+                    load()
+                },500)
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
             <div className='ml-[92px] px-4 mt-10'>
@@ -131,7 +154,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    {allCategory?.length > 0 && allCategory.map(category => {
+                                                    {allCategory?.length > 0 && allCategory.slice(0,more).map(category => {
                                                         let totalAmount = 0;
                                                         let allDataCalculated = calculatorAmountByCategory(allTransaction);
                                                         const transactionsInCategory = allTransaction?.filter(item => item.category.id === category.id);
@@ -187,6 +210,10 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                             </div>
                                                         );
                                                     })}
+                                                    {more >= allCategory?.length-1 ? null:<CircularProgress />}
+                                                    <div style={{ height: '1vh' }}></div>
+
+
                                                 </div>
                                             </div>
                                         </div>
