@@ -155,7 +155,7 @@ const resources = {
                 "Rentals": "Thuê Nhà",
                 "Other Expense": "Khoản chi khác",
                 "Pets": "Thú Cưng",
-                "Other Income": "Thu Nhập Khác",
+                "Other Income": "Khoản Thu Khác",
                 "Incoming Transfer": "Tiền Chuyển Đến",
                 "Outgoing Transfer": "Tiền Chuyển Đi",
                 "Fun Money": "Tiền Vui Chơi",

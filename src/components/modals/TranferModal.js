@@ -6,6 +6,7 @@ import { WalletService } from '../../services/wallet.service';
 import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
 import WalletSelectModal from './WalletSelectModal';
 import CurrencyInput from 'react-currency-input-field';
+import {formatDate} from "../datePick/datePick";
 
 const style = {
     position: 'absolute',
@@ -51,7 +52,8 @@ export default function TranferModal({ isOpen, onClose, onSubmit }) {
     const handleSubmit = () => {
         let walletIDReceived = walletReceived.id;
         let money = +moneyInput;
-        WalletService.tranferMoney(walletSelect?.id, { walletIDReceived, money }).then((res) => {
+        let date = formatDate(new Date())
+        WalletService.tranferMoney(walletSelect?.id, { walletIDReceived, money, date }).then((res) => {
             if (res.data.message === 'Money transfer success!') {
                 setMoneyInput(0);
                 let walletTranfer = res.data.walletTransfer;

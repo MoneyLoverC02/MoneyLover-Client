@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="23215b9d-d7e7-4a00-8020-7ad437a86f27" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/modals/TranferModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/modals/TranferModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/i18n/demo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/i18n/demo.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,8 +40,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "share__wallet",
-    "last_opened_file_path": "F:/Money_Lover/MoneyLover_BE",
+    "git-widget-placeholder": "update__walletController",
+    "last_opened_file_path": "F:/Money_Lover/money_lover_fe",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -91,10 +93,22 @@
       <workItem from="1692081662096" duration="39000" />
       <workItem from="1692081716520" duration="21768000" />
       <workItem from="1692198271708" duration="131000" />
+      <workItem from="1692583649997" duration="2553000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
