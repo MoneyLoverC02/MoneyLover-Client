@@ -4,6 +4,7 @@ import { Box, Modal } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrencies } from '../../redux/walletSlice';
 import { WalletService } from '../../services/wallet.service';
+import {useTranslation} from "react-i18next";
 
 const style = {
     position: 'absolute',
@@ -41,10 +42,11 @@ export default function CurrencyModal({selectCurrency, currencyBeforeUpdate}) {
             setOpen(false);
         }
     }
+    const {t}=useTranslation()
     return (
         <React.Fragment>
             <button onClick={handleOpen}>
-                <p className='text-[12px] pb-[3px] text-slate-400 text-start'>Currency</p  >
+                <p className='text-[12px] pb-[3px] text-slate-400 text-start'>{t("Currency")}</p  >
                 <div className='wrap-text-icon'>
                     <div onClick={handleSelectCurrency} className='flex justify-center items-center'>
                         {currencySelect ?
@@ -57,7 +59,7 @@ export default function CurrencyModal({selectCurrency, currencyBeforeUpdate}) {
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                <span className="text-input text-slate-400 ml-4">Select Currency</span>
+                                <span className="text-input text-slate-400 ml-4">{t("Select Currency")}</span>
                             </>)
                         }
                         <div>
@@ -81,7 +83,7 @@ export default function CurrencyModal({selectCurrency, currencyBeforeUpdate}) {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </span>
-                        <span className='tracking-wide font-medium text-[20px] ml-4'>Currency</span>
+                        <span className='tracking-wide font-medium text-[20px] ml-4'>{t("Currency")}</span>
                         <div className='relative'>
                             <input type='search' className='ml-10 px-12 py-2 border rounded-3xl bg-neutral-100 focus:outline-none' placeholder="Search..." />
                             <svg className='absolute top-3 left-14 w-5 h-5' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
