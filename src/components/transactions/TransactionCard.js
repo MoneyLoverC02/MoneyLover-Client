@@ -94,14 +94,19 @@ export default function TransactionCard({ openModal, closeModal }) {
     const load = ()=>{
         setMore((prevState)=>prevState+2)
     }
-
+    const [loadMore , setLoadMore]= useState(false)
     useEffect(() => {
         const handleScroll = () => {
             const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
             if (scrollTop + clientHeight +1 >= scrollHeight) {
                 setTimeout(()=>{
+                    setLoadMore(true)
                     load()
                 },500)
+
+            }else {
+                console.log(123)
+                setLoadMore(false)
             }
         };
 
@@ -210,7 +215,10 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                             </div>
                                                         );
                                                     })}
-                                                    {more >= allCategory?.length-1 ? null:<CircularProgress />}
+
+                                                    {!loadMore?
+                                                        more >= allCategory?.length-1   ? null:<CircularProgress />
+                                                    :null}
                                                     <div style={{ height: '1vh' }}></div>
 
 
