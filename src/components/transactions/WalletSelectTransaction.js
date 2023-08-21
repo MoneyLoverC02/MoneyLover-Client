@@ -37,6 +37,7 @@ export default function WalletSelectTransactionModal({walletTransSelect}) {
     };
     const handleClose = () => {
         setOpen(false);
+
     };
     useEffect(() => {
         WalletService.getAllWallet().then((res)=>{

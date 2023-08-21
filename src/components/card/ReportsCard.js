@@ -10,6 +10,7 @@ import DoughnutChart from "../chart/DoughnutChart";
 import NetInComeCard from "./NetInComeCard";
 import InComeCard from "./InComeCard";
 import ExpenseCard from "./ExpenseCard";
+import {useTranslation} from "react-i18next";
 
 
 //chuyển từ dd/mm/yyyy -> date object
@@ -196,6 +197,7 @@ export function getTransByDate(transactions) {
 }
 
 export default function ReportsCard() {
+    const {t}=useTranslation()
     const [openNetInCome, setOpenNetInCome] = useState(false);
     const [openInCome, setOpenInCome] = useState(false);
     const [openExpense, setOpenExpense] = useState(false);
@@ -258,11 +260,11 @@ export default function ReportsCard() {
                             <div className="p-6">
                                 <div className="grid grid-cols-2">
                                     <div className="text-center">
-                                        <p className=" text-graynew">Opening balance</p>
+                                        <p className=" text-graynew">{t("Opening balance")}</p>
                                         <p className="font-medium">{numeral(balance?.openingBalance).format('0,0')} {walletSelect?.currency.sign}</p>
                                     </div>
                                     <div className="text-center">
-                                        <p className=" text-graynew">Ending balance</p>
+                                        <p className=" text-graynew">{t("Ending balance")}</p>
                                         <p className="font-medium">{numeral(balance?.endingBalance).format('0,0')} {walletSelect?.currency.sign}</p>
                                     </div>
                                 </div>
@@ -270,7 +272,7 @@ export default function ReportsCard() {
                             <div className="border-y">
                                 <button onClick={handleOpenNetInCard} className="hover:bg-lightlime w-full">
                                     <div className="py-2">
-                                        <p className="text-graynew">Net Income</p>
+                                        <p className="text-graynew">{t("Net Income")}</p>
                                         <p className="text-2xl">
                                             {(balance?.totalIncome + balance?.totalExpense) > 0 ? '+' : ''}
                                             {numeral(balance?.totalIncome + balance?.totalExpense).format('0,0')}
@@ -285,7 +287,7 @@ export default function ReportsCard() {
                             <div className="grid grid-cols-2">
                                 <button onClick={handleOpenInCard} className="hover:bg-lightlime w-full z-5">
                                     <div className="py-2">
-                                        <p className="text-graynew">Income</p>
+                                        <p className="text-graynew">{t("Income")}</p>
                                         <p className="text-md text-sky-500">+{numeral(balance?.totalIncome).format('0,0')} {walletSelect?.currency.sign}</p>
                                         <div className="">
                                             <div className="flex justify-center">
@@ -296,7 +298,7 @@ export default function ReportsCard() {
                                 </button>
                                 <button  onClick={handleOpenExpenseCard} className="hover:bg-lightlime w-full z-5">
                                     <div className="py-2">
-                                        <p className="text-graynew">Expense</p>
+                                        <p className="text-graynew">{t("Expense")}</p>
                                         <p className="text-md text-red-500">{numeral(balance?.totalExpense).format('0,0')} {walletSelect?.currency.sign}</p>
                                         <div className="">
                                             <div className="flex justify-center">
@@ -308,7 +310,7 @@ export default function ReportsCard() {
                             </div>
                             <div className="pb-6 text-sm font-semibold text-graynew">
                                 <div className="flex justify-between px-12 py-[7px] border-t hover:bg-lightlime cursor-pointer">
-                                    <span>Debt</span>
+                                    <span>{t("Debt")}</span>
                                     <div className="flex justify-around items-center w-14">
                                         <span className="text-sky-500">0đ</span>
                                         <span>
@@ -319,7 +321,7 @@ export default function ReportsCard() {
                                     </div>
                                 </div>
                                 <div className="flex justify-between px-12 py-[7px] border-t hover:bg-lightlime cursor-pointer">
-                                    <span>Loan</span>
+                                    <span>{t("Loan")}</span>
                                     <div className="flex justify-around items-center w-14">
                                         <span className="text-red-500">0đ</span>
                                         <span>
@@ -330,7 +332,7 @@ export default function ReportsCard() {
                                     </div>
                                 </div>
                                 <div className="flex justify-between px-12 py-[7px] border-t hover:bg-lightlime cursor-pointer">
-                                    <span>Other</span>
+                                    <span>{t("Other")}</span>
                                     <div className="flex justify-around items-center w-14">
                                         <span className="">0đ</span>
                                         <span>

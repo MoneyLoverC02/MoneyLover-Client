@@ -6,12 +6,14 @@ import SelectWallets from "../layout/SelectWallets";
 import SelectTimeRangeModal from "../modals/SelectTimeRangeModal";
 import { useState } from "react";
 import {Link} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 
 export default function ReportsNavBar() {
     const [isOpenModal, setIsOpenModal] = useState(false);
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const dateSelect = useSelector(state => state.report.dateSelect);
+    const {t}=useTranslation()
 
     const handleOpenTimeRangeModal = () => {
         setIsOpenModal(true);
@@ -31,7 +33,7 @@ export default function ReportsNavBar() {
                             </div>
                             <div onClick={handleOpenTimeRangeModal} className="flex-col hover:cursor-pointer">
                                 <div>
-                                    <span className=" font-bold text-sm">{dateSelect?.name}</span>
+                                    <span className=" font-bold text-sm">{t(`${dateSelect?.name}`)}</span>
                                     <ArrowDropDownIcon sx={{ fontSize: '16px' }} />
                                 </div>
                                 <span className="text-xs font-normal text-zinc-400">{dateSelect?.firstDay} - {dateSelect?.lastDay}</span>
