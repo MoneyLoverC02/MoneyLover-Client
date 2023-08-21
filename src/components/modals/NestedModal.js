@@ -7,6 +7,7 @@ import { WalletService } from '../../services/wallet.service';
 import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
 import CurrencyInput from 'react-currency-input-field';
 import {formatDate} from "../datePick/datePick";
+import {useTranslation} from "react-i18next";
 
 const style = {
   position: 'absolute',
@@ -70,6 +71,8 @@ export default function NestedModal({ isOpen, onClose, onSubmit }) {
     let date = formatDate(new Date())
     WalletService.createWallet({ name, iconID, currencyID, amountOfMoney, date }).then((res) => {
       let wallet = res.data.newWallet;
+      let walletRole = res.data.walletRole;
+      wallet = {...wallet, walletRoles:[walletRole]};
       dispatch(getAllWallet([...allWallet, wallet]));
       dispatch(setWalletSelect(wallet));
       setDataInput({ name: '', amountOfMoney: null });
@@ -79,6 +82,7 @@ export default function NestedModal({ isOpen, onClose, onSubmit }) {
       onSubmit();
     }).catch(err => console.log(err.message));
   }
+  const {t}=useTranslation()
 
   return (
     <div>
@@ -89,7 +93,7 @@ export default function NestedModal({ isOpen, onClose, onSubmit }) {
       >
         <Box sx={{ ...style, width: 496 }}>
           <div className='px-6 py-5 border-b-[1px] border-gray-300'>
-            <p className='text-xl font-semibold'>Add a wallet first!</p>
+            <p className='text-xl font-semibold'>{t("Add a wallet first!")}</p>
           </div>
           <div className='p-6'>
             <div className='flex item-center justify-center'>
@@ -97,7 +101,7 @@ export default function NestedModal({ isOpen, onClose, onSubmit }) {
                 <IconModal selectIcon={handleSelectIcon} />
               </div>
               <div onClick={handleFocus} className='mb-4 py-[5px] px-[15px] border w-full border-gray-300 rounded-lg hover:border-gray-500 hover: cursor-pointer'>
-                <p className='text-[12px] pb-[3px] text-slate-400'>Wallet name</p>
+                <p className='text-[12px] pb-[3px] text-slate-400'>{t("Wallet Name")}</p>
                 <div className='pb-1'>
                   <input onChange={handleChange} className='inputAdd w-full h-[27px] text-[17px] focus:outline-none' tabIndex="-1" type="text" name="name" value={dataInput.name} placeholder="Your wallet name?" id="note" />
                 </div>
@@ -108,7 +112,7 @@ export default function NestedModal({ isOpen, onClose, onSubmit }) {
                 <CurrencyModal selectCurrency={handleSelectCurrency} />
               </div>
               <div className='w-44 py-[7.25px] pl-4 pr-3 border border-gray-300 rounded-lg hover:border-gray-500'>
-                <p className='text-[12px] pb-[3px] text-slate-400'>Initial Balance</p>
+                <p className='text-[12px] pb-[3px] text-slate-400'>{t("Initial Balance")}</p>
                 <div className='pb-1'>
                   {/* <input onChange={handleChange} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="number" placeholder='0' name="amountOfMoney" value={dataInput.amountOfMoney} required /> */}
                   <CurrencyInput className='inputAdd w-full h-[26px] text-[17px] focus:outline-none'

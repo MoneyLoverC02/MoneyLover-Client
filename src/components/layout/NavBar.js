@@ -4,15 +4,18 @@ import SelectWallets from "./SelectWallets";
 import {Link} from "react-router-dom";
 import {useState} from "react";
 import {useTranslation} from "react-i18next";
+import {useDispatch, useSelector} from "react-redux";
+import {setLanguage} from "../../redux/languageSice";
 export default function NavBar({onClickAddBtn}) {
-    const[lang , setlang]=useState("vi")
     const {i18n}= useTranslation()
-
-
+    const language = useSelector(state=>state.lang.lang)
+    const dispatch = useDispatch();
 
     const handleLanguageChange = (event) => {
-        setlang(event.target.value);
         i18n.changeLanguage(event.target.value)
+        if(event){
+            dispatch(setLanguage(event.target.value))
+        }
     };
  const {t}=useTranslation()
     return (
@@ -26,7 +29,7 @@ export default function NavBar({onClickAddBtn}) {
                         <SelectWallets />
                     </div>
                     <div style={{ float: "right", height: "66px", margin: "15px" }}>
-                        <select onChange={handleLanguageChange} value={lang}>
+                        <select onChange={handleLanguageChange} value={language}>
                             <option  value={"Vi"} >Vi</option>
                             <option  value={"En"} >En</option>
                         </select>
