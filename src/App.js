@@ -12,6 +12,7 @@ import AcceptCard from "./components/card/AcceptCard";
 import io from "socket.io-client";
 import {setSocket} from "./redux/walletSlice";
 import {useEffect} from "react";
+import Categories from './pages/Categories';
 
 function App() {
     const auth = useSelector(state => state.auth.login.success);
@@ -60,6 +61,7 @@ function App() {
             <Route path={"/verify/:token"} element={<VerifyRegister/>}></Route>
             <Route path={"/forgot-password"} element={<ResetPassword/>}></Route>
             <Route path={"/search"} element={auth ? <PageSearch/> : <Navigate to='/'/>}></Route>
+            <Route path={"/category"} element={auth ? <Categories/> : <Navigate to='/'/>}></Route>
             <Route path={"/awaiting-shared"} element={auth ? <AcceptCard/> : <Navigate to='/'/>}></Route>
 
             <Route path={"*"} element={!auth ? <Navigate to='/login'/>: <Navigate to='/'/>}/>

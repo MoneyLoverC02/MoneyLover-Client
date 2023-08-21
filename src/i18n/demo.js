@@ -86,6 +86,7 @@ const resources = {
             "Initial Balance": "Initial Balance",
             "Accept Terms": "Accept terms",
             "Duplicate Wallet Name": "Wallet name already exists!",
+            "Catogories": "Categories"
 
         },
     },
@@ -172,7 +173,8 @@ const resources = {
                 "No transactions": "Không có giao dịch",
                 "Transaction Wallet": "Ví Giao Dịch",
                 "Select Wallet": "Chọn Ví",
-                "Destination Wallet": "Chọn Ví "
+                "Destination Wallet": "Chọn Ví ",
+                "Catogories": "Thể Loại"
             }
     }
 }
