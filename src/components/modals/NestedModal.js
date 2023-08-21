@@ -116,7 +116,7 @@ export default function NestedModal({ isOpen, onClose, onSubmit }) {
                 <div className='pb-1'>
                   {/* <input onChange={handleChange} className='inputAdd w-full h-[26px] text-[17px] focus:outline-none' tabIndex="-1" type="number" placeholder='0' name="amountOfMoney" value={dataInput.amountOfMoney} required /> */}
                   <CurrencyInput className='inputAdd w-full h-[26px] text-[17px] focus:outline-none'
-                    suffix={' đ'}
+                    suffix={currencySelect ? currencySelect.sign : ' đ'}
                     id="input-money"
                     name="amountOfMoney"
                     value={dataInput.amountOfMoney}

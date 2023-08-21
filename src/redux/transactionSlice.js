@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     allCategory: [],
     allTransaction: [],
-    allIcome: [],
+    allIncome: [],
     allExpense: [],
     transactionSelect: null,
 }
@@ -22,14 +22,14 @@ export const transactionSlice = createSlice({
             state.transactionSelect = action.payload
         },
         getAllIncome: (state, action) => {
-            state.allIcome = action.payload
+            state.allIncome = action.payload
         },
         getAllExpense: (state, action) => {
             state.allExpense = action.payload
         },
         transactionLogout: (state) => {
             state.allTransaction = [];
-            state.allIcome = [];
+            state.allIncome = [];
             state.allExpense = [];
             state.transactionSelect = null;
         }

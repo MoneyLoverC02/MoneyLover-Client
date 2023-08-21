@@ -89,7 +89,7 @@ export default function TransactionCard({ openModal, closeModal }) {
     const handleViewReport = () => {
         navigate('/reports')
     }
-    const [more , setMore] = useState(4)
+    const [more , setMore] = useState(5)
 
     const load = ()=>{
         setMore((prevState)=>prevState+2)
@@ -159,7 +159,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    {allCategory?.length > 0 && allCategory.slice(0,more).map(category => {
+                                                    {allCategory?.length > 0 && allCategory.slice(1,more).map(category => {
                                                         let totalAmount = 0;
                                                         let allDataCalculated = calculatorAmountByCategory(allTransaction);
                                                         const transactionsInCategory = allTransaction?.filter(item => item.category.id === category.id);

@@ -14,6 +14,7 @@ import Notifycation from "./Notifycation";
 import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import {useTranslation} from "react-i18next";
+import CategoriesNav from './CategoriesNav';
 
 export default function Sidebar() {
 
@@ -55,7 +56,7 @@ export default function Sidebar() {
             {messageCount > 0 && <Notifycation numOfMessage={messageCount} />}
             <MyAccount />
             <MyWallets />
-
+            <CategoriesNav/>
         </div>);
     return (
         <div className='h-[66px]'>
