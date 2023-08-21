@@ -4,7 +4,7 @@ import walletReducer from "./walletSlice";
 import transactionReducer from "./transactionSlice";
 import reportReducer from "./reportSlice";
 import searchReducer from "./searchSlice";
-import languageReducer from "./languageSlice";
+import languageReducer from "./languageSice"
 import {
     persistStore,
     persistReducer,
@@ -30,7 +30,7 @@ const rootReducer = combineReducers({
     transaction: transactionReducer,
     report: reportReducer,
     search: searchReducer,
-    language: languageReducer
+    lang : languageReducer,
 });
 
 
