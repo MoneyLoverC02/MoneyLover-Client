@@ -103,7 +103,7 @@ const resources = {
             "Loan": "Loan",
             "Other": "Other",
             "Select time range": "Select time range",
-
+            "Add a wallet first!":"Add a wallet first!",
         },
     },
         Vi: {
@@ -207,6 +207,7 @@ const resources = {
                 "Loan": "Khoản vay",
                 "Other": "Khác",
                 "Select time range": "Chọn khoảng thời gian",
+                "Add a wallet first!":"Thêm ví trước!"
             }
     }
 }
