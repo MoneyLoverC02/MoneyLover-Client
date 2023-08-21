@@ -70,6 +70,8 @@ export default function NestedModal({ isOpen, onClose, onSubmit }) {
     let date = formatDate(new Date())
     WalletService.createWallet({ name, iconID, currencyID, amountOfMoney, date }).then((res) => {
       let wallet = res.data.newWallet;
+      let walletRole = res.data.walletRole;
+      wallet = {...wallet, walletRoles:[walletRole]};
       dispatch(getAllWallet([...allWallet, wallet]));
       dispatch(setWalletSelect(wallet));
       setDataInput({ name: '', amountOfMoney: null });

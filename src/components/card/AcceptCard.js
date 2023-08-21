@@ -7,6 +7,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {useNavigate} from "react-router-dom";
+import numeral from "numeral";
 
 const style = {
     position: 'absolute',
@@ -133,7 +134,7 @@ export default function AcceptCard() {
                                     </div>
                                     <div className="flex-col justify-items-center text-start ml-4">
                                         <p className=' font-semibold text-base'>{message?.walletInfo.name}</p>
-                                        <p className=' font-semibold text-xs text-graynew'>{message?.walletInfo.amountOfMoney}</p>
+                                        <p className=' font-semibold text-xs text-graynew'>{numeral(message?.walletInfo.amountOfMoney).format(0,0) } {message?.walletInfo.currency.sign}</p>
                                     </div>
                                 </div>
                                 <div className="mb-4">{message?.message}</div>
