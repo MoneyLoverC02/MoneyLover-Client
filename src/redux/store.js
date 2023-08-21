@@ -4,6 +4,7 @@ import walletReducer from "./walletSlice";
 import transactionReducer from "./transactionSlice";
 import reportReducer from "./reportSlice";
 import searchReducer from "./searchSlice";
+import i18nReducer from "./i18nSlice";
 import {
     persistStore,
     persistReducer,
@@ -28,7 +29,8 @@ const rootReducer = combineReducers({
     wallet: walletReducer,
     transaction: transactionReducer,
     report: reportReducer,
-    search: searchReducer
+    search: searchReducer,
+    i18n: i18nReducer
 });
 
 
