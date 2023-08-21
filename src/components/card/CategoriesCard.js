@@ -2,7 +2,6 @@ import { Slide } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-
 export default function CategoriesCard() {
     const allCategory = useSelector(state => state.transaction.allCategory);
     const [dataCategory, setDataCategory] = useState([]);
