@@ -77,7 +77,7 @@ export default function SelectTimeRangeModal({ onOpen, onClose }) {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </span>
-                        <span className='tracking-wide font-medium text-[20px] ml-4'>Select time range</span>
+                        <span className='tracking-wide font-medium text-[20px] ml-4'>{t("Select time range")}</span>
                     </div>
                     <div className='flex justify-center items-center'>
                     </div>
