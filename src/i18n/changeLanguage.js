@@ -110,7 +110,8 @@ const resources = {
             "Category details": "Category detail",
             "Are you sure want to delete this Category?": "Are you sure want to delete this Category?",
             "Update category": "Update category",
-            "Type": "Type"
+            "Type": "Type",
+            "Download Excel File": "Download Excel File",
         },
     },
         Vi: {
@@ -221,7 +222,8 @@ const resources = {
                 "Category details": "Chi tiết thể loại",
                 "Are you sure want to delete this Category?": "Bạn có chắc chắn muốn xóa ?",
                 "Update category": "Cập nhật thể loại",
-                "Type": "Thể Loại"
+                "Type": "Thể Loại",
+                "Download Excel File": "Tải File Excel",
             }
     }
 }
