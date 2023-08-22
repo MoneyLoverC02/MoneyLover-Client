@@ -40,7 +40,7 @@ export default function TransactionCard({ openModal, closeModal }) {
     const allTransactionsAndType = useSelector(state => state.transaction.allTransactionsAndType)
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const monthSelect = useSelector(state => state.transaction.monthSelect);
-    const [monthDisplay, setMonthDisplay] = useState({last: 'Last Month', this: 'This Month', next: 'Next Month'});
+    const [monthDisplay, setMonthDisplay] = useState({ last: 'Last Month', this: 'This Month', next: 'Next Month' });
     const allCategory = useSelector(state => state.transaction.allCategory)
     const [calculate, setCalculate] = useState({ totalInflow: 0, totalOutflow: 0 });
     const navigate = useNavigate();
@@ -50,21 +50,13 @@ export default function TransactionCard({ openModal, closeModal }) {
             let currentDate = new Date();
             let month = currentDate.getMonth() + 1;
             let year = currentDate.getFullYear()
-            dispatch(setMonthSelect({month, year}));
+            dispatch(setMonthSelect({ month, year }));
         }
     }, []);
 
     useEffect(() => {
         let totalInflow = 0;
         let totalOutflow = 0
-        allTransaction?.forEach(item => {
-            if (item.category.type === 'expense') {
-                totalOutflow += item.amount
-            } else {
-                totalInflow += item.amount
-            }
-        })
-        setCalculate({ totalInflow, totalOutflow });
         let timeNow = getTimeByMonth(monthSelect?.month, monthSelect?.year);
         let startDate = formatDate(timeNow.firstDay);
         let endDate = formatDate(timeNow.lastDay);
@@ -72,6 +64,16 @@ export default function TransactionCard({ openModal, closeModal }) {
             TransactionService.getAllTransactionOfWalletAndType(walletSelect?.id, startDate, endDate).then(res => {
                 let transactionListAndType = res.data.transactionList;
                 dispatch(getAllTransactionsAndType(transactionListAndType))
+                transactionListAndType.forEach(trans => {
+                    trans.forEach(item => {
+                        if (item.category.type === 'expense') {
+                            totalOutflow += item.amount
+                        } else {
+                            totalInflow += item.amount
+                        }
+                    })
+                })
+                setCalculate({ totalInflow, totalOutflow });
             }).catch(err => console.log(err.message))
         }
     }, [allTransaction, monthSelect])
@@ -87,7 +89,7 @@ export default function TransactionCard({ openModal, closeModal }) {
             let currentDate = new Date();
             let month = currentDate.getMonth() + 1;
             let year = currentDate.getFullYear()
-            dispatch(setMonthSelect({month, year}));
+            dispatch(setMonthSelect({ month, year }));
             TransactionService.getAllTransactionOfWallet(walletSelect?.id).then(res => {
                 let transactionList = res.data.transactionList;
                 dispatch(getAllTransaction(transactionList))
@@ -97,15 +99,15 @@ export default function TransactionCard({ openModal, closeModal }) {
 
     const handleSelectMonth = (option) => {
         if (option === "this") {
-            dispatch(setMonthSelect({month:monthSelect.month, year: monthSelect.year}));
+            dispatch(setMonthSelect({ month: monthSelect.month, year: monthSelect.year }));
         }
         else if (option === 'last') {
-            if (monthSelect.month > 1) dispatch(setMonthSelect({month:monthSelect.month - 1, year: monthSelect.year}))
-            else dispatch(setMonthSelect({month: 12, year: monthSelect.year - 1}))
+            if (monthSelect.month > 1) dispatch(setMonthSelect({ month: monthSelect.month - 1, year: monthSelect.year }))
+            else dispatch(setMonthSelect({ month: 12, year: monthSelect.year - 1 }))
         }
         else if (option === 'next') {
-            if (monthSelect.month < 12) dispatch(setMonthSelect({month:monthSelect.month + 1, year: monthSelect.year}))
-            else dispatch(setMonthSelect({month: 1, year: monthSelect.year + 1}))
+            if (monthSelect.month < 12) dispatch(setMonthSelect({ month: monthSelect.month + 1, year: monthSelect.year }))
+            else dispatch(setMonthSelect({ month: 1, year: monthSelect.year + 1 }))
         }
     }
     useEffect(() => {
@@ -121,17 +123,17 @@ export default function TransactionCard({ openModal, closeModal }) {
         let timeSelectLast = getTimeByMonth(monthSelect.month - 1, monthSelect.year);
         let startDateLast = changeDate(timeSelectLast.firstDay);
         let endDateLast = changeDate(timeSelectLast.lastDay);
-        if (monthSelect.month === month &&  monthSelect.year === year) {
-            setMonthDisplay({last: t('Last Month'), this: t('This Month'), next: t('Next Month')})
-        } else if (monthSelect.month === month + 1 &&  monthSelect.year === year) {
-            setMonthDisplay({last: t('This Month'), this: t('Next Month'), next: `${startDateNext} - ${endDateNext}`})
-        } else if (monthSelect.month === month + 2 &&  monthSelect.year === year) {
-            setMonthDisplay({last: t('Next Month'), this: `${startDate} - ${endDate}`, next: `${startDateNext} - ${endDateNext}`})
-        } else if (monthSelect.month === month - 1 &&  monthSelect.year === year) {
-            setMonthDisplay({last: `${startDateLast} - ${endDateLast}`, this: t('Last Month'), next: t('This Month')})
-        } else if ( monthSelect.month === month - 2 &&  monthSelect.year === year) {
-            setMonthDisplay({last: `${startDateLast} - ${endDateLast}`, this: `${startDate} - ${endDate}`, next: t('Last Month')})
-        } else setMonthDisplay({last: `${startDateLast} - ${endDateLast}`, this: `${startDate} - ${endDate}`, next: `${startDateNext} - ${endDateNext}`})
+        if (monthSelect.month === month && monthSelect.year === year) {
+            setMonthDisplay({ last: t('Last Month'), this: t('This Month'), next: t('Next Month') })
+        } else if (monthSelect.month === month + 1 && monthSelect.year === year) {
+            setMonthDisplay({ last: t('This Month'), this: t('Next Month'), next: `${startDateNext} - ${endDateNext}` })
+        } else if (monthSelect.month === month + 2 && monthSelect.year === year) {
+            setMonthDisplay({ last: t('Next Month'), this: `${startDate} - ${endDate}`, next: `${startDateNext} - ${endDateNext}` })
+        } else if (monthSelect.month === month - 1 && monthSelect.year === year) {
+            setMonthDisplay({ last: `${startDateLast} - ${endDateLast}`, this: t('Last Month'), next: t('This Month') })
+        } else if (monthSelect.month === month - 2 && monthSelect.year === year) {
+            setMonthDisplay({ last: `${startDateLast} - ${endDateLast}`, this: `${startDate} - ${endDate}`, next: t('Last Month') })
+        } else setMonthDisplay({ last: `${startDateLast} - ${endDateLast}`, this: `${startDate} - ${endDate}`, next: `${startDateNext} - ${endDateNext}` })
     }, [monthSelect])
 
     const handleOpenSlide = (walletId, idTrans) => {
@@ -298,17 +300,8 @@ export default function TransactionCard({ openModal, closeModal }) {
 
                                                     {allTransactionsAndType?.length && allTransactionsAndType.slice(0, more).map(trans => {
                                                         let totalAmount = 0;
-                                                        let allDataCalculated = calculatorAmountByCategory(allTransaction);
                                                         trans.forEach(tran => {
-                                                            if (tran.category.type === 'income') {
-                                                                allDataCalculated.listIncome.forEach(item => {
-                                                                    if (tran.category.name === item.categoryName) totalAmount = item.totalAmount
-                                                                })
-                                                            } else {
-                                                                allDataCalculated.listExpense.forEach(item => {
-                                                                    if (tran.category.name === item.categoryName) totalAmount = item.totalAmount
-                                                                })
-                                                            }
+                                                            totalAmount += tran.amount
                                                         })
                                                         if (trans.length === 0) {
                                                             return null;
