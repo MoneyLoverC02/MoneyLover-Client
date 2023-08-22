@@ -34,4 +34,13 @@ export class UserService {
     static async resetPassword(data){
         return await axios.post(`http://localhost:4000/api/reset-password`, data)
     }
+    static async sendReport (userID, token){
+        console.log(123)
+        return await axios.get(`http://localhost:4000/api/users/${userID}/send-report`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+    }
 }
