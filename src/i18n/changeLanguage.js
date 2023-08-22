@@ -105,6 +105,10 @@ const resources = {
             "Other": "Other",
             "Select time range": "Select time range",
             "Add a wallet first!":"Add a wallet first!",
+            "Category details": "Category detail",
+            "Are you sure want to delete this Category?": "Are you sure want to delete this Category?",
+            "Update category": "Update category",
+            "Type": "Type"
         },
     },
         Vi: {
@@ -209,7 +213,11 @@ const resources = {
                 "Loan": "Khoản vay",
                 "Other": "Khác",
                 "Select time range": "Chọn khoảng thời gian",
-                "Add a wallet first!":"Thêm ví trước!"
+                "Add a wallet first!":"Thêm ví trước!",
+                "Category details": "Chi tiết thể loại",
+                "Are you sure want to delete this Category?": "Bạn có chắc chắn muốn xóa ?",
+                "Update category": "Cập nhật thể loại",
+                "Type": "Thể Loại"
             }
     }
 }

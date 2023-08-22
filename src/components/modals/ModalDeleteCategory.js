@@ -5,14 +5,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { WalletService } from "../../services/wallet.service";
 import { useDispatch } from "react-redux";
-import { getAllWallet, setWalletSelect} from "../../redux/walletSlice";
-import {useTranslation} from "react-i18next";
-import { transactionLogout } from '../../redux/transactionSlice';
+import { useTranslation } from "react-i18next";
+import { TransactionService } from '../../services/transaction.service';
+import { getAllCategory, getAllExpense, getAllIncome } from '../../redux/transactionSlice';
 
-export default function ModalDeleteWallets({ idWallet, onClose }) {
-    const {t}=useTranslation()
+export default function ModalDeleteCategory({ idCategory, onClose }) {
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
 
@@ -24,17 +22,22 @@ export default function ModalDeleteWallets({ idWallet, onClose }) {
         setOpen(false);
     };
     const handleDelete = () => {
-        WalletService.deleteWallet(idWallet).then(() => {
-            dispatch(transactionLogout())
-            WalletService.getAllWallet().then(res => {
-                let walletList = res.data.walletList;
-                dispatch(getAllWallet(walletList));
-                dispatch(setWalletSelect(walletList[0]))
-                handleClose();
-                onClose();
-            }).catch(err => console.log(err.message));
+        TransactionService.deleteMyCategory(idCategory).then(res => {
+            if (res.data.message === "Delete category success!") {
+                TransactionService.getAllCategory().then(res => {
+                    let categoryList = res.data.categoryList;
+                    let inComeList = categoryList.filter(category => category.type === 'income');
+                    let expenseList = categoryList.filter(category => category.type === 'expense');
+                    dispatch(getAllCategory(categoryList));
+                    dispatch(getAllIncome(inComeList));
+                    dispatch(getAllExpense(expenseList));
+                    onClose();
+                }).catch(err => console.log(err.message));
+            }
         }).catch(err => console.log(err.message));
+        handleClose();
     }
+    const { t } = useTranslation()
 
     return (<div>
         <Button color="error" onClick={handleClickOpen}>
@@ -47,17 +50,17 @@ export default function ModalDeleteWallets({ idWallet, onClose }) {
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                {"Bạn có chắc muốn xóa ví này?"}
+                {t("Are you sure want to delete this Category?")}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    Xóa không lấy lại được đâu.
+                    {t("Delete can't get it back ^^")}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button color="success" variant="outlined" onClick={handleClose} autoFocus>{t("Cancel")}</Button>
                 <Button color="error" variant="contained" onClick={() => {
-                    handleDelete()
+                    handleDelete();
                 }}>
                     {t("DELETE")}
                 </Button>

@@ -21,6 +21,16 @@ export class TransactionService {
             }
         )
     }
+    static async getAllTransactionOfWalletAndType(walletID) {
+        let token = localStorage.getItem('token');
+        return await axios.get(`http://localhost:4000/api/users/wallets/${walletID}/transactionsType`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+    }
     static async createTransaction(walletID, data) {
         let token = localStorage.getItem('token');
         return await axios.post(`http://localhost:4000/api/users/wallets/${walletID}/transactions`, data,
@@ -97,6 +107,26 @@ export class TransactionService {
     static async createNewCategory(data) {
         let token = localStorage.getItem('token');
         return await axios.post(`http://localhost:4000/api/users/categories`, data,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+    }
+    static async deleteMyCategory(categoryID) {
+        let token = localStorage.getItem('token');
+        return await axios.delete(`http://localhost:4000/api/users/categories/${categoryID}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+    }
+    static async updateMyCategory(categoryID, data) {
+        let token = localStorage.getItem('token');
+        return await axios.put(`http://localhost:4000/api/users/categories/${categoryID}`, data, 
             {
                 headers: {
                     'Authorization': `Bearer ${token}`

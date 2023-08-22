@@ -148,7 +148,6 @@ export default function CategorySelectModal({ selectCategory, categoryBefore, ch
                         </div>
                     </div>
                     <div className='grid grid-cols-2 scroll-smooth mt-2'>
-                        {console.log(allIncome)}
                         {selectInCome ? allIncome?.length > 0 && allIncome.map(category => (<div key={category.id}
                             className='flex justify-start items-center p-2 cursor-pointer hover:bg-lime-50 pl-6'
                             onClick={() => handleSelectCategory(category.id)}>
@@ -164,7 +163,7 @@ export default function CategorySelectModal({ selectCategory, categoryBefore, ch
                                 <img id='category'
                                     src='https://static.moneylover.me/img/icon/ic_category_all.png'
                                     className='object-cover w-8 h-8' alt="" />
-                                <div className='flex-col items-center ml-5'>
+                                <div className='flex items-center ml-5'>
                                     <p className='text-sm font-medium'>{t("All category")}</p>
                                 </div>
                             </div> : null}
@@ -176,7 +175,7 @@ export default function CategorySelectModal({ selectCategory, categoryBefore, ch
                                         <div className='flex justify-start cursor-pointer w-full p-2 pl-6 hover:bg-lime-50'>
                                             <img id={category.id} src={category.icon}
                                                 className='object-cover w-8 h-8' alt="" />
-                                            <div className='flex-col items-center ml-5'>
+                                            <div className='flex items-center ml-5'>
                                                 <p className='text-sm font-medium'>{t(`${category.name}`)}</p>
                                             </div>
                                         </div>

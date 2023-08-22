@@ -17,7 +17,7 @@ const style = {
 
 export default function AddMyCategoryModal({ isOpen, onClose, onSubmit, selectType }) {
     const [input, setInput] = React.useState('');
-    const [isVaid, setIsvalid] = React.useState(false);
+    const [isVaid, setIsValid] = React.useState(false);
     const [checkName, setCheckName] = React.useState(true);
     const allCategory = useSelector(state => state.transaction.allCategory);
     const dispatch = useDispatch();
@@ -37,13 +37,16 @@ export default function AddMyCategoryModal({ isOpen, onClose, onSubmit, selectTy
             }
         }).catch(e => console.log(e.message));
         onSubmit();
+        setInput('');
+        setIsValid(false);
+        setCheckName(true);
     }
     const handleCancel = () => {
         onSubmit()
     }
     const handleCheckValid = (e) => {
         const input = e.target.value;
-        (input) ? setIsvalid(true) : setIsvalid(false);
+        (input) ? setIsValid(true) : setIsValid(false);
     }
     React.useEffect(() => {
         let nameCheck = allCategory?.find(item => item.name === input);
