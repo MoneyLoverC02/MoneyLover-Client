@@ -16,6 +16,7 @@ import UpdateTransactionModal from './UpdateTransactionModal';
 import { calculatorAmountByCategory } from '../card/ReportsCard';
 import numeral from 'numeral';
 import { useTranslation } from "react-i18next";
+import axios from "axios";
 
 export function getTimeByMonth(month, year) {
     // const currentYear = new Date().getFullYear();
@@ -44,6 +45,7 @@ export default function TransactionCard({ openModal, closeModal }) {
     const allCategory = useSelector(state => state.transaction.allCategory)
     const [calculate, setCalculate] = useState({ totalInflow: 0, totalOutflow: 0 });
     const navigate = useNavigate();
+    const user = useSelector(state => state.auth.login.currentUser);
 
     useEffect(() => {
         if (!monthSelect) {
@@ -77,6 +79,43 @@ export default function TransactionCard({ openModal, closeModal }) {
             }).catch(err => console.log(err.message))
         }
     }, [allTransaction, monthSelect])
+
+    const handleDownloadExcel = async () => {
+        try {
+            let timeNow = getTimeByMonth(monthSelect?.month, monthSelect?.year);
+            let startDate = formatDate(timeNow.firstDay);
+            let endDate = formatDate(timeNow.lastDay);
+            let token = localStorage.getItem('token');
+            const walletName = walletSelect.name;
+            const userName = user.email;
+            if (walletSelect) {
+                // const response = TransactionService.downloadTransactionOfWallet(walletSelect?.id, startDate, endDate).then(res => {
+                //     console.log('Download success!');
+                // }).catch(err => console.log(err.message));
+
+                const response = await axios.get(`http://localhost:4000/api/users/wallets/${walletSelect?.id}/ExportExcel`, {
+                    responseType: "blob",
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    params: {
+                        startDate: startDate,
+                        endDate: endDate
+                    },
+                });
+                const blob = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `${userName}_${walletName}_allTransaction_T?.xlsx`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            }
+        } catch (error) {
+            console.error("Error when downloading Excel file:", error);
+        }
+    };
 
     useEffect(() => {
         TransactionService.getAllCategory().then(res => {
@@ -355,7 +394,7 @@ export default function TransactionCard({ openModal, closeModal }) {
 
                                                 </div>
                                             </div>
-                                            <div className='bg-lightgreen font-semibold uppercase text-white text-center py-2 mb-6 cursor-pointer hover:bg-sky-500'>
+                                            <div onClick={handleDownloadExcel} className='bg-lightgreen font-semibold uppercase text-white text-center py-2 mb-6 cursor-pointer hover:bg-sky-500'>
                                                 {t("Download Excel File")}
                                             </div>
                                         </div>
