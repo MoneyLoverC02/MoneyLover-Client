@@ -355,8 +355,8 @@ export default function TransactionCard({ openModal, closeModal }) {
 
                                                 </div>
                                             </div>
-                                            <div className='bg-lightgreen font-semibold text-white uppercase text-center py-2 mb-6 cursor-pointer hover:bg-sky-500'>
-                                                Dowload Excel File
+                                            <div className='bg-lightgreen font-semibold uppercase text-white text-center py-2 mb-6 cursor-pointer hover:bg-sky-500'>
+                                                {t("Download Excel File")}
                                             </div>
                                         </div>
                                     </div>
