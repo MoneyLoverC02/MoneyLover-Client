@@ -21,12 +21,16 @@ export class TransactionService {
             }
         )
     }
-    static async getAllTransactionOfWalletAndType(walletID) {
+    static async getAllTransactionOfWalletAndType(walletID, startDate, endDate) {
         let token = localStorage.getItem('token');
         return await axios.get(`http://localhost:4000/api/users/wallets/${walletID}/transactionsType`,
             {
                 headers: {
                     'Authorization': `Bearer ${token}`
+                },
+                params: {
+                    startDate: startDate,
+                    endDate: endDate
                 }
             }
         )
