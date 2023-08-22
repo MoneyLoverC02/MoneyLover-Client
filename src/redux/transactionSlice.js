@@ -6,6 +6,7 @@ const initialState = {
     allIncome: [],
     allExpense: [],
     transactionSelect: null,
+    dataCategory: []
 }
 
 export const transactionSlice = createSlice({
@@ -27,15 +28,19 @@ export const transactionSlice = createSlice({
         getAllExpense: (state, action) => {
             state.allExpense = action.payload
         },
+        setDataCategory:(state, action) => {
+            state.dataCategory = action.payload
+        },
         transactionLogout: (state) => {
             state.allTransaction = [];
             state.allIncome = [];
             state.allExpense = [];
             state.transactionSelect = null;
-        }
+        },
+
     }
 })
 
-export const { getAllCategory, getAllTransaction, setTransactionSelect, getAllIncome, getAllExpense, transactionLogout } = transactionSlice.actions;
+export const { getAllCategory, getAllTransaction, setTransactionSelect, getAllIncome, getAllExpense, setDataCategory, transactionLogout } = transactionSlice.actions;
 export default transactionSlice.reducer;
 

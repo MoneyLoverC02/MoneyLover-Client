@@ -121,7 +121,7 @@ function viewBalance(dataIntime, dataBefore) {
 //lọc dữ liệu theo loại (income/expense):
 function filerByCategory(data, type) {
     let listData = [];
-    let listNameCategory = [];
+    let listNameCategory = [];  
     data.forEach(trans => {
         if (trans.category.type === type) {
             listData.push(trans);

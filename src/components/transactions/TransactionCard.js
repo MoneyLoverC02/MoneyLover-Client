@@ -105,7 +105,6 @@ export default function TransactionCard({ openModal, closeModal }) {
                 },500)
 
             }else {
-                console.log(123)
                 setLoadMore(false)
             }
         };
