@@ -2,7 +2,7 @@ import { Button, IconButton, Slide } from "@mui/material";
 import { Search } from '@mui/icons-material';
 import SelectWallets from "./SelectWallets";
 import {Link} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {useDispatch, useSelector} from "react-redux";
 import {setLanguage} from "../../redux/languageSice";
@@ -17,6 +17,14 @@ export default function NavBar({onClickAddBtn}) {
             dispatch(setLanguage(event.target.value))
         }
     };
+    useEffect(()=>{
+        console.log(language);
+        if (language==="Vi") {
+            dispatch(setLanguage("Vi"))
+        }else{
+            dispatch(setLanguage("En"))
+        }
+    },[language])
  const {t}=useTranslation()
     return (
         <>
@@ -30,8 +38,8 @@ export default function NavBar({onClickAddBtn}) {
                     </div>
                     <div style={{ float: "right", height: "66px", margin: "15px" }}>
                         <select onChange={handleLanguageChange} value={language}>
-                            <option  value={"Vi"} >Vi</option>
                             <option  value={"En"} >En</option>
+                            <option  value={"Vi"} >Vi</option>
                         </select>
                         <Link to="/search">
                             <IconButton  aria-label="delete" sx={{ color: "black", marginRight: "35px" }}>

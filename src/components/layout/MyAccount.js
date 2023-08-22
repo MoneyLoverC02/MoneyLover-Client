@@ -13,6 +13,7 @@ import ModalDeleteUser from "../modals/ModalDeleteUser";
 import ModalUpdateUser from '../modals/ModalUpdateUser';
 import { walletLogout } from '../../redux/walletSlice';
 import {useTranslation} from "react-i18next";
+import { transactionLogout } from '../../redux/transactionSlice';
 
 const style = {
     position: 'absolute',
@@ -40,6 +41,7 @@ export default function MyAccount() {
         localStorage.removeItem('token');
         dispatch(logout());
         dispatch(walletLogout());
+        dispatch(transactionLogout());
         navigate('/login');
         socket.emit('logout');
         socket.disconnect();
