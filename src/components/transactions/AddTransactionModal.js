@@ -6,11 +6,17 @@ import WalletSelectTransactionModal from './WalletSelectTransaction';
 import CategorySelectModal from './CategorySelectModal';
 import DatePickerComponent, { formatDate } from '../datePick/datePick';
 import { TransactionService } from '../../services/transaction.service';
-import { getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
+import { getAllTransaction, setMonthSelect, setTransactionSelect } from '../../redux/transactionSlice';
 import { WalletService } from "../../services/wallet.service";
 import { useTranslation } from "react-i18next";
 import CurrencyInput from 'react-currency-input-field';
 
+export function getCurrentMonth(dateString){
+    const date = dateString.split('-');
+    const year = date[0];
+    const month = date[1]
+    return {month: parseInt(month), year: parseInt(year)}
+}
 
 const style = {
     position: 'absolute',
@@ -64,6 +70,7 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
         let { money, note } = dataInput;
         let amount = +money;
         let date = dateInput;
+        let monthCurent = getCurrentMonth(date);
         let categoryID = categorySelect.id;
         TransactionService.createTransaction(walletSelect?.id, { amount, date, note, categoryID }).then((res) => {
             if (res.data.message === 'Creat transaction success!') {
@@ -80,6 +87,7 @@ export default function AddTransactionModal({ isOpen, onClose, onSubmit }) {
                     WalletService.getAllWallet().then(res => {
                         dispatch(getAllWallet(res.data.walletList));
                     })
+                    dispatch(setMonthSelect(monthCurent));
                     setDataInput({ money: 0, note: '' });
                     setDateInput(formatDate(new Date()));
                     setIsValid(false);

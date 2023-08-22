@@ -9,8 +9,10 @@ const resources = {
             "Report" : "Report",
             "Budget" : "Budget",
             "LastMonth" : "Last Month",
+            "Last Month" : "Last Month",
             "This Month" : "This Month",
             "This month" : "This Month",
+            "Next Month": "Next Month",
             "Future" : "Future",
             "Inflow" : "Inflow",
             "Outflow" : "Outflow",
@@ -108,7 +110,8 @@ const resources = {
             "Category details": "Category detail",
             "Are you sure want to delete this Category?": "Are you sure want to delete this Category?",
             "Update category": "Update category",
-            "Type": "Type"
+            "Type": "Type",
+            "Download Excel File": "Download Excel File",
         },
     },
         Vi: {
@@ -133,8 +136,10 @@ const resources = {
                 "Report" :"Báo cáo",
                 "Budget" :"Ngân sách",
                 "LastMonth" :"Tháng trước",
+                "Last Month" : "Tháng trước",
                 "This Month" :"Tháng này",
                 "This month" :"Tháng này",
+                "Next Month": "Tháng Sau",
                 "Future" :"Tương lai",
                 "Inflow" :"Tổng các khoản thu",
                 "Outflow" :"Tổng các khoản chi",
@@ -217,7 +222,8 @@ const resources = {
                 "Category details": "Chi tiết thể loại",
                 "Are you sure want to delete this Category?": "Bạn có chắc chắn muốn xóa ?",
                 "Update category": "Cập nhật thể loại",
-                "Type": "Thể Loại"
+                "Type": "Thể Loại",
+                "Download Excel File": "Tải File Excel",
             }
     }
 }
