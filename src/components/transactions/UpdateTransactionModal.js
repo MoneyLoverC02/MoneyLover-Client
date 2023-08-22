@@ -5,11 +5,12 @@ import { getAllWallet, setWalletSelect } from '../../redux/walletSlice';
 import CategorySelectModal from './CategorySelectModal';
 import DatePickerComponent from '../datePick/datePick';
 import { TransactionService } from '../../services/transaction.service';
-import { getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
+import { getAllTransaction, setMonthSelect, setTransactionSelect } from '../../redux/transactionSlice';
 import WalletSelectTransactionUpdateModal from './WalletTransUpdate';
 import CurrencyInput from 'react-currency-input-field';
 import {WalletService} from "../../services/wallet.service";
 import {useTranslation} from "react-i18next";
+import { getCurrentMonth } from './AddTransactionModal';
 
 const style = {
     position: 'absolute',
@@ -76,6 +77,7 @@ export default function UpdateTransactionModal({ isOpen, onClose, onSubmit }) {
         let { money, note } = dataInput;
         let amount = +money;
         let date = dateTrans;
+        let monthCurent = getCurrentMonth(dateTrans);
         let categoryID = categorySelect.id;
         TransactionService.updateTransaction(walletSelect?.id, transactionSelect?.id, { amount, date, note, categoryID }).then((res) => {
             if (res.data.message === 'Update transaction success!') {
@@ -91,6 +93,7 @@ export default function UpdateTransactionModal({ isOpen, onClose, onSubmit }) {
                     // setDataInput({ money: 0, note: '' });
                     // setDateTras(formatDate(new Date()));
                     // setIsValid(false);
+                    dispatch(setMonthSelect(monthCurent));
                     onSubmit();
                 }).catch(err => console.log(err.message));
             } else {
