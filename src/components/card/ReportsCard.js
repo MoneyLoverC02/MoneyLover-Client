@@ -211,7 +211,6 @@ export default function ReportsCard() {
         let firstDay = convertDateFormat(dateSelect?.firstDay);
         let lastDay = convertDateFormat(dateSelect?.lastDay);
         TransactionService.getTransactionsByTimeRange(walletSelect?.id, firstDay, lastDay).then(res => {
-            console.log(transactionList);
             let transactionList = res.data.transactionList;
             let transactionListBefore = res.data.transactionListBefore;
             let days = getAllDayOrMonth(dateSelect?.firstDay, dateSelect?.lastDay);
