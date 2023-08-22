@@ -28,6 +28,13 @@ export const reportSlice = createSlice({
         },
         setDataByDate: (state, action) => {
             state.dataByDate = action.payload
+        },
+        clearData: (state) => {
+           state.dateSelect = {firstDay: changeDate(getTime('This month').firstDay), lastDay: changeDate(getTime('This month').lastDay), name: "This month"};
+            state.dataBarChart = {dataIncome: [], dataExpense: []};
+            state.balance = null;
+            state.dataCalculated = null;
+            state.dataByDate = [];
         }
     }
 })

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     allCategory: [],
     allTransaction: [],
+    allTransactionsAndType: [],
     allIncome: [],
     allExpense: [],
     transactionSelect: null,
@@ -18,6 +19,9 @@ export const transactionSlice = createSlice({
         },
         getAllTransaction: (state, action) => {
             state.allTransaction = action.payload
+        },
+        getAllTransactionsAndType: (state, action) => {
+            state.allTransactionsAndType = action.payload
         },
         setTransactionSelect: (state, action) => {
             state.transactionSelect = action.payload
@@ -41,6 +45,6 @@ export const transactionSlice = createSlice({
     }
 })
 
-export const { getAllCategory, getAllTransaction, setTransactionSelect, getAllIncome, getAllExpense, setDataCategory, transactionLogout } = transactionSlice.actions;
+export const { getAllCategory, getAllTransaction, getAllTransactionsAndType, setTransactionSelect, getAllIncome, getAllExpense, setDataCategory, transactionLogout } = transactionSlice.actions;
 export default transactionSlice.reducer;
 

@@ -7,15 +7,15 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import ClearIcon from "@mui/icons-material/Clear";
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { TransactionService } from '../../services/transaction.service';
-import { getAllCategory, getAllTransaction, setTransactionSelect } from '../../redux/transactionSlice';
+import { getAllCategory, getAllTransaction, getAllTransactionsAndType, setTransactionSelect } from '../../redux/transactionSlice';
 import { convertDate } from '../datePick/datePick';
 import ModalDeleteTrans from './ModalDeleteTrans';
 import UpdateTransactionModal from './UpdateTransactionModal';
 import { calculatorAmountByCategory } from '../card/ReportsCard';
 import numeral from 'numeral';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 export default function TransactionCard({ openModal, closeModal }) {
     const dispatch = useDispatch();
@@ -23,12 +23,14 @@ export default function TransactionCard({ openModal, closeModal }) {
     const [openFormUpdate, setOpenFormUpdate] = useState(false);
     const transactionSelect = useSelector(state => state.transaction.transactionSelect);
     const allTransaction = useSelector(state => state.transaction.allTransaction);
+    const allTransactionsAndType = useSelector(state => state.transaction.allTransactionsAndType)
     const walletSelect = useSelector(state => state.wallet.walletSelect);
+    // const user = useSelector(state => state.auth.login.currentUser)
     const allCategory = useSelector(state => state.transaction.allCategory)
     const [calculate, setCalculate] = useState({ totalInflow: 0, totalOutflow: 0 });
     const navigate = useNavigate();
 
-    const {t}=useTranslation()
+    const { t } = useTranslation()
 
     useEffect(() => {
         let totalInflow = 0;
@@ -41,6 +43,12 @@ export default function TransactionCard({ openModal, closeModal }) {
             }
         })
         setCalculate({ totalInflow, totalOutflow });
+        if (walletSelect) {
+            TransactionService.getAllTransactionOfWalletAndType(walletSelect?.id).then(res => {
+                let transactionListAndType = res.data.transactionList;
+                dispatch(getAllTransactionsAndType(transactionListAndType))
+            }).catch(err => console.log(err.message))
+        }
     }, [allTransaction])
 
     useEffect(() => {
@@ -48,7 +56,6 @@ export default function TransactionCard({ openModal, closeModal }) {
             let categoryList = res.data.categoryList;
             dispatch(getAllCategory(categoryList));
         })
-
     }, [])
     useEffect(() => {
         if (walletSelect) {
@@ -89,22 +96,28 @@ export default function TransactionCard({ openModal, closeModal }) {
     const handleViewReport = () => {
         navigate('/reports')
     }
-    const [more , setMore] = useState(5)
+    const [more, setMore] = useState(5)
+    const [loadMore, setLoadMore] = useState(false)
 
-    const load = ()=>{
-        setMore((prevState)=>prevState+2)
+    const load = () => {
+        setMore((prevState) => prevState + 2)
     }
-    const [loadMore , setLoadMore]= useState(false)
+
+    useEffect(() => {
+        setMore(5)
+        setLoadMore(false)
+    }, [walletSelect])
+
     useEffect(() => {
         const handleScroll = () => {
             const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
-            if (scrollTop + clientHeight +1 >= scrollHeight) {
-                setTimeout(()=>{
+            if (scrollTop + clientHeight + 1 >= scrollHeight) {
+                setTimeout(() => {
                     setLoadMore(true)
                     load()
-                },500)
+                }, 500)
 
-            }else {
+            } else {
                 setLoadMore(false)
             }
         };
@@ -158,7 +171,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    {allCategory?.length > 0 && allCategory.slice(1,more).map(category => {
+                                                    {/* {allCategory?.length > 0 && allCategory.slice(0, more).map(category => {
                                                         let totalAmount = 0;
                                                         let allDataCalculated = calculatorAmountByCategory(allTransaction);
                                                         const transactionsInCategory = allTransaction?.filter(item => item.category.id === category.id);
@@ -193,31 +206,88 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                     {transactionsInCategory.map(item => (
                                                                         <a href="#">
                                                                             <div key={item.id} onClick={() => handleOpenSlide(walletSelect?.id, item.id)} className='flex justify-between px-4 py-2 border-t hover:bg-lime-50 cursor-pointer'>
-                                                                            <div className='flex justify-start'>
-                                                                                <span className='w-10 h-10 mr-4 text-3xl font-light text-black'>{convertDate(item?.date).day}</span>
-                                                                                <span className='text-start'>
-                                                                                    <div>{t(`${convertDate(item?.date).dayOfWeek}`)}, {convertDate(item?.date).month} {convertDate(item?.date).year}</div>
-                                                                                    <div className='text-xs text-zinc-400 font-normal mt-1'>{item?.walletRole.user.email}</div>
+                                                                                <div className='flex justify-start'>
+                                                                                    <span className='w-10 h-10 mr-4 text-3xl font-light text-black'>{convertDate(item?.date).day}</span>
+                                                                                    <span className='text-start'>
+                                                                                        <div>{t(`${convertDate(item?.date).dayOfWeek}`)}, {convertDate(item?.date).month} {convertDate(item?.date).year}</div>
+                                                                                        <div className='text-xs text-zinc-400 font-normal mt-1'>{item?.walletRole.user.email}</div>
+                                                                                    </span>
+                                                                                </div>
+                                                                                <span>
+                                                                                    {item.category.type === "expense" ?
+                                                                                        <p className='mt-3 text-red-500'>-{numeral(item?.amount).format(0, 0)} {walletSelect?.currency.sign}</p>
+                                                                                        :
+                                                                                        <p className='mt-3 text-sky-500'>+{numeral(item?.amount).format(0, 0)} {walletSelect?.currency.sign}</p>
+                                                                                    }
                                                                                 </span>
                                                                             </div>
-                                                                            <span>
-                                                                                {item.category.type === "expense" ?
-                                                                                    <p className='mt-3 text-red-500'>-{numeral(item?.amount).format(0, 0)} {walletSelect?.currency.sign}</p>
-                                                                                    :
-                                                                                    <p className='mt-3 text-sky-500'>+{numeral(item?.amount).format(0, 0)} {walletSelect?.currency.sign}</p>
-                                                                                }
-                                                                            </span>
-                                                                        </div>
                                                                         </a>
                                                                     ))}
                                                                 </div>
                                                             </div>
                                                         );
-                                                    })}
+                                                    })} */}
 
-                                                    {!loadMore?
-                                                        more >= allCategory?.length-1   ? null:<CircularProgress />
-                                                    :null}
+                                                    {allTransactionsAndType?.length && allTransactionsAndType.slice(0, more).map(trans => {
+                                                        let totalAmount = 0;
+                                                        let allDataCalculated = calculatorAmountByCategory(allTransaction);
+                                                        trans.forEach(tran => {
+                                                            if (tran.category.type === 'income') {
+                                                                allDataCalculated.listIncome.forEach(item => {
+                                                                    if (tran.category.name === item.categoryName) totalAmount = item.totalAmount
+                                                                })
+                                                            } else {
+                                                                allDataCalculated.listExpense.forEach(item => {
+                                                                    if (tran.category.name === item.categoryName) totalAmount = item.totalAmount
+                                                                })
+                                                            }
+                                                        })
+                                                        if (trans.length === 0) {
+                                                            return null;
+                                                        }
+                                                        return (
+                                                            <div key={trans.id} id='expense-trans' className='bg-white text-zinc-600 text-sm font-medium' >
+                                                                <div className='mb-8'>
+                                                                    <div className='flex justify-between px-4 py-3'>
+                                                                        <div className='flex justify-start'>
+                                                                            <img src={trans[0]?.category.icon} alt="" className='w-10 h-10 object-cover mr-4 rounded-full ' />
+                                                                            <span className='text-start'>
+                                                                                <div>{t(`${trans[0]?.category.name}`)}</div>
+                                                                                <div className='text-xs text-zinc-400 font-normal'>{trans.length} {t("Trasactions")}</div>
+                                                                            </span>
+                                                                        </div>
+                                                                        <span><p className='mt-3'>{trans[0].category.type === "expense" ? '-' : '+'}{numeral(totalAmount).format(0, 0)} {walletSelect?.currency.sign}</p></span>
+                                                                    </div>
+                                                                    {trans.map(item => (
+                                                                        <a href="#">
+                                                                            <div key={item.id} onClick={() => handleOpenSlide(walletSelect?.id, item.id)} className='flex justify-between px-4 py-2 border-t hover:bg-lime-50 cursor-pointer'>
+                                                                                <div className='flex justify-start'>
+                                                                                    <span className='w-10 h-10 mr-4 text-3xl font-light text-black'>{convertDate(item?.date).day}</span>
+                                                                                    <span className='text-start'>
+                                                                                        <div>{t(`${convertDate(item?.date).dayOfWeek}`)}, {convertDate(item?.date).month} {convertDate(item?.date).year}</div>
+                                                                                        <div className='text-xs text-zinc-400 font-normal mt-1'>{item?.walletRole.user.email}</div>
+                                                                                    </span>
+                                                                                </div>
+                                                                                <span>
+                                                                                    {item.category.type === "expense" ?
+                                                                                        <p className='mt-3 text-red-500'>-{numeral(item?.amount).format(0, 0)} {walletSelect?.currency.sign}</p>
+                                                                                        :
+                                                                                        <p className='mt-3 text-sky-500'>+{numeral(item?.amount).format(0, 0)} {walletSelect?.currency.sign}</p>
+                                                                                    }
+                                                                                </span>
+                                                                            </div>
+                                                                        </a>
+                                                                    ))}
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    }
+                                                    )
+                                                    }
+
+                                                    {!loadMore && allTransactionsAndType?.length>5 ? 
+                                                        <CircularProgress />
+                                                        : null}
                                                     <div style={{ height: '1vh' }}></div>
 
 
@@ -278,7 +348,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                             <div className='text-sm font-medium min-h-[20px]'>{transactionSelect?.walletRole.wallet.name} </div>
                                             <div className='text-xs py-2 border-b min-w-[200px]'>{transactionSelect?.date} </div>
                                             <div className='text-xs pt-2'>{transactionSelect?.note} </div>
-                                            <div className='pt-2'>{transactionSelect?.category.type === "expense" ? <span className='text-4xl text-red-500 font-medium'>-{numeral(transactionSelect?.amount).format(0, 0)} {walletSelect?.currency.sign}</span> : <span className='text-4xl text-sky-500 font-medium'>+{numeral(transactionSelect?.amount).format(0,0)}{walletSelect?.currency.sign}</span>}  </div>
+                                            <div className='pt-2'>{transactionSelect?.category.type === "expense" ? <span className='text-4xl text-red-500 font-medium'>-{numeral(transactionSelect?.amount).format(0, 0)} {walletSelect?.currency.sign}</span> : <span className='text-4xl text-sky-500 font-medium'>+{numeral(transactionSelect?.amount).format(0, 0)}{walletSelect?.currency.sign}</span>}  </div>
                                         </div>
                                     </div>
                                     <div className='px-10'>
