@@ -104,4 +104,24 @@ export class TransactionService {
             }
         )
     }
+    static async deleteMyCategory(categoryID) {
+        let token = localStorage.getItem('token');
+        return await axios.delete(`http://localhost:4000/api/users/categories/${categoryID}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+    }
+    static async updateMyCategory(categoryID, data) {
+        let token = localStorage.getItem('token');
+        return await axios.put(`http://localhost:4000/api/users/categories/${categoryID}`, data, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+    }
 }
