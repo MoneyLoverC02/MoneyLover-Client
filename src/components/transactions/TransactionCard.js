@@ -41,7 +41,7 @@ export default function TransactionCard({ openModal, closeModal }) {
     const allTransactionsAndType = useSelector(state => state.transaction.allTransactionsAndType)
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const monthSelect = useSelector(state => state.transaction.monthSelect);
-    const [monthDisplay, setMonthDisplay] = useState({ last: 'Last Month', this: 'This Month', next: 'Next Month' });
+    const [monthDisplay, setMonthDisplay] = useState({ last: t('Last Month'), this: t('This Month'), next: t('Next Month') });
     const allCategory = useSelector(state => state.transaction.allCategory)
     const [calculate, setCalculate] = useState({ totalInflow: 0, totalOutflow: 0 });
     const navigate = useNavigate();
@@ -137,6 +137,7 @@ export default function TransactionCard({ openModal, closeModal }) {
     }, [walletSelect])
 
     const handleSelectMonth = (option) => {
+        setChecked(false);
         if (option === "this") {
             dispatch(setMonthSelect({ month: monthSelect.month, year: monthSelect.year }));
         }
@@ -213,8 +214,9 @@ export default function TransactionCard({ openModal, closeModal }) {
     }
 
     useEffect(() => {
-        setMore(5)
-        setLoadMore(false)
+        setMore(5);
+        setLoadMore(false);
+        setChecked(false);
     }, [walletSelect])
 
     useEffect(() => {
@@ -278,64 +280,12 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                             <button onClick={handleViewReport} className='px-4 py-3 uppercase text-center text-lightgreen hover:cursor-pointer'>
                                                                 {t("z")}
                                                             </button>
+                                                            <div onClick={handleDownloadExcel} className='bg-lightgreen font-semibold uppercase text-white text-center py-2 mb-6 cursor-pointer hover:bg-sky-500'>
+                                                                {t("Download Excel File")}
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    {/* {allCategory?.length > 0 && allCategory.slice(0, more).map(category => {
-                                                        let totalAmount = 0;
-                                                        let allDataCalculated = calculatorAmountByCategory(allTransaction);
-                                                        const transactionsInCategory = allTransaction?.filter(item => item.category.id === category.id);
-                                                        if (category.type === 'income') {
-                                                            allDataCalculated.listIncome.forEach(item => {
-                                                                if (category.name === item.categoryName) totalAmount = item.totalAmount
-                                                            })
-                                                        } else {
-                                                            allDataCalculated.listExpense.forEach(item => {
-                                                                if (category.name === item.categoryName) totalAmount = item.totalAmount
-                                                            })
-                                                        }
-                                                        if (transactionsInCategory.length === 0) {
-                                                            return null;
-                                                        }
-                                                        const categoryInfo = (
-                                                            <div className='flex justify-between px-4 py-3'>
-                                                                <div className='flex justify-start'>
-                                                                    <img src={transactionsInCategory[0]?.category.icon} alt="" className='w-10 h-10 object-cover mr-4 rounded-full ' />
-                                                                    <span className='text-start'>
-                                                                        <div>{t(`${transactionsInCategory[0]?.category.name}`)}</div>
-                                                                        <div className='text-xs text-zinc-400 font-normal'>{transactionsInCategory.length} {t("Trasactions")}</div>
-                                                                    </span>
-                                                                </div>
-                                                                <span><p className='mt-3'>{transactionsInCategory[0].category.type === "expense" ? '-' : '+'}{numeral(totalAmount).format(0, 0)} {walletSelect?.currency.sign}</p></span>
-                                                            </div>
-                                                        );
-                                                        return (
-                                                            <div key={category.id} id='expense-trans' className='bg-white text-zinc-600 text-sm font-medium' >
-                                                                <div className='mb-8'>
-                                                                    {categoryInfo}
-                                                                    {transactionsInCategory.map(item => (
-                                                                        <a href="#">
-                                                                            <div key={item.id} onClick={() => handleOpenSlide(walletSelect?.id, item.id)} className='flex justify-between px-4 py-2 border-t hover:bg-lime-50 cursor-pointer'>
-                                                                                <div className='flex justify-start'>
-                                                                                    <span className='w-10 h-10 mr-4 text-3xl font-light text-black'>{convertDate(item?.date).day}</span>
-                                                                                    <span className='text-start'>
-                                                                                        <div>{t(`${convertDate(item?.date).dayOfWeek}`)}, {convertDate(item?.date).month} {convertDate(item?.date).year}</div>
-                                                                                        <div className='text-xs text-zinc-400 font-normal mt-1'>{item?.walletRole.user.email}</div>
-                                                                                    </span>
-                                                                                </div>
-                                                                                <span>
-                                                                                    {item.category.type === "expense" ?
-                                                                                        <p className='mt-3 text-red-500'>-{numeral(item?.amount).format(0, 0)} {walletSelect?.currency.sign}</p>
-                                                                                        :
-                                                                                        <p className='mt-3 text-sky-500'>+{numeral(item?.amount).format(0, 0)} {walletSelect?.currency.sign}</p>
-                                                                                    }
-                                                                                </span>
-                                                                            </div>
-                                                                        </a>
-                                                                    ))}
-                                                                </div>
-                                                            </div>
-                                                        );
-                                                    })} */}
+
 
                                                     {allTransactionsAndType?.length && allTransactionsAndType.slice(0, more).map(trans => {
                                                         let totalAmount = 0;
@@ -394,9 +344,7 @@ export default function TransactionCard({ openModal, closeModal }) {
 
                                                 </div>
                                             </div>
-                                            <div onClick={handleDownloadExcel} className='bg-lightgreen font-semibold uppercase text-white text-center py-2 mb-6 cursor-pointer hover:bg-sky-500'>
-                                                {t("Download Excel File")}
-                                            </div>
+
                                         </div>
                                     </div>
                                 </>
