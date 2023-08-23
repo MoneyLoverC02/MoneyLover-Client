@@ -87,6 +87,7 @@ const resources = {
             "Initial Balance": "Initial Balance",
             "Accept Terms": "Accept terms",
             "Duplicate Wallet Name": "Wallet name already exists!",
+            "Catogories": "Categories",
             "Currency": "Currency",
             "Select Currency": "Select Currency",
             "Select Time Range": "Select Time Range",
@@ -104,6 +105,10 @@ const resources = {
             "Other": "Other",
             "Select time range": "Select time range",
             "Add a wallet first!":"Add a wallet first!",
+            "Category details": "Category detail",
+            "Are you sure want to delete this Category?": "Are you sure want to delete this Category?",
+            "Update category": "Update category",
+            "Type": "Type"
         },
     },
         Vi: {
@@ -191,6 +196,7 @@ const resources = {
                 "Transaction Wallet": "Ví Giao Dịch",
                 "Select Wallet": "Chọn Ví",
                 "Destination Wallet": "Chọn Ví ",
+                "Catogories": "Thể Loại",
                 "Currency": "Tiền tệ ",
                 "Select Currency": "Chọn loại tiền tệ ",
                 "Select Time Range": "Chọn khoảng thời gian",
@@ -207,7 +213,11 @@ const resources = {
                 "Loan": "Khoản vay",
                 "Other": "Khác",
                 "Select time range": "Chọn khoảng thời gian",
-                "Add a wallet first!":"Thêm ví trước!"
+                "Add a wallet first!":"Thêm ví trước!",
+                "Category details": "Chi tiết thể loại",
+                "Are you sure want to delete this Category?": "Bạn có chắc chắn muốn xóa ?",
+                "Update category": "Cập nhật thể loại",
+                "Type": "Thể Loại"
             }
     }
 }

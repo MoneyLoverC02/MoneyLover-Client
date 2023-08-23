@@ -10,7 +10,8 @@ module.exports = {
         lightblue: '#3F51B5',
         lightlime: '#eff9f1',
         graynew: '#757575',
-        textgray: "#454846"
+        textgray: "#454846",
+        textcolor:"#000000DE"
       }
     },
     plugins: [],

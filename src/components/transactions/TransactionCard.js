@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from "react";
 import AddTransactionModal from "./AddTransactionModal";
 import {
-    Card, Slide, Stack
+    Card, CircularProgress, Slide, Stack
 } from "@mui/material";
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
@@ -89,9 +89,32 @@ export default function TransactionCard({ openModal, closeModal }) {
     const handleViewReport = () => {
         navigate('/reports')
     }
-    const handleSendReport = () =>{
+    const [more , setMore] = useState(13)
 
+    const load = ()=>{
+        setMore((prevState)=>prevState+2)
     }
+    const [loadMore , setLoadMore]= useState(false)
+    useEffect(() => {
+        const handleScroll = () => {
+            const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+            if (scrollTop + clientHeight +1 >= scrollHeight) {
+                setTimeout(()=>{
+                    setLoadMore(true)
+                    load()
+                },500)
+
+            }else {
+                setLoadMore(false)
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     return (
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
@@ -133,12 +156,9 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                             <button onClick={handleViewReport} className='px-4 py-3 uppercase text-center text-lightgreen hover:cursor-pointer'>
                                                                 {t("z")}
                                                             </button>
-                                                            <button onClick={handleSendReport} className='px-4 py-3 uppercase text-center text-blue-400 hover:cursor-pointer'>
-                                                                Send Report to Your Email
-                                                            </button>
                                                         </div>
                                                     </div>
-                                                    {allCategory?.length > 0 && allCategory.map(category => {
+                                                    {allCategory?.length > 0 && allCategory.slice(0,more).map(category => {
                                                         let totalAmount = 0;
                                                         let allDataCalculated = calculatorAmountByCategory(allTransaction);
                                                         const transactionsInCategory = allTransaction?.filter(item => item.category.id === category.id);
@@ -194,6 +214,13 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                             </div>
                                                         );
                                                     })}
+
+                                                    {!loadMore?
+                                                        <CircularProgress />
+                                                    :null}
+                                                    <div style={{ height: '1vh' }}></div>
+
+
                                                 </div>
                                             </div>
                                         </div>
