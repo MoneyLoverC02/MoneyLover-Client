@@ -280,7 +280,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                 </span>
                                                             </div>
                                                             <button onClick={handleViewReport} className='px-4 py-3 uppercase text-center text-lightgreen hover:cursor-pointer'>
-                                                                {t("z")}
+                                                                {t("VIEW REPORT FOR THIS PERIOD")}
                                                             </button>
                                                             <div onClick={handleDownloadExcel} className='bg-lightgreen font-semibold uppercase text-white text-center py-2 mb-6 cursor-pointer hover:bg-sky-500'>
                                                                 {t("Download Excel File")}
