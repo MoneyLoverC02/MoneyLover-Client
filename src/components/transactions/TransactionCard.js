@@ -107,7 +107,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement("a");
                 a.href = url;
-                a.download = `${userName}_${walletName}_allTransaction_T?.xlsx`;
+                a.download = `${userName}_${walletName}_allTransaction_${monthSelect?.month}_${monthSelect?.year}.xlsx`;
                 document.body.appendChild(a);
                 a.click();
                 a.remove();

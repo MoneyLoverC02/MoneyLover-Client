@@ -76,8 +76,8 @@ export default function UpdateTransactionModal({ isOpen, onClose, onSubmit }) {
     const handleSubmit = () => {
         let { money, note } = dataInput;
         let amount = +money;
-        let date = dateTrans;
-        let monthCurent = getCurrentMonth(dateTrans);
+        let date = transactionSelect?.date;
+        let monthCurent = getCurrentMonth(date);
         let categoryID = categorySelect.id;
         TransactionService.updateTransaction(walletSelect?.id, transactionSelect?.id, { amount, date, note, categoryID }).then((res) => {
             if (res.data.message === 'Update transaction success!') {
