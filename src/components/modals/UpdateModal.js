@@ -150,7 +150,7 @@ export default function UpdateModal({ isOpen, onClose, onSubmit }) {
                         </div>
                     </div>
                     <div className='py-[14px] px-6 flex justify-end'>
-                        <button type='button' onClick={handleCancel} className='bg-slate-400 text-white text-sm font-medium py-2 px-8 uppercase rounded mr-3'>Cancel</button>
+                        <button type='button' onClick={handleCancel} className='bg-slate-400 text-white text-sm font-medium py-2 px-8 uppercase rounded mr-3'>{t("Cancel")}</button>
                         <button type='button' onClick={handleSubmit} className='bg-lightgreen hover:opacity-80 text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400' disabled={!isValid || !checkName || !checkMoney}>{t("Save")}</button>
                     </div>
                 </Box>

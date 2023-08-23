@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router';
 import { Button } from '@mui/material';
 import { useSelector } from 'react-redux';
 import SelectWallets from '../layout/SelectWallets';
+import { useTranslation } from 'react-i18next';
 
 export default function CategoriesNavbar() {
     const navigate = useNavigate();
@@ -14,6 +15,8 @@ export default function CategoriesNavbar() {
     const handleClose = () => {
         navigate('/')
     }
+    const { t } = useTranslation()
+
     return (
         <AppBar sx={{ position: 'relative', backgroundColor: "white", color: "black" }}>
             <Toolbar>
@@ -27,7 +30,7 @@ export default function CategoriesNavbar() {
                         <ArrowBackIcon />
                     </IconButton>
                     <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                        Categories
+                        {t("Categories")}
                     </Typography>
                     {/* <div className="flex items-center">
                         <img src={walletSelect?.icon.icon} className="w-10 h-10 object-cover mr-2" alt="" />
