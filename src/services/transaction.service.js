@@ -21,6 +21,37 @@ export class TransactionService {
             }
         )
     }
+    static async getAllTransactionOfWalletAndType(walletID, startDate, endDate) {
+        let token = localStorage.getItem('token');
+        return await axios.get(`http://localhost:4000/api/users/wallets/${walletID}/transactionsType`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                params: {
+                    startDate: startDate,
+                    endDate: endDate
+                }
+            }
+        )
+    }
+
+    static async downloadTransactionOfWallet(walletID, startDate, endDate) {
+        let token = localStorage.getItem('token');
+        return await axios.get(`http://localhost:4000/api/users/wallets/${walletID}/ExportExcel`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                params: {
+                    startDate: startDate,
+                    endDate: endDate
+                },
+                responseType: "blob", // Yêu cầu dữ liệu kiểu blob (binary)
+            }
+        )
+    }
+
     static async createTransaction(walletID, data) {
         let token = localStorage.getItem('token');
         return await axios.post(`http://localhost:4000/api/users/wallets/${walletID}/transactions`, data,

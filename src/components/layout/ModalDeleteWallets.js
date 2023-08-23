@@ -9,6 +9,7 @@ import { WalletService } from "../../services/wallet.service";
 import { useDispatch } from "react-redux";
 import { getAllWallet, setWalletSelect} from "../../redux/walletSlice";
 import {useTranslation} from "react-i18next";
+import { transactionLogout } from '../../redux/transactionSlice';
 
 export default function ModalDeleteWallets({ idWallet, onClose }) {
     const {t}=useTranslation()
@@ -24,6 +25,7 @@ export default function ModalDeleteWallets({ idWallet, onClose }) {
     };
     const handleDelete = () => {
         WalletService.deleteWallet(idWallet).then(() => {
+            dispatch(transactionLogout())
             WalletService.getAllWallet().then(res => {
                 let walletList = res.data.walletList;
                 dispatch(getAllWallet(walletList));

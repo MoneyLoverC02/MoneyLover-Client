@@ -10,7 +10,7 @@ import DoughnutChart from "../chart/DoughnutChart";
 import NetInComeCard from "./NetInComeCard";
 import InComeCard from "./InComeCard";
 import ExpenseCard from "./ExpenseCard";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 
 //chuyển từ dd/mm/yyyy -> date object
@@ -121,7 +121,7 @@ function viewBalance(dataIntime, dataBefore) {
 //lọc dữ liệu theo loại (income/expense):
 function filerByCategory(data, type) {
     let listData = [];
-    let listNameCategory = [];  
+    let listNameCategory = [];
     data.forEach(trans => {
         if (trans.category.type === type) {
             listData.push(trans);
@@ -197,7 +197,7 @@ export function getTransByDate(transactions) {
 }
 
 export default function ReportsCard() {
-    const {t}=useTranslation()
+    const { t } = useTranslation()
     const [openNetInCome, setOpenNetInCome] = useState(false);
     const [openInCome, setOpenInCome] = useState(false);
     const [openExpense, setOpenExpense] = useState(false);
@@ -210,21 +210,22 @@ export default function ReportsCard() {
     useEffect(() => {
         let firstDay = convertDateFormat(dateSelect?.firstDay);
         let lastDay = convertDateFormat(dateSelect?.lastDay);
-        TransactionService.getTransactionsByTimeRange(walletSelect?.id, firstDay, lastDay).then(res => {
-            let transactionList = res.data.transactionList;
-            let transactionListBefore = res.data.transactionListBefore;
-            let days = getAllDayOrMonth(dateSelect?.firstDay, dateSelect?.lastDay);
-            let data = getDataBar(days, transactionList);
-            let balance = viewBalance(transactionList, transactionListBefore);
-            let dataCalculated = calculatorAmountByCategory(transactionList);
-            let dataByDate = (getTransByDate(transactionList));
-            console.log(dataByDate)
-            setBalance(balance);
-            setDayArr(days);
-            dispatch(getDataBarChart(data));
-            dispatch(setDataByDate(dataByDate))
-            dispatch(setDataCalculated(dataCalculated));
-        }).catch(err => console.log(err.message));
+        if (walletSelect) {
+            TransactionService.getTransactionsByTimeRange(walletSelect?.id, firstDay, lastDay).then(res => {
+                let transactionList = res.data.transactionList;
+                let transactionListBefore = res.data.transactionListBefore;
+                let days = getAllDayOrMonth(dateSelect?.firstDay, dateSelect?.lastDay);
+                let data = getDataBar(days, transactionList);
+                let balance = viewBalance(transactionList, transactionListBefore);
+                let dataCalculated = calculatorAmountByCategory(transactionList);
+                let dataByDate = (getTransByDate(transactionList));
+                setBalance(balance);
+                setDayArr(days);
+                dispatch(getDataBarChart(data));
+                dispatch(setDataByDate(dataByDate))
+                dispatch(setDataCalculated(dataCalculated));
+            }).catch(err => console.log(err.message));
+        }
     }, [dateSelect, walletSelect]);
 
     const handleOpenNetInCard = () => {
@@ -297,7 +298,7 @@ export default function ReportsCard() {
                                         </div>
                                     </div>
                                 </button>
-                                <button  onClick={handleOpenExpenseCard} className="hover:bg-lightlime w-full z-5">
+                                <button onClick={handleOpenExpenseCard} className="hover:bg-lightlime w-full z-5">
                                     <div className="py-2">
                                         <p className="text-graynew">{t("Expense")}</p>
                                         <p className="text-md text-red-500">{numeral(balance?.totalExpense).format('0,0')} {walletSelect?.currency.sign}</p>

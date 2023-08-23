@@ -1,12 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getMonthNow, getYearNow } from "../components/transactions/TransactionCard";
 
 const initialState = {
     allCategory: [],
     allTransaction: [],
+    allTransactionsAndType: [],
     allIncome: [],
     allExpense: [],
     transactionSelect: null,
-    dataCategory: []
+    dataCategory: [],
+    monthSelect: {month: getMonthNow(new Date()), year: getYearNow(new Date())}
 }
 
 export const transactionSlice = createSlice({
@@ -18,6 +21,9 @@ export const transactionSlice = createSlice({
         },
         getAllTransaction: (state, action) => {
             state.allTransaction = action.payload
+        },
+        getAllTransactionsAndType: (state, action) => {
+            state.allTransactionsAndType = action.payload
         },
         setTransactionSelect: (state, action) => {
             state.transactionSelect = action.payload
@@ -31,6 +37,9 @@ export const transactionSlice = createSlice({
         setDataCategory:(state, action) => {
             state.dataCategory = action.payload
         },
+        setMonthSelect: (state, action) => {
+            state.monthSelect = action.payload
+        },
         transactionLogout: (state) => {
             state.allTransaction = [];
             state.allIncome = [];
@@ -41,6 +50,6 @@ export const transactionSlice = createSlice({
     }
 })
 
-export const { getAllCategory, getAllTransaction, setTransactionSelect, getAllIncome, getAllExpense, setDataCategory, transactionLogout } = transactionSlice.actions;
+export const { getAllCategory, getAllTransaction, getAllTransactionsAndType, setTransactionSelect, getAllIncome, getAllExpense, setDataCategory, setMonthSelect, transactionLogout } = transactionSlice.actions;
 export default transactionSlice.reducer;
 
