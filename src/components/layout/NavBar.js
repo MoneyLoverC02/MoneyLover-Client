@@ -10,6 +10,8 @@ import { setMonthSelect } from "../../redux/transactionSlice";
 export default function NavBar({ onClickAddBtn }) {
     const { i18n } = useTranslation()
     const language = useSelector(state => state.lang.lang)
+    localStorage.setItem('lang', language)
+
     const dispatch = useDispatch();
 
     const handleLanguageChange = (event) => {
@@ -22,8 +24,10 @@ export default function NavBar({ onClickAddBtn }) {
         console.log(language);
         if (language === "Vi") {
             dispatch(setLanguage("Vi"))
+            localStorage.setItem('lang', language)
         } else {
             dispatch(setLanguage("En"))
+            localStorage.setItem('lang', language)
         }
     }, [language])
     const { t } = useTranslation();

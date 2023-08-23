@@ -72,14 +72,14 @@ export default function CategoriesCard() {
                             {dataCategory?.length > 0 && dataCategory.map(item => (
                                 <div id="type-category">
                                     <div className=" bg-zinc-100 py-2 px-4">
-                                        <span className="text-sm text-graynew">{item?.subType}</span>
+                                        <span className="text-sm text-graynew">{t(`${item?.subType}`)}</span>
                                     </div>
                                     {item.data.length > 0 && item.data.map(category => (
                                         <a href="#">
                                             <div onClick={() => handleSelectCategory(category)} className="px-4 py-2 border-t flex justify-start items-center gap-4 cursor-pointer hover:bg-lightlime">
                                                 <img className="w-10 h-10 object-cover" src={category.icon} alt="" />
                                                 <span className="text-textcolor">
-                                                    {category.name}
+                                                    {t(`${category.name}`)}
                                                 </span>
                                             </div>
                                         </a>

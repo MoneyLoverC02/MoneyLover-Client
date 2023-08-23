@@ -63,7 +63,7 @@ export default function TransByDateModal({ onOpen, onClose, data }) {
                                         <span className='mr-4 text-4xl font-normal text-black'>{convertDate(data[0]?.date).day}</span>
                                         <span className='text-start'>
                                             <div className='text-xs font-medium text-graynew'>{t(`${convertDate(data[0]?.date).dayOfWeek}`)}</div>
-                                            <div className='text-xs text-zinc-400 font-normal'>{convertDate(data[0]?.date).month} {convertDate(data[0]?.date).year}</div>
+                                            <div className='text-xs text-zinc-400 font-normal'>{t(`${convertDate(data[0]?.date).month}`)} {convertDate(data[0]?.date).year}</div>
                                         </span>
                                     </div>
                                     <span>

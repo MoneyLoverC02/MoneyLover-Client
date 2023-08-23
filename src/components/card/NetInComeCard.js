@@ -71,7 +71,7 @@ export default function NetInComeCard({ balance, dayArr, isOpen, onClose }) {
                             return (
                                 <div onClick={() => handleOpenTrans(item.date)}  className="hover:bg-lightlime cursor-pointer">
                                     <div className="flex justify-between mx-12 border-b px-4">
-                                        <span className="mt-2">{t(`${convertDate(item?.date).dayOfWeek}`)}, {convertDate(item?.date).month} {convertDate(item?.date).year}</span>
+                                        <span className="mt-2">{t(`${convertDate(item?.date).dayOfWeek}`)}, {t(`${convertDate(item?.date).month}`)} {convertDate(item?.date).year}</span>
                                         <div className="flex justify-around items-center w-14 p-2 px-4 gap-2">
                                             <div className="text-right">
                                                 <div className="text-sky-500 flex gap-1 justify-end">

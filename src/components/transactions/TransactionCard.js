@@ -41,7 +41,7 @@ export default function TransactionCard({ openModal, closeModal }) {
     const allTransactionsAndType = useSelector(state => state.transaction.allTransactionsAndType)
     const walletSelect = useSelector(state => state.wallet.walletSelect);
     const monthSelect = useSelector(state => state.transaction.monthSelect);
-    const [monthDisplay, setMonthDisplay] = useState({ last: t('Last Month'), this: t('This Month'), next: t('Next Month') });
+    const [monthDisplay, setMonthDisplay] = useState({ last: 'Last Month', this: 'This Month', next: 'Next Month' });
     const allCategory = useSelector(state => state.transaction.allCategory)
     const [calculate, setCalculate] = useState({ totalInflow: 0, totalOutflow: 0 });
     const navigate = useNavigate();
@@ -164,15 +164,15 @@ export default function TransactionCard({ openModal, closeModal }) {
         let startDateLast = changeDate(timeSelectLast.firstDay);
         let endDateLast = changeDate(timeSelectLast.lastDay);
         if (monthSelect.month === month && monthSelect.year === year) {
-            setMonthDisplay({ last: t('Last Month'), this: t('This Month'), next: t('Next Month') })
+            setMonthDisplay({ last: 'Last Month', this: 'This Month', next: 'Next Month' })
         } else if (monthSelect.month === month + 1 && monthSelect.year === year) {
-            setMonthDisplay({ last: t('This Month'), this: t('Next Month'), next: `${startDateNext} - ${endDateNext}` })
+            setMonthDisplay({ last: 'This Month', this: 'Next Month', next: `${startDateNext} - ${endDateNext}` })
         } else if (monthSelect.month === month + 2 && monthSelect.year === year) {
-            setMonthDisplay({ last: t('Next Month'), this: `${startDate} - ${endDate}`, next: `${startDateNext} - ${endDateNext}` })
+            setMonthDisplay({ last: 'Next Month', this: `${startDate} - ${endDate}`, next: `${startDateNext} - ${endDateNext}` })
         } else if (monthSelect.month === month - 1 && monthSelect.year === year) {
-            setMonthDisplay({ last: `${startDateLast} - ${endDateLast}`, this: t('Last Month'), next: t('This Month') })
+            setMonthDisplay({ last: `${startDateLast} - ${endDateLast}`, this: 'Last Month', next: 'This Month' })
         } else if (monthSelect.month === month - 2 && monthSelect.year === year) {
-            setMonthDisplay({ last: `${startDateLast} - ${endDateLast}`, this: `${startDate} - ${endDate}`, next: t('Last Month') })
+            setMonthDisplay({ last: `${startDateLast} - ${endDateLast}`, this: `${startDate} - ${endDate}`, next: 'Last Month' })
         } else setMonthDisplay({ last: `${startDateLast} - ${endDateLast}`, this: `${startDate} - ${endDate}`, next: `${startDateNext} - ${endDateNext}` })
     }, [monthSelect])
 
@@ -240,6 +240,8 @@ export default function TransactionCard({ openModal, closeModal }) {
         };
     }, []);
 
+
+    
     return (
         <Slide direction="down" in={true} mountOnEnter unmountOnExit>
             <div className='ml-[92px] px-4 mt-10'>
@@ -251,9 +253,9 @@ export default function TransactionCard({ openModal, closeModal }) {
                                     <div className="min-w-[350px] md:w-[600px] min-h-[300px] bg-zinc-100 rounded-md bg overflow-hidden">
                                         <div className="pt-4 bg-white">
                                             <div className="h-[48px] w-[600px] fomt-normal border-b flex justify-center">
-                                                <button onClick={() => handleSelectMonth('last')} className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">{monthDisplay.last}</button>
-                                                <button onClick={() => handleSelectMonth('this')} className="w-full py-[15px] uppercase leading-4 text-sm font-semibold border-b-4 border-lightgreen text-lightgreen">{monthDisplay.this}</button>
-                                                <button onClick={() => handleSelectMonth('next')} className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">{monthDisplay.next}</button>
+                                                <button onClick={() => handleSelectMonth('last')} className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">{t(`${monthDisplay.last}`)}</button>
+                                                <button onClick={() => handleSelectMonth('this')} className="w-full py-[15px] uppercase leading-4 text-sm font-semibold border-b-4 border-lightgreen text-lightgreen">{t(`${monthDisplay.this}`)}</button>
+                                                <button onClick={() => handleSelectMonth('next')} className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">{t(`${monthDisplay.next}`)}</button>
                                             </div>
                                             <div className="bg-zinc-100 mt-[48px] text-center">
                                                 <div>
@@ -314,7 +316,7 @@ export default function TransactionCard({ openModal, closeModal }) {
                                                                                 <div className='flex justify-start'>
                                                                                     <span className='w-10 h-10 mr-4 text-3xl font-light text-black'>{convertDate(item?.date).day}</span>
                                                                                     <span className='text-start'>
-                                                                                        <div>{t(`${convertDate(item?.date).dayOfWeek}`)}, {convertDate(item?.date).month} {convertDate(item?.date).year}</div>
+                                                                                        <div>{t(`${convertDate(item?.date).dayOfWeek}`)}, {t(`${convertDate(item?.date).month}`)} {convertDate(item?.date).year}</div>
                                                                                         <div className='text-xs text-zinc-400 font-normal mt-1'>{item?.walletRole.user.email}</div>
                                                                                     </span>
                                                                                 </div>
@@ -354,9 +356,9 @@ export default function TransactionCard({ openModal, closeModal }) {
                                 <div className="mt-10 w-[600px] h-[300px] bg-zinc-100 rounded-md bg overflow-hidden">
                                     <div className="pt-4 bg-white">
                                         <div className=" h-[48px] fomt-normal border-b flex justify-center ">
-                                            <button onClick={() => handleSelectMonth('last')} className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">{monthDisplay.last}</button>
-                                            <button onClick={() => handleSelectMonth('this')} className="w-full py-[15px] uppercase leading-4 text-sm font-semibold border-b-4 border-lightgreen text-lightgreen">{monthDisplay.this}</button>
-                                            <button onClick={() => handleSelectMonth('next')} className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">{monthDisplay.next}</button>
+                                            <button onClick={() => handleSelectMonth('last')} className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">{t(`${monthDisplay.last}`)}</button>
+                                            <button onClick={() => handleSelectMonth('this')} className="w-full py-[15px] uppercase leading-4 text-sm font-semibold border-b-4 border-lightgreen text-lightgreen">{t(`${monthDisplay.this}`)}</button>
+                                            <button onClick={() => handleSelectMonth('next')} className="w-full py-[15px] uppercase leading-4 text-sm font-semibold text-zinc-400">{t(`${monthDisplay.next}`)}</button>
                                         </div>
                                         <div className="bg-zinc-100 text-center">
                                             <div>

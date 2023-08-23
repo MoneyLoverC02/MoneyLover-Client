@@ -90,7 +90,7 @@ export default function UpdateCategory({ isOpen, onClose, onSubmit, categorySele
                                         <input onChange={handleChangeInput}
                                             className='inputAdd w-full h-[27px] text-[17px] focus:outline-none'
                                             tabIndex="-1" type="name" name="name" value={input}
-                                            placeholder="Category name" id="name" />
+                                            placeholder={t("Category name")} id="name" />
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@ export default function UpdateCategory({ isOpen, onClose, onSubmit, categorySele
                     </div>
                     <div className='py-[14px] px-6 flex justify-end'>
                         <button onClick={handleUpdateCategory} type='button' disabled={!isValid || !checkName}
-                            className='bg-lightgreen text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400'>Save
+                            className='bg-lightgreen text-white text-sm font-medium py-2 px-8 uppercase rounded disabled:bg-slate-400'>{t("Save")}
                         </button>
                     </div>
                 </Box>
