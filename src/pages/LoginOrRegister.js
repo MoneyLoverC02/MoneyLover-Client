@@ -40,19 +40,23 @@ export default function LoginOrRegister({props}) {
                 dispatch(loginStart())
                 UserService.checkUserLogin(values).then(res => {
                         let userLogin = res.data.user;
+                    console.log(userLogin)
                         const email = userLogin?.email;
                         if (userLogin && res.data.message === 'Login success!') {
                             const token = res.data.token;
                             localStorage.setItem('token', token);
                             localStorage.setItem('user', email);
                             dispatch(loginSuccess(userLogin));
-                            WalletService.getAllWallet(token).then(res => {
-                                let walletList = res.data.walletList;
-                                dispatch(getAllWallet(walletList));
-                                if (walletList.length > 0) {
-                                    dispatch(setWalletSelect(walletList[0]))
-                                    navigate('/');
-                                } else navigate('/my-wallets')
+                            // Call API gui mail report:
+                            UserService.sendReport(userLogin.id, token).then(()=>{
+                                WalletService.getAllWallet(token).then(res => {
+                                    let walletList = res.data.walletList;
+                                    dispatch(getAllWallet(walletList));
+                                    if (walletList.length > 0) {
+                                        dispatch(setWalletSelect(walletList[0]))
+                                        navigate('/');
+                                    } else navigate('/my-wallets')
+                                })
                             })
                         } else {
                             setCheckValidUser(false);
